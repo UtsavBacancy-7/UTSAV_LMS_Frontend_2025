@@ -3,7 +3,7 @@ export const environment = {
 
     apiBaseUrl: 'https://localhost:5001/api',
 
-    appName: 'Readify - Library Management System',
+    appName: 'BookNest - Library Management System',
 
     authTokenKey: 'library_auth_token',
 
