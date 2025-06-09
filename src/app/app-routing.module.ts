@@ -6,13 +6,19 @@ import { CustomPreloadService } from './shared/services/custom-preload.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full' },
-  { path: 'index', component: IndexComponent },
   {
-    path: 'auth',
-    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
-    data: { preload: true }
+    path: 'index',
+    component: IndexComponent,
+    children: [
+      {
+        path: 'auth',
+        outlet: 'popup',
+        loadChildren: () =>
+          import('./modules/auth/auth.module').then(m => m.AuthModule)
+      }
+    ]
   },
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 const routerOptions: ExtraOptions = {

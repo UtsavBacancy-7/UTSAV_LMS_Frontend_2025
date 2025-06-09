@@ -1,14 +1,32 @@
-<app-header></app-header>
+<!-- HEADER -->
+<app-header (openModal)="onOpenModal($event)"></app-header>
 
-<div class="hero-container">
-    <div class="hero-content">
-        <h2>Discover <br> Knowledge & Wisdom</h2>
-        <p>A digital library to explore, manage, and enrich your reading journey</p>
-        <button>Explore Library</button>
+<!-- MAIN CONTENT (Blurred When Modal is Open) -->
+<div [class.blurred]="showLogin || showRegister">
+    <div class="hero-container">
+        <div class="hero-content">
+            <h2>Discover <br> Knowledge & Wisdom</h2>
+            <p>A digital library to explore, manage, and enrich your reading journey</p>
+            <button (click)="onOpenModal('register')">Explore Library</button>
+        </div>
+        <div class="hero-image">
+            <img src="assets/images/home-background-image.png" alt="Hero Art">
+        </div>
     </div>
-    <div class="hero-image">
-        <img src="assets/images/home-background-image.png" alt="Hero Art">
-    </div>
+
+    <app-footer></app-footer>
 </div>
 
-<app-footer></app-footer>
+<div class="modal-backdrop" *ngIf="showLogin">
+    <!-- <div class="modal-content"> -->
+    <button class="close-button" (click)="onCloseModal()">×</button>
+    <app-login></app-login>
+    <!-- </div> -->
+</div>
+
+<div class="modal-backdrop" *ngIf="showRegister">
+    <!-- <div class="modal-content"> -->
+    <button class="close-button-register" (click)="onCloseModal()">×</button>
+    <app-register></app-register>
+    <!-- </div> -->
+</div>

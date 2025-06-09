@@ -1,0 +1,52 @@
+.auth-register-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 480px;
+    /* fixed width */
+    height: 480px;
+    /* fixed height for square shape */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    /* center horizontally and add vertical margin */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* vertical center content */
+    gap: 1rem;
+    /* spacing between children */
+    box-sizing: border-box;
+    /* include padding in width/height */
+}
+
+.auth-register-form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* For First and Last name fields side by side */
+.row {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Each half-width column */
+.col-md-6 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make inputs fill width */
+input.form-control,
+input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Center buttons horizontally */
+.d-flex.justify-content-center {
+    justify-content: center;
+}
