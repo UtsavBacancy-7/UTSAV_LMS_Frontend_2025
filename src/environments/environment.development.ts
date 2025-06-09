@@ -1,11 +1,9 @@
 export const environment = {
     production: false,
 
-    apiBaseUrl: 'https://localhost:5001/api',
+    apiBaseUrl: 'http://localhost:5240/api/v1',
 
     appName: 'BookNest - Library Management System',
-
-    authTokenKey: 'library_auth_token',
 
     roles: {
         admin: 'Admin',

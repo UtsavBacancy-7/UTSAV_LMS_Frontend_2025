@@ -9,8 +9,6 @@ import { HeaderComponent } from '../layout/header/header.component';
 @NgModule({
     declarations: [
         IndexComponent,
-        FooterComponent,
-        HeaderComponent
     ],
     imports: [
         CommonModule,
@@ -18,8 +16,6 @@ import { HeaderComponent } from '../layout/header/header.component';
     ],
     exports: [
         IndexComponent,
-        HeaderComponent,
-        FooterComponent
     ]
 })
 

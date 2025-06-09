@@ -1,8 +1,6 @@
-.blur-background {
-    backdrop-filter: blur(6px);
-    background-color: rgba(0, 0, 0, 0.3); // Optional dimming
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.main-content {
+    background-color: #f2f2eb;
+    flex: 1 0 auto;
+    min-height: 0;
+    overflow-y: auto;
 }
