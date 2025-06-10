@@ -14,4 +14,12 @@ export class AdminDashboardComponent {
         sessionStorage.clear();
         this.router.navigate(['/auth/login']);
     }
+
+    toggleSidebar() {
+        console.log('Sidebar toggled');
+    }
+
+    toggleTheme() {
+        console.log('Theme toggled');
+    }
 }

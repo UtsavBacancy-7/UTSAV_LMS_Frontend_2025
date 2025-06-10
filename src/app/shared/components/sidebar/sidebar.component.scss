@@ -1,0 +1,39 @@
+.sidebar {
+    width: 200px;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 1rem;
+    overflow-y: auto;
+    border-right: 1px solid #e5e5e5;
+
+    .section-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+    }
+
+    .nav-link {
+        color: #333;
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            background-color: #f2f2f2;
+        }
+
+        &.active {
+            color: #28a745;
+            font-weight: 600;
+            background-color: #e6f4ea;
+        }
+
+        i {
+            font-size: 1.1rem;
+        }
+    }
+}

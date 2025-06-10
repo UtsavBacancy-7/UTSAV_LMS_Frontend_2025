@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IForgotPwd } from 'src/app/data/Models/authentication/forgotPwd';
-import { ILogin } from 'src/app/data/Models/authentication/login';
+import { ILogin } from 'src/app/data/Models/authentication/Login';
 import { IRegister } from 'src/app/data/Models/authentication/register';
 import { IResetPwd } from 'src/app/data/Models/authentication/resetPwd';
 import { environment } from 'src/environments/environment.development';
@@ -18,18 +18,18 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   public register(user: IRegister): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/register`, user);
+    return this.http.post(`${this.baseUrl}/auth/register`, user);
   }
 
   public login(loginData: ILogin): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/login`, loginData);
+    return this.http.post(`${this.baseUrl}/auth/login`, loginData);
   }
 
   public forgotPassword(forgotPwdData: IForgotPwd): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/send-otp`, forgotPwdData);
+    return this.http.post(`${this.baseUrl}/auth/send-otp`, forgotPwdData);
   }
 
   public resetPassword(resetPwdData: IResetPwd): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/ResetPassword`, resetPwdData);
+    return this.http.post(`${this.baseUrl}/auth/ResetPassword`, resetPwdData);
   }
 }
