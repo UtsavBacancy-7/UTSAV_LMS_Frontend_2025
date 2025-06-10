@@ -14,7 +14,8 @@ export class ResetPasswordComponent {
   public otp: string[] = ['', '', '', '', '', ''];
   public password: string = '';
   public confirmPassword: string = '';
-  public passwordMismatch: boolean = false;
+  public passwordError: string = '';
+  public confirmPasswordError: string = '';
   public isResetModalVisible: boolean = true;
 
   @Input() email: string = '';
@@ -32,8 +33,7 @@ export class ResetPasswordComponent {
 
     if (/^\d$/.test(value)) {
       this.otp[index] = value;
-
-      if (index < 5 && value) {
+      if (index < 5) {
         setTimeout(() => {
           const nextInput = document.getElementById(`otp-${index + 1}`) as HTMLInputElement;
           nextInput?.focus();
@@ -66,41 +66,59 @@ export class ResetPasswordComponent {
   }
 
   public onSubmit(): void {
-    this.passwordMismatch = this.password !== this.confirmPassword;
+    this.passwordError = '';
+    this.confirmPasswordError = '';
 
-    if (!this.passwordMismatch) {
-      const otpCode = parseInt(this.otp.join(''), 10);
+    const isPasswordEmpty = !this.password.trim();
+    const isConfirmEmpty = !this.confirmPassword.trim();
+    const isMismatch = this.password !== this.confirmPassword;
 
-      const resetRequest: IResetPwd = {
-        email: this.email,
-        otp: otpCode,
-        newPassword: this.password,
-        confirmPassword: this.confirmPassword
-      };
-
-      this.authService.resetPassword(resetRequest).subscribe({
-        next: (response) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Password Reset',
-            detail: 'Your password has been successfully reset.',
-            life: 3000
-          });
-
-          setTimeout(() => {
-            this.router.navigate(['/auth/login']);
-          }, 3000);
-        },
-        error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Reset Failed',
-            detail: error?.error?.message || 'Something went wrong. Please try again.',
-            life: 3000
-          });
-        }
-      });
+    if (isPasswordEmpty) {
+      this.passwordError = 'Password is required and cannot be blank.';
+    } else if (this.password.length < 6) {
+      this.passwordError = 'Password must be at least 6 characters.';
     }
+
+    if (isConfirmEmpty) {
+      this.confirmPasswordError = 'Confirm Password is required.';
+    } else if (!isPasswordEmpty && isMismatch) {
+      this.confirmPasswordError = 'Passwords do not match';
+    }
+
+    if (this.passwordError || this.confirmPasswordError) {
+      return;
+    }
+
+    const otpCode = parseInt(this.otp.join(''), 10);
+    const resetRequest: IResetPwd = {
+      email: this.email,
+      otp: otpCode,
+      newPassword: this.password,
+      confirmPassword: this.confirmPassword
+    };
+
+    this.authService.resetPassword(resetRequest).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Password Reset',
+          detail: 'Your password has been successfully reset.',
+          life: 3000
+        });
+        setTimeout(() => {
+          this.router.navigate(['/auth/login']);
+        }, 3000);
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Reset Failed',
+          detail: error?.error?.message || 'Something went wrong. Please try again.',
+          life: 3000
+        });
+      }
+    });
+
     this.closeModal();
   }
 
@@ -108,4 +126,4 @@ export class ResetPasswordComponent {
     this.isResetModalVisible = false;
     this.close.emit();
   }
-}
+} 

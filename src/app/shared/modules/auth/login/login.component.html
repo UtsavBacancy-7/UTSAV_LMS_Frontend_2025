@@ -52,4 +52,5 @@
 
 <app-forgot-password *ngIf="showForgotModal" (emailSubmitted)="handleEmail($event)" (close)="showForgotModal = false">
 </app-forgot-password>
+
 <app-reset-password *ngIf="showResetModal" [email]="submittedEmail.email"></app-reset-password>

@@ -57,6 +57,7 @@ export class LoginComponent {
             detail: 'Unexpected response from server.',
             life: 3000
           });
+          this.isLoading = false;
         }
       },
       error: (error) => {
@@ -66,6 +67,7 @@ export class LoginComponent {
           detail: error?.error?.message || 'Something went wrong',
           life: 3000
         });
+        this.isLoading = false;
       }
     });
   }

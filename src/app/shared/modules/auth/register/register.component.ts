@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { IRegister } from 'src/app/data/Models/authentication/register';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ValidationService } from 'src/app/shared/services/validation.service';
 
 @Component({
   selector: 'app-register',
@@ -27,15 +28,56 @@ export class RegisterComponent implements OnInit {
 
   public ngOnInit(): void {
     this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
-      email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[6-9]\d{9}$/)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validators: this.passwordMatchValidator
-    });
+      firstName: this.fb.control('', {
+        validators: [
+          Validators.required,
+          ValidationService.noWhitespaceValidator,
+          ValidationService.nameValidator
+        ],
+        updateOn: 'blur'
+      }),
+      lastName: this.fb.control('', {
+        validators: [
+          Validators.required,
+          ValidationService.noWhitespaceValidator,
+          ValidationService.nameValidator
+        ],
+        updateOn: 'blur'
+      }),
+      email: this.fb.control('', {
+        validators: [
+          Validators.required,
+          Validators.email,
+          ValidationService.noWhitespaceValidator,
+          ValidationService.emailValidator
+        ],
+        updateOn: 'blur'
+      }),
+      mobile: this.fb.control('', {
+        validators: [
+          Validators.required,
+          Validators.pattern(/^[6-9]\d{9}$/)
+        ],
+        updateOn: 'blur'
+      }),
+      password: this.fb.control('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(6),
+          ValidationService.noWhitespaceValidator,
+          ValidationService.passwordValidator
+        ],
+        updateOn: 'blur'
+      }),
+      confirmPassword: this.fb.control('', {
+        validators: [Validators.required],
+        updateOn: 'blur'
+      })
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  public getControl(name: string): AbstractControl | null {
+    return this.registerForm.get(name);
   }
 
   public passwordMatchValidator(form: AbstractControl) {
@@ -51,7 +93,7 @@ export class RegisterComponent implements OnInit {
 
   public isInvalid(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
-    return !!(control && control.invalid && (control.touched || control.dirty));
+    return !!(control && control.invalid && control.touched);
   }
 
   public onFileChange(event: Event): void {

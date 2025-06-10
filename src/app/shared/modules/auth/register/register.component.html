@@ -8,21 +8,49 @@
                     <div class="col-md-6">
                         <label for="firstName">First Name</label>
                         <input type="text" id="firstName" class="form-control" formControlName="firstName"
-                            [ngClass]="{ 'is-invalid': isInvalid('firstName') }" />
-                        <small *ngIf="isInvalid('firstName') && registerForm.get('firstName')?.errors?.['required']"
-                            class="error-message">First Name is required.</small>
-                        <small *ngIf="isInvalid('firstName') && registerForm.get('firstName')?.errors?.['pattern']"
-                            class="error-message">Digit and spaces not allowed.</small>
+                            [ngClass]="{ 'is-invalid': getControl('firstName')?.invalid && getControl('firstName')?.touched }" />
+                        <small class="error-message" *ngIf="getControl('firstName')?.touched">
+                            <ng-container *ngIf="getControl('firstName')?.errors as errors">
+                                <ng-container *ngIf="errors['required']; else firstWhitespace">First Name is
+                                    required.</ng-container>
+                                <ng-template #firstWhitespace>
+                                    <ng-container *ngIf="errors['whitespace']; else firstOnlyNumber">First Name cannot
+                                        be just spaces.</ng-container>
+                                </ng-template>
+                                <ng-template #firstOnlyNumber>
+                                    <ng-container *ngIf="errors['onlyNumber']; else firstInvalid">First Name cannot be a
+                                        number.</ng-container>
+                                </ng-template>
+                                <ng-template #firstInvalid>
+                                    <ng-container *ngIf="errors['invalidName']">First Name must contain only
+                                        alphabets.</ng-container>
+                                </ng-template>
+                            </ng-container>
+                        </small>
                     </div>
 
                     <div class="col-md-6">
                         <label for="lastName">Last Name</label>
                         <input type="text" id="lastName" class="form-control" formControlName="lastName"
-                            [ngClass]="{ 'is-invalid': isInvalid('lastName') }" />
-                        <small *ngIf="isInvalid('lastName') && registerForm.get('lastName')?.errors?.['required']"
-                            class="error-message">Last Name is required.</small>
-                        <small *ngIf="isInvalid('lastName') && registerForm.get('lastName')?.errors?.['pattern']"
-                            class="error-message">Digit and spaces not allowed.</small>
+                            [ngClass]="{ 'is-invalid': getControl('lastName')?.invalid && getControl('lastName')?.touched }" />
+                        <small class="error-message" *ngIf="getControl('lastName')?.touched">
+                            <ng-container *ngIf="getControl('lastName')?.errors as errors">
+                                <ng-container *ngIf="errors['required']; else lastWhitespace">Last Name is
+                                    required.</ng-container>
+                                <ng-template #lastWhitespace>
+                                    <ng-container *ngIf="errors['whitespace']; else lastOnlyNumber">Last Name cannot be
+                                        just spaces.</ng-container>
+                                </ng-template>
+                                <ng-template #lastOnlyNumber>
+                                    <ng-container *ngIf="errors['onlyNumber']; else lastInvalid">Last Name cannot be a
+                                        number.</ng-container>
+                                </ng-template>
+                                <ng-template #lastInvalid>
+                                    <ng-container *ngIf="errors['invalidName']">Last Name must contain only
+                                        alphabets.</ng-container>
+                                </ng-template>
+                            </ng-container>
+                        </small>
                     </div>
                 </div>
 
@@ -30,21 +58,37 @@
                     <div class="col-md-6">
                         <label for="email">Email</label>
                         <input type="email" id="email" class="form-control" formControlName="email"
-                            [ngClass]="{ 'is-invalid': isInvalid('email') }" />
-                        <small *ngIf="isInvalid('email') && registerForm.get('email')?.errors?.['required']"
-                            class="error-message">Email is required.</small>
-                        <small *ngIf="isInvalid('email') && registerForm.get('email')?.errors?.['email']"
-                            class="error-message">Invalid email format.</small>
+                            [ngClass]="{ 'is-invalid': getControl('email')?.invalid && getControl('email')?.touched }" />
+                        <small class="error-message" *ngIf="getControl('email')?.touched">
+                            <ng-container *ngIf="getControl('email')?.errors as errors">
+                                <ng-container *ngIf="errors['required']; else emailWhitespace">Email is
+                                    required.</ng-container>
+                                <ng-template #emailWhitespace>
+                                    <ng-container *ngIf="errors['whitespace']; else emailFormat">Email cannot be just
+                                        spaces.</ng-container>
+                                </ng-template>
+                                <ng-template #emailFormat>
+                                    <ng-container *ngIf="errors['email'] || errors['invalidEmail']">Enter a valid email
+                                        (e.g., abc&#64;example.com).</ng-container>
+                                </ng-template>
+                            </ng-container>
+                        </small>
                     </div>
 
                     <div class="col-md-6">
                         <label for="mobile">Mobile No</label>
                         <input type="tel" id="mobile" class="form-control" formControlName="mobile"
-                            [ngClass]="{ 'is-invalid': isInvalid('mobile') }" />
-                        <small *ngIf="isInvalid('mobile') && registerForm.get('mobile')?.errors?.['required']"
-                            class="error-message">Mobile number is required.</small>
-                        <small *ngIf="isInvalid('mobile') && registerForm.get('mobile')?.errors?.['pattern']"
-                            class="error-message">Enter valid 10-digit Indian mobile number.</small>
+                            [ngClass]="{ 'is-invalid': getControl('mobile')?.invalid && getControl('mobile')?.touched }" />
+                        <small class="error-message" *ngIf="getControl('mobile')?.touched">
+                            <ng-container *ngIf="getControl('mobile')?.errors as errors">
+                                <ng-container *ngIf="errors['required']; else mobilePattern">Mobile number is
+                                    required.</ng-container>
+                                <ng-template #mobilePattern>
+                                    <ng-container *ngIf="errors['pattern']">Enter a valid 10-digit Indian mobile
+                                        number.</ng-container>
+                                </ng-template>
+                            </ng-container>
+                        </small>
                     </div>
                 </div>
 
@@ -52,22 +96,41 @@
                     <div class="col-md-6">
                         <label for="password">Password</label>
                         <input type="password" id="password" class="form-control" formControlName="password"
-                            [ngClass]="{ 'is-invalid': isInvalid('password') }" />
-                        <small *ngIf="isInvalid('password') && registerForm.get('password')?.errors?.['required']"
-                            class="error-message">Password is required.</small>
-                        <small *ngIf="isInvalid('password') && registerForm.get('password')?.errors?.['minlength']"
-                            class="error-message">Minimum 6 characters.</small>
+                            [ngClass]="{ 'is-invalid': getControl('password')?.invalid && getControl('password')?.touched }" />
+                        <small class="error-message" *ngIf="getControl('password')?.touched">
+                            <ng-container *ngIf="getControl('password')?.errors as errors">
+                                <ng-container *ngIf="errors['required']; else pwWhitespace">Password is
+                                    required.</ng-container>
+                                <ng-template #pwWhitespace>
+                                    <ng-container *ngIf="errors['whitespace']; else pwMinLength">Password cannot be just
+                                        spaces.</ng-container>
+                                </ng-template>
+                                <ng-template #pwMinLength>
+                                    <ng-container *ngIf="errors['minlength']; else pwFormat">Minimum 6 characters
+                                        required.</ng-container>
+                                </ng-template>
+                                <ng-template #pwFormat>
+                                    <ng-container *ngIf="errors['invalidPassword']">Must contain uppercase, lowercase,
+                                        digit, and '&#64;'.</ng-container>
+                                </ng-template>
+                            </ng-container>
+                        </small>
                     </div>
 
                     <div class="col-md-6">
                         <label for="confirmPassword">Confirm Password</label>
                         <input type="password" id="confirmPassword" class="form-control"
                             formControlName="confirmPassword"
-                            [ngClass]="{ 'is-invalid': isInvalid('confirmPassword') || passwordMismatch }" />
-                        <small
-                            *ngIf="isInvalid('confirmPassword') && registerForm.get('confirmPassword')?.errors?.['required']"
-                            class="error-message">Confirm your password.</small>
-                        <small *ngIf="passwordMismatch" class="error-message">Passwords do not match.</small>
+                            [ngClass]="{ 'is-invalid': getControl('confirmPassword')?.touched && (getControl('confirmPassword')?.invalid || passwordMismatch) }" />
+                        <small class="error-message" *ngIf="getControl('confirmPassword')?.touched">
+                            <ng-container *ngIf="getControl('confirmPassword')?.errors as errors">
+                                <ng-container *ngIf="errors['required']; else confirmMismatch">Please confirm your
+                                    password.</ng-container>
+                            </ng-container>
+                            <ng-template #confirmMismatch>
+                                <ng-container *ngIf="passwordMismatch">Passwords do not match.</ng-container>
+                            </ng-template>
+                        </small>
                     </div>
                 </div>
 
