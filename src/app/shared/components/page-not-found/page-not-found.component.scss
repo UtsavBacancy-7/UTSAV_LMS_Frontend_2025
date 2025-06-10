@@ -27,8 +27,8 @@ button {
     color: white;
     cursor: pointer;
     border-radius: 6px;
-}
 
-button:hover {
-    background-color: #0056b3;
+    &:hover {
+        background-color: #0056b3;
+    }
 }

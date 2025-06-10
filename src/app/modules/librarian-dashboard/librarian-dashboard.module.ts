@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
-import { AdminDashboardComponent } from './admin-dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { LibrarianDashboardRoutingModule } from './librarian-dashboard-routing.module';
+import { LibrarianDashboardComponent } from './librarian-dashboard.component';
 
 @NgModule({
   declarations: [
-    AdminDashboardComponent,
+    LibrarianDashboardComponent,
     HomeComponent
   ],
   imports: [
     CommonModule,
-    AdminDashboardRoutingModule,
+    LibrarianDashboardRoutingModule,
     RouterModule
   ]
 })
 
-export class AdminDashboardModule { }
+export class LibrarianDashboardModule { }

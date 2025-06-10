@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-admin-dashboard',
-    templateUrl: './admin-dashboard.component.html',
-    styleUrls: ['./admin-dashboard.component.scss']
+    templateUrl: './student-dashboard.component.html',
+    styleUrls: ['./student-dashboard.component.scss']
 })
 
-export class AdminDashboardComponent {
+export class StudentDashboardComponent {
     constructor(private router: Router) { }
 
     public logout(): void {

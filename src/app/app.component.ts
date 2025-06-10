@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 
 export class AppComponent {
-  isAuthRoute = false;
+  public isAuthRoute = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {

@@ -12,23 +12,23 @@ const routes: Routes = [
   {
     path: 'auth',
     canActivate: [redirectIfAuthenticated],
-    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./shared/modules/auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: 'dashboard/admin',
+    path: 'dashboard/administrator',
     canActivate: [authGuard],
     loadChildren: () => import('./modules/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
   },
-  // {
-  //   path: 'dashboard/librarian',
-  //      canActivate: [authGuard],
-  //   loadChildren: () => import('./modules/librarian-dashboard/librarian-dashboard.module').then(m => m.LibrarianDashboardModule)
-  // },
-  // {
-  //   path: 'dashboard/student',
-  //     canActivate: [authGuard],
-  //   loadChildren: () => import('./modules/student-dashboard/student-dashboard.module').then(m => m.StudentDashboardModule)
-  // },
+  {
+    path: 'dashboard/librarian',
+    canActivate: [authGuard],
+    loadChildren: () => import('./modules/librarian-dashboard/librarian-dashboard.module').then(m => m.LibrarianDashboardModule)
+  },
+  {
+    path: 'dashboard/student',
+    canActivate: [authGuard],
+    loadChildren: () => import('./modules/student-dashboard/student-dashboard.module').then(m => m.StudentDashboardModule)
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 

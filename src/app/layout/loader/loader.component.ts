@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-loader',
@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./loader.component.scss']
 })
 
-export class LoaderComponent {
-  isLoading = true;
+export class LoaderComponent implements OnInit {
+  public isLoading = true;
 
-  ngOnInit() {
+  public ngOnInit(): void {
     setTimeout(() => {
       this.isLoading = false;
     }, 2000);

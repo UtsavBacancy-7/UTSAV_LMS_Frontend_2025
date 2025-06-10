@@ -48,32 +48,6 @@
     object-fit: cover;
 }
 
-.close-button {
-    position: absolute;
-    top: 10%;
-    right: 12%;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.close-button-register {
-    position: absolute;
-    top: 5%;
-    right: 10%;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.modal-content {
-    position: relative;
-}
-
 @media screen and (max-width: 992px) {
     .hero-container {
         flex-direction: column;

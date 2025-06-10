@@ -6,17 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./index.component.scss'],
 })
 
-export class IndexComponent {
-  showLogin = false;
-  showRegister = false;
-
-  onOpenModal(type: 'login' | 'register') {
-    this.showLogin = type === 'login';
-    this.showRegister = type === 'register';
-  }
-
-  onCloseModal() {
-    this.showLogin = false;
-    this.showRegister = false;
-  }
-}
+export class IndexComponent { }
