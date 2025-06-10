@@ -4,7 +4,6 @@
             <h2 class="text-center mb-4">Create Account</h2>
 
             <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-                <!-- First Name & Last Name -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="firstName">First Name</label>
@@ -27,7 +26,6 @@
                     </div>
                 </div>
 
-                <!-- Email & Mobile -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="email">Email</label>
@@ -50,7 +48,6 @@
                     </div>
                 </div>
 
-                <!-- Password & Confirm -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="password">Password</label>
@@ -74,20 +71,17 @@
                     </div>
                 </div>
 
-                <!-- Profile Image -->
                 <div class="form-group mb-3">
                     <label for="profileImageUrl">Profile Image</label>
                     <input type="file" id="profileImageUrl" class="form-control" (change)="onFileChange($event)" />
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-center gap-3 align-items-center mt-3">
                     <button type="submit" class="btn btn-primary w-100"
                         [disabled]="registerForm.invalid">Register</button>
                     <button type="button" class="btn btn-secondary w-100" (click)="onReset()">Reset</button>
                 </div>
 
-                <!-- Already have account -->
                 <div class="mt-3 text-center">
                     <small>Already have an account?
                         <a routerLink="/auth/login" class="text-decoration-none">Login here</a></small>

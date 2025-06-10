@@ -10,3 +10,8 @@ app-root {
     flex-direction: column;
     min-height: 100vh;
 }
+
+:host ::ng-deep .p-toast {
+    font-size: 0.95rem;
+    z-index: 9999;
+}
