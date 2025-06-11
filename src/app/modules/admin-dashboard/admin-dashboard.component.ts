@@ -18,7 +18,7 @@ export class AdminDashboardComponent {
             section: 'Library',
             items: [
                 { label: 'Books', icon: 'bi bi-book', route: '/dashboard/administrator/books' },
-                { label: 'Categories', icon: 'bi bi-tags', route: '/dashboard/administrator/categories' },
+                { label: 'Genres', icon: 'bi bi-tags', route: '/dashboard/administrator/genres' },
             ]
         },
         {

@@ -1,0 +1,37 @@
+<div class="card p-4 shadow rounded-4">
+    <div class="row align-items-center">
+        <!-- Profile Image (only for Students) -->
+        <div class="col-md-3 text-center" *ngIf="userProfile.role === 'Student'">
+            <img [src]="userProfile.profileImageUrl || 'assets/images/default-avatar.png'" alt="Profile Image"
+                class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+        </div>
+
+        <!-- Profile Info -->
+        <div class="col-md-9">
+            <h3 class="mb-3">
+                {{ userProfile.firstName }} {{ userProfile.lastName }}
+                <span class="badge bg-secondary ms-2">{{ userProfile.role }}</span>
+            </h3>
+
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item">
+                    <strong>Email:</strong> {{ userProfile.email }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Mobile:</strong> {{ userProfile.mobileNo }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Status:</strong>
+                    <span [class.text-success]="userProfile.isActive" [class.text-danger]="!userProfile.isActive">
+                        {{ userProfile.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+                </li>
+            </ul>
+
+            <!-- Edit Button -->
+            <button class="btn btn-outline-primary" (click)="onEditProfile()">
+                <i class="bi bi-pencil-square me-1"></i> Edit Profile
+            </button>
+        </div>
+    </div>
+</div>

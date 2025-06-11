@@ -5,12 +5,16 @@ import { AuthModule } from './modules/auth/auth.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { BookCardComponent } from './components/book-card/book-card.component';
+import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
+import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 
 @NgModule({
     declarations: [
         IndexComponent,
         SidebarComponent,
         BookCardComponent,
+        DashboardNavbarComponent,
+        ProfileCardComponent,
     ],
     imports: [
         CommonModule,
@@ -20,7 +24,9 @@ import { BookCardComponent } from './components/book-card/book-card.component';
     exports: [
         IndexComponent,
         SidebarComponent,
-        BookCardComponent
+        BookCardComponent,
+        DashboardNavbarComponent,
+        ProfileCardComponent
     ]
 })
 
