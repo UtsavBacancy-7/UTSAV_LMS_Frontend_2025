@@ -1,0 +1,71 @@
+<div class="container-fluid p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Book Management</h2>
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-secondary" [class.active]="viewMode === 'table'"
+                (click)="viewMode = 'table'">
+                <i class="bi bi-list-ul"></i> Table View
+            </button>
+            <button class="btn btn-outline-secondary" [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'">
+                <i class="bi bi-grid"></i> Grid View
+            </button>
+        </div>
+    </div>
+
+    <!-- Table View -->
+    <div *ngIf="viewMode === 'table'" class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 60px">Cover</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Available</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let book of books">
+                    <td>
+                        <app-book-card [book]="book" displayMode="compact"></app-book-card>
+                    </td>
+                    <td class="fw-semibold">{{book.title}}</td>
+                    <td>{{book.author}}</td>
+                    <td>
+                        <span class="badge bg-light text-dark">
+                            {{book.genre}}
+                        </span>
+                    </td>
+                    <td class="text-center">{{book.totalCopies}}</td>
+                    <td class="text-center" [class.text-success]="book.availableCopies > 0"
+                        [class.text-warning]="book.availableCopies <= 3 && book.availableCopies > 0"
+                        [class.text-danger]="book.availableCopies === 0">
+                        {{book.availableCopies}}
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button class="btn btn-outline-primary" title="View">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Grid View -->
+    <div *ngIf="viewMode === 'grid'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        <div class="col" *ngFor="let book of books">
+            <app-book-card [book]="book" displayMode="detailed" [showActions]="true"></app-book-card>
+        </div>
+    </div>
+</div>

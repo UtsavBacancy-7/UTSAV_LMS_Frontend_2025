@@ -4,11 +4,13 @@ import { IndexComponent } from './components/index/index.component';
 import { AuthModule } from './modules/auth/auth.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
+import { BookCardComponent } from './components/book-card/book-card.component';
 
 @NgModule({
     declarations: [
         IndexComponent,
         SidebarComponent,
+        BookCardComponent,
     ],
     imports: [
         CommonModule,
@@ -17,7 +19,8 @@ import { RouterModule } from '@angular/router';
     ],
     exports: [
         IndexComponent,
-        SidebarComponent
+        SidebarComponent,
+        BookCardComponent
     ]
 })
 
