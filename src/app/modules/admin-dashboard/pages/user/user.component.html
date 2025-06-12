@@ -14,7 +14,7 @@
             </button>
         </div>
 
-        <button *ngIf="isLibrariansView" class="btn btn-primary ms-auto" routerLink="add">
+        <button *ngIf="isLibrariansView" class="btn btn-primary ms-auto" (click)="openAddUserForm()">
             <i class="bi bi-plus-circle"></i> Add Librarian
         </button>
     </div>
@@ -64,7 +64,7 @@
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary" title="Edit" [routerLink]="[user.id, 'edit']">
+                            <button class="btn btn-outline-secondary" title="Edit" (click)="openEditUserForm(user)">
                                 <i class="bi bi-pencil"></i>
                             </button>
                             <button class="btn btn-outline-danger" title="Delete" (click)="deleteUser(user.id!)">
@@ -77,8 +77,14 @@
         </table>
     </div>
 
-    <div *ngIf="filteredUsers.length === 0" class="alert alert-warning">
+    <div *ngIf="filteredUsers.length === 0 && !isLoading" class="alert alert-warning">
         No {{userType}} found.
+    </div>
+
+    <div class="text-center">
+        <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
 
     <!-- Grid View -->
@@ -111,7 +117,7 @@
                         </span>
                     </p>
                     <div class="btn-group">
-                        <button class="btn btn-outline-secondary btn-sm" title="Edit" [routerLink]="[user.id, 'edit']">
+                        <button class="btn btn-outline-secondary" title="Edit" (click)="openEditUserForm(user)">
                             <i class="bi bi-pencil"></i>
                         </button>
                         <button class="btn btn-outline-danger btn-sm" title="Delete" (click)="deleteUser(user.id!)">
@@ -123,3 +129,7 @@
         </div>
     </div>
 </div>
+
+<app-user-form [showModal]="showFormModal" [user]="selectedUser" [isEditMode]="isEditMode" (close)="closeFormModal()"
+    (submit)="handleUserSubmit($event)">
+</app-user-form>

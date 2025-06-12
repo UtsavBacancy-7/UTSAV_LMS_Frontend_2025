@@ -17,6 +17,7 @@ export class UserComponent implements OnInit {
   searchTerm: string = '';
   userType: 'students' | 'librarians' = 'students';
   isLibrariansView: boolean = false;
+  isLoading: Boolean = false;
 
   constructor(
     private userService: UserService,
@@ -33,33 +34,20 @@ export class UserComponent implements OnInit {
   }
 
   loadUsers(): void {
+    this.isLoading = true;
     const serviceMethod = this.isLibrariansView ?
       this.userService.getUsersByRole('Librarian') :
       this.userService.getUsersByRole('Student');
-
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Loading Users',
-      detail: 'Fetching user data. Please wait...',
-      life: 2000
-    });
 
     serviceMethod.subscribe({
       next: (response: any) => {
         this.users = response?.data || [];
         this.filteredUsers = [...this.users];
-
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Users Loaded',
-          detail: 'All users have been successfully fetched.',
-          life: 3000
-        });
+        this.isLoading = false;
       },
       error: (error) => {
         this.users = [];
         this.filteredUsers = [];
-
         this.messageService.add({
           severity: 'error',
           summary: 'Fetch Failed',
@@ -128,5 +116,40 @@ export class UserComponent implements OnInit {
         user.isActive = !newStatus;
       }
     });
+  }
+
+  handleUserSubmit(user: IUser) {
+    if (this.isEditMode) {
+      this.userService.updateUser(user.id!, user).subscribe(() => {
+        this.loadUsers();
+        this.closeFormModal();
+      });
+    } else {
+      this.userService.addUser(user).subscribe(() => {
+        this.loadUsers();
+        this.closeFormModal();
+      });
+    }
+  }
+
+  showFormModal = false;
+  selectedUser: IUser | null = null;
+  isEditMode = false;
+
+  openAddUserForm() {
+    this.isEditMode = false;
+    this.selectedUser = null;
+    this.showFormModal = true;
+  }
+
+  openEditUserForm(user: IUser) {
+    this.isEditMode = true;
+    this.selectedUser = JSON.parse(JSON.stringify(user));
+    this.showFormModal = true;
+  }
+
+  closeFormModal() {
+    this.showFormModal = false;
+    this.selectedUser = null;
   }
 }

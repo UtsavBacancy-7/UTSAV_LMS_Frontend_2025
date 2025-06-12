@@ -14,8 +14,8 @@ export class BooksListComponent implements OnInit {
   viewMode: 'table' | 'grid' = 'table';
   searchTerm: string = '';
   availabilityFilter: 'all' | 'available' = 'all';
+  isLoading: Boolean = false;
 
-  // Modal properties
   showModal = false;
   currentBook: IBook | null = null;
   isEditMode = false;
@@ -27,9 +27,11 @@ export class BooksListComponent implements OnInit {
   }
 
   loadBooks(): void {
+    this.isLoading = true;
     this.bookService.getAllBooks().subscribe({
       next: (books: IBook[]) => {
         this.books = books;
+        this.isLoading = false;
         this.applyFilters();
       },
       error: (err) => {
@@ -48,7 +50,7 @@ export class BooksListComponent implements OnInit {
         term === '' ||
         book.title?.toLowerCase().includes(term) ||
         book.author?.toLowerCase().includes(term) ||
-        book.genre?.toLowerCase().includes(term);
+        book.genreName?.toLowerCase().includes(term);
 
       const matchesAvailability =
         this.availabilityFilter === 'all' || book.availableCopies > 0;

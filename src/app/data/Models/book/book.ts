@@ -2,7 +2,7 @@ export interface IBook {
     id: number;
     title: string;
     author: string;
-    genre: string;
+    genreName: string;
     genreId: number;
     coverImageUrl?: string;
     totalCopies: number;

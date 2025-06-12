@@ -10,6 +10,7 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
 import { BookFormModalComponent } from './components/book-form-modal/book-form-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookDetailsCardComponent } from './components/book-details-card/book-details-card.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { BookDetailsCardComponent } from './components/book-details-card/book-de
         ProfileCardComponent,
         BookFormModalComponent,
         BookDetailsCardComponent,
+        UserFormComponent,
     ],
     imports: [
         CommonModule,
@@ -35,7 +37,8 @@ import { BookDetailsCardComponent } from './components/book-details-card/book-de
         DashboardNavbarComponent,
         ProfileCardComponent,
         BookFormModalComponent,
-        BookDetailsCardComponent
+        BookDetailsCardComponent,
+        UserFormComponent
     ]
 })
 

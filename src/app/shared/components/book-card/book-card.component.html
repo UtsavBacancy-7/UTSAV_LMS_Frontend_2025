@@ -11,7 +11,7 @@
 
         <div class="book-info">
             <p class="book-author">{{book.author}}</p>
-            <span class="badge genre-badge">{{book.genre}}</span>
+            <span class="badge genre-badge">{{book.genreName}}</span>
         </div>
 
         <div class="book-availability" *ngIf="displayMode === 'detailed'">
@@ -23,13 +23,13 @@
         </div>
 
         <div class="book-actions" *ngIf="showActions">
-            <button class="btn btn-sm btn-outline-primary" title="View">
+            <button class="btn btn-sm btn-outline-primary" title="View" (click)="viewBook.emit(book)">
                 <i class="bi bi-eye"></i>
             </button>
-            <button class="btn btn-sm btn-outline-secondary" title="Edit">
+            <button class="btn btn-sm btn-outline-secondary" title="Edit" (click)="editBook.emit(book)">
                 <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger" title="Delete">
+            <button class="btn btn-sm btn-outline-danger" title="Delete" (click)="deleteBook.emit(book.id)">
                 <i class="bi bi-trash"></i>
             </button>
         </div>

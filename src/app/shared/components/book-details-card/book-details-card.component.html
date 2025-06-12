@@ -1,7 +1,8 @@
-<div class="modal-backdrop fade" [class.show]="showModal" (click)="showModal = false"></div>
+<div class="modal-backdrop fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'"></div>
 
-<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" tabindex="-1"
+    role="dialog" (click)="onModalClick($event)">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow">
             <div class="modal-body p-0">
                 <div class="card border-0" *ngIf="book">
@@ -21,7 +22,7 @@
                                         <h2 class="card-title mb-1">{{book.title}}</h2>
                                         <p class="text-muted mb-3">by {{book.author}}</p>
                                     </div>
-                                    <button type="button" class="btn-close" (click)="showModal = false"
+                                    <button type="button" class="btn-close" (click)="closeModal.emit()"
                                         aria-label="Close"></button>
                                 </div>
 
@@ -29,7 +30,7 @@
 
                                 <div class="row mb-3">
                                     <div class="col-6">
-                                        <p class="mb-2"><strong>Genre:</strong><br>{{book.genre || 'N/A'}}</p>
+                                        <p class="mb-2"><strong>Genre:</strong><br>{{book.genreName || 'N/A'}}</p>
                                         <p class="mb-2"><strong>Publisher:</strong><br>{{book.publisher || 'N/A'}}</p>
                                     </div>
                                     <div class="col-6">

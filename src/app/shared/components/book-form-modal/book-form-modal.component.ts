@@ -96,16 +96,11 @@ export class BookFormModalComponent implements OnInit {
       const bookData = {
         ...formValue,
         id: this.book?.id || 0,
-        // Ensure GenreId is number
         GenreId: Number(formValue.GenreId),
-        // Handle publication year (convert to Date if needed)
         PublicationYear: formValue.PublicationYear,
-        // Use the correct image property
         CoverImageUrl: this.imageBase64 || this.book?.coverImageUrl || ''
       };
       this.submitForm.emit(bookData);
-      console.log('Submitting:', bookData);
-
       this.onReset();
     }
   }
@@ -119,6 +114,7 @@ export class BookFormModalComponent implements OnInit {
   }
 
   onClose(): void {
+    this.onReset();
     this.closeModal.emit();
   }
 }
