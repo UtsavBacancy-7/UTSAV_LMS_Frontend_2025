@@ -30,7 +30,10 @@ export class BookService {
   }
 
   public deleteBook(id: number): Observable<any> {
-    const params = new HttpParams().set('id', id.toString());
+    if (!id || isNaN(id)) {
+      throw new Error('Invalid book ID');
+    }
+    const params = new HttpParams().set('id', id);
     return this.http.delete(`${this.baseUrl}`, { params });
   }
 

@@ -4,11 +4,11 @@ import { IUser } from 'src/app/data/Models/user/user';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.scss']
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 
-export class ProfilePageComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   userData!: IUser;
   userId: number = 0;
 

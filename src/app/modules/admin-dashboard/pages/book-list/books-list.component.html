@@ -1,3 +1,4 @@
+<!-- books-list.component.html -->
 <div class="container-fluid p-3">
     <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
         <input type="text" class="form-control w-50" placeholder="Search by title, author, genre"
@@ -17,6 +18,10 @@
                 <i class="bi bi-grid"></i> Grid
             </button>
         </div>
+
+        <button class="btn btn-primary ms-auto" (click)="openAddBookModal()">
+            <i class="bi bi-plus-circle"></i> Add Book
+        </button>
     </div>
 
     <!-- Table View -->
@@ -49,9 +54,15 @@
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-primary" title="View"><i class="bi bi-eye"></i></button>
-                            <button class="btn btn-outline-secondary" title="Edit"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-outline-primary" title="View" (click)="openBookDetails(book)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" title="Edit" (click)="openEditBookModal(book)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" title="Delete" (click)="deleteBook(book.id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -67,4 +78,12 @@
             <app-book-card [book]="book" displayMode="detailed" [showActions]="true"></app-book-card>
         </div>
     </div>
+
+    <!-- Book Form Modal -->
+    <app-book-form-modal [book]="currentBook" [showModal]="showModal" (closeModal)="closeModal()"
+        (submitForm)="handleSubmit($event)">
+    </app-book-form-modal>
+
+    <app-book-details-card [book]="selectedBook" [showModal]="showDetailsModal" (closeModal)="showDetailsModal = false">
+    </app-book-details-card>
 </div>

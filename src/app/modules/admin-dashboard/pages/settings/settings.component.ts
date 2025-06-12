@@ -4,10 +4,10 @@ import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-settings-page',
-  templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.scss']
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class SettingsPageComponent {
+export class SettingComponent {
   settingsForm!: FormGroup;
   loading = false;
 

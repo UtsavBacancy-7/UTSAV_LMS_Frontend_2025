@@ -6,6 +6,6 @@ export interface IUser {
     lastName: string;
     profileImageUrl?: string;
     mobileNo: string;
-    isActive?: boolean;
+    isActive: boolean;
     passwordHash?: string;
 }  

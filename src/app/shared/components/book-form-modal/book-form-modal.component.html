@@ -1,0 +1,148 @@
+<div class="modal-backdrop" *ngIf="showModal" [class.show]="showModal"></div>
+<div class="modal" *ngIf="showModal" [class.show]="showModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ book ? 'Edit Book' : 'Add New Book' }}</h5>
+                <button type="button" class="btn-close" (click)="onClose()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                    <div class="row mb-3">
+                        <label for="Title" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Title" formControlName="Title">
+                            <div *ngIf="bookForm.get('Title')?.invalid && (bookForm.get('Title')?.dirty || bookForm.get('Title')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('Title')?.errors?.['required']">
+                                    Title is required
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="Author" class="col-sm-2 col-form-label">Author</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Author" formControlName="Author">
+                            <div *ngIf="bookForm.get('Author')?.invalid && (bookForm.get('Author')?.dirty || bookForm.get('Author')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('Author')?.errors?.['required']">
+                                    Author is required
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="GenreId" class="col-sm-2 col-form-label">Genre</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="GenreId" formControlName="GenreId">
+                                <option value="">Select Genre</option>
+                                <option *ngFor="let genre of genres" [value]="genre.genreId">{{genre.genreName}}
+                                </option>
+                            </select>
+                            <div *ngIf="bookForm.get('GenreId')?.invalid && (bookForm.get('GenreId')?.dirty || bookForm.get('GenreId')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('GenreId')?.errors?.['required']">
+                                    Genre is required
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="ISBN" class="col-sm-2 col-form-label">ISBN</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="ISBN" formControlName="ISBN">
+                            <div *ngIf="bookForm.get('ISBN')?.invalid && (bookForm.get('ISBN')?.dirty || bookForm.get('ISBN')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('ISBN')?.errors?.['required']">
+                                    ISBN is required
+                                </small>
+                                <small *ngIf="bookForm.get('ISBN')?.errors?.['pattern']">
+                                    Invalid ISBN format
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="PublicationYear" class="col-sm-2 col-form-label">Publication Year</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="PublicationYear"
+                                formControlName="PublicationYear">
+                            <div *ngIf="bookForm.get('PublicationYear')?.invalid && (bookForm.get('PublicationYear')?.dirty || bookForm.get('PublicationYear')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('PublicationYear')?.errors?.['required']">
+                                    Publication year is required
+                                </small>
+                                <small
+                                    *ngIf="bookForm.get('PublicationYear')?.errors?.['min'] || bookForm.get('PublicationYear')?.errors?.['max']">
+                                    Please enter a valid year between 1000 and 2100
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="Publisher" class="col-sm-2 col-form-label">Publisher</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Publisher" formControlName="Publisher">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="TotalCopies" class="col-sm-2 col-form-label">Total Copies</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="TotalCopies" formControlName="TotalCopies">
+                            <div *ngIf="bookForm.get('TotalCopies')?.invalid && (bookForm.get('TotalCopies')?.dirty || bookForm.get('TotalCopies')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('TotalCopies')?.errors?.['required']">
+                                    Total copies is required
+                                </small>
+                                <small *ngIf="bookForm.get('TotalCopies')?.errors?.['min']">
+                                    Must have at least 1 copy
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="AvailableCopies" class="col-sm-2 col-form-label">Available Copies</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="AvailableCopies"
+                                formControlName="AvailableCopies">
+                            <div *ngIf="bookForm.get('AvailableCopies')?.invalid && (bookForm.get('AvailableCopies')?.dirty || bookForm.get('AvailableCopies')?.touched)"
+                                class="text-danger">
+                                <small *ngIf="bookForm.get('AvailableCopies')?.errors?.['required']">
+                                    Available copies is required
+                                </small>
+                                <small *ngIf="bookForm.get('AvailableCopies')?.errors?.['min']">
+                                    Cannot be negative
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="CoverImageUrl" class="col-sm-2 col-form-label">Cover Image</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" id="CoverImageUrl" accept="image/*"
+                                (change)="onFileChange($event)">
+                            <small class="text-muted">Select an image file (JPG, PNG, etc.)</small>
+                            <div *ngIf="imageBase64" class="mt-2">
+                                <img [src]="imageBase64" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="Description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="Description" rows="3"
+                                formControlName="Description"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="bookForm.invalid">
+                    {{ book ? 'Update' : 'Add' }} Book
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

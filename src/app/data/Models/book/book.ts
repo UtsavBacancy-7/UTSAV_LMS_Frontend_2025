@@ -1,12 +1,13 @@
 export interface IBook {
-    bookId?: string;
+    id: number;
     title: string;
     author: string;
     genre: string;
-    imageUrl?: string;
+    genreId: number;
+    coverImageUrl?: string;
     totalCopies: number;
     availableCopies: number;
-    publishedYear?: Date;
+    publicationYear?: Date;
     publisher?: string;
     description?: string;
     isbn?: string;

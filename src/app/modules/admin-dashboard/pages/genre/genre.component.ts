@@ -6,9 +6,9 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-genre',
   templateUrl: './genre.component.html',
-  styleUrls: ['./genre.component.scss'],
-  providers: [MessageService]
+  styleUrls: ['./genre.component.scss']
 })
+
 export class GenreComponent implements OnInit {
   genres: IGenre[] = [];
   filteredGenres: IGenre[] = [];

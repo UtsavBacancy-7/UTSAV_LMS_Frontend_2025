@@ -3,6 +3,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/data/Models/user/user';
 import { MessageService } from 'primeng/api';
+import { PatchOperation } from 'src/app/data/Models/patchOperation';
 
 @Component({
   selector: 'app-users',
@@ -101,5 +102,31 @@ export class UserComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadingUserId: number | null = null;
+
+  toggleStatus(user: IUser): void {
+    const newStatus = !user.isActive;
+    const patch: PatchOperation[] = [
+      {
+        op: 'replace',
+        path: '/isActive',
+        value: newStatus
+      }
+    ];
+
+    this.loadingUserId = user.id!;
+
+    this.userService.patchUser(user.id!, patch).subscribe({
+      next: () => {
+        user.isActive = newStatus;
+        this.loadingUserId = null;
+      },
+      error: (err) => {
+        this.loadingUserId = null;
+        user.isActive = !newStatus;
+      }
+    });
   }
 }

@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
 import { BookCardComponent } from './components/book-card/book-card.component';
 import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { BookFormModalComponent } from './components/book-form-modal/book-form-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BookDetailsCardComponent } from './components/book-details-card/book-details-card.component';
 
 @NgModule({
     declarations: [
@@ -15,9 +18,13 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
         BookCardComponent,
         DashboardNavbarComponent,
         ProfileCardComponent,
+        BookFormModalComponent,
+        BookDetailsCardComponent,
     ],
     imports: [
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         AuthModule,
         RouterModule
     ],
@@ -26,7 +33,9 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
         SidebarComponent,
         BookCardComponent,
         DashboardNavbarComponent,
-        ProfileCardComponent
+        ProfileCardComponent,
+        BookFormModalComponent,
+        BookDetailsCardComponent
     ]
 })
 

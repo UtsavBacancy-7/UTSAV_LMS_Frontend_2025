@@ -43,7 +43,13 @@ export class UserService {
 
   public patchUser(id: number, patchDoc: PatchOperation[]): Observable<any> {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.patch(`${this.baseUrl}`, patchDoc, { params });
+    return this.http.patch(
+      `${this.baseUrl}`,
+      patchDoc, {
+      params,
+      headers: { 'Content-Type': 'application/json-patch+json' }
+    },
+    );
   }
 
   public deleteUser(id: number): Observable<any> {
