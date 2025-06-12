@@ -9,8 +9,8 @@ import { BooksListComponent } from './pages/book-list/books-list.component';
 import { GenreComponent } from './pages/genre/genre.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { SettingComponent } from './pages/settings/settings.component';
 import { UserComponent } from './pages/user/user.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { UserComponent } from './pages/user/user.component';
     UserComponent,
     GenreComponent,
     ProfileComponent,
-    SettingComponent
+    SettingsComponent
   ],
   imports: [
     CommonModule,

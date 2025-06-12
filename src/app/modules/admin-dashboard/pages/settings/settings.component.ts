@@ -1,59 +1,83 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { SystemConfigService } from 'src/app/core/services/system-config.service';
+import { ISystemConfig } from 'src/app/data/Models/setting';
 
 @Component({
-  selector: 'app-settings-page',
+  selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
-export class SettingComponent {
+export class SettingsComponent implements OnInit {
   settingsForm!: FormGroup;
-  loading = false;
+  editMode = false;
+  configKeys = ['MaxBorrowPeriod', 'MaxBorrowLimit', 'PenaltyPerDay'];
+  configsMap = new Map<string, ISystemConfig>();
 
-  constructor(
-    private fb: FormBuilder,
-    // private settingsService: SettingsService,
-    private messageService: MessageService
-  ) { }
+  constructor(private fb: FormBuilder, private configService: SystemConfigService) { }
 
   ngOnInit(): void {
     this.settingsForm = this.fb.group({
-      penaltyFeePerDay: [0, [Validators.required, Validators.min(0)]],
-      maxBorrowingDays: [0, [Validators.required, Validators.min(1)]],
-      maxBooksPerUser: [0, [Validators.required, Validators.min(1)]],
-      reservationWindowDays: [0, [Validators.required, Validators.min(0)]]
+      MaxBorrowPeriod: [{ value: 0, disabled: true }, [Validators.required, Validators.min(1)]],
+      MaxBorrowLimit: [{ value: 0, disabled: true }, [Validators.required, Validators.min(1)]],
+      PenaltyPerDay: [{ value: 0, disabled: true }, [Validators.required, Validators.min(0)]],
     });
 
-    this.loadSettings();
+    this.loadConfigs();
   }
 
-  loadSettings(): void {
-    // this.loading = true;
-    // this.settingsService.getSettings().subscribe({
-    //   next: (res) => {
-    //     this.settingsForm.patchValue(res.data);
-    //     this.loading = false;
-    //   },
-    //   error: () => {
-    //     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load settings.' });
-    //     this.loading = false;
-    //   }
-    // });
+  loadConfigs(): void {
+    this.configKeys.forEach((key) => {
+      this.configService.getConfigByKey(key).subscribe((res) => {
+        const numericValue = Number(res.value);
+        this.settingsForm.get(key)?.setValue(numericValue);
+
+        const config: ISystemConfig = {
+          configKey: res.key,
+          configValue: res.value,
+        };
+
+        this.configsMap.set(key, config);
+      });
+    });
   }
 
-  onSubmit(): void {
-    // if (this.settingsForm.valid) {
-    //   this.settingsService.updateSettings(this.settingsForm.value).subscribe({
-    //     next: () => {
-    //       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Settings updated successfully.' });
-    //     },
-    //     error: () => {
-    //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update settings.' });
-    //     }
-    //   });
-    // } else {
-    //   this.settingsForm.markAllAsTouched();
-    // }
+  toggleEdit(): void {
+    this.editMode = true;
+    this.settingsForm.enable();
+  }
+
+  cancelEdit(): void {
+    this.editMode = false;
+    this.settingsForm.disable();
+    this.loadConfigs();
+  }
+
+  saveSettings(): void {
+    if (this.settingsForm.invalid) return;
+
+    const updatedConfigs: ISystemConfig[] = [];
+
+    this.configKeys.forEach((key) => {
+      const formValue = this.settingsForm.get(key)?.value;
+      const originalConfig = this.configsMap.get(key);
+
+      if (originalConfig) {
+        updatedConfigs.push({
+          ...originalConfig,
+          configValue: formValue.toString(), // Convert number → string
+        });
+      }
+    });
+
+    this.configService.updateConfigs(updatedConfigs).subscribe({
+      next: () => {
+        this.editMode = false;
+        this.settingsForm.disable();
+      },
+      error: (err) => {
+        console.error('Failed to update settings:', err);
+      }
+    });
   }
 }

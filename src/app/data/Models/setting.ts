@@ -1,6 +1,8 @@
-export interface ILibrarySettings {
-    penaltyFeePerDay: number;
-    maxBorrowingDays: number;
-    maxBooksPerUser: number;
-    reservationWindowDays: number;
+export interface ISystemConfig {
+    configId?: number;
+    configKey: string;
+    configValue: string;
+    description?: string;
+    createdBy?: number;
+    updatedBy?: number;
 }

@@ -1,29 +1,22 @@
-<div class="card p-4 shadow-sm">
-    <h4 class="mb-3">Library Settings</h4>
+<div class="settings-container p-4">
+    <h2 class="mb-4">Library System Settings</h2>
 
-    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-            <label class="form-label">Penalty Fee (per day)</label>
-            <input type="number" class="form-control" formControlName="penaltyFeePerDay" />
+    <form *ngIf="settingsForm" [formGroup]="settingsForm">
+        <div class="setting-group" *ngFor="let key of configKeys">
+            <label class="form-label">{{ key }}</label>
+            <input type="number" class="form-control" [formControlName]="key" [readonly]="!editMode" />
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Max Borrowing Days</label>
-            <input type="number" class="form-control" formControlName="maxBorrowingDays" />
+        <div class="mt-4 d-flex gap-3">
+            <button class="btn btn-primary" type="button" (click)="toggleEdit()" *ngIf="!editMode">
+                Edit
+            </button>
+            <button class="btn btn-success" type="button" (click)="saveSettings()" *ngIf="editMode">
+                Save
+            </button>
+            <button class="btn btn-secondary" type="button" (click)="cancelEdit()" *ngIf="editMode">
+                Cancel
+            </button>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Max Books Per User</label>
-            <input type="number" class="form-control" formControlName="maxBooksPerUser" />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Reservation Window (Days)</label>
-            <input type="number" class="form-control" formControlName="reservationWindowDays" />
-        </div>
-
-        <button type="submit" class="btn btn-success mt-3" [disabled]="loading || settingsForm.invalid">
-            <i class="bi bi-save me-1"></i> Save Settings
-        </button>
     </form>
 </div>

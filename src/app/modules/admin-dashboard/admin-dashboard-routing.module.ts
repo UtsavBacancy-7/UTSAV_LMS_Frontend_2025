@@ -6,7 +6,7 @@ import { BooksListComponent } from './pages/book-list/books-list.component';
 import { GenreComponent } from './pages/genre/genre.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { SettingComponent } from './pages/settings/settings.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 import { UserComponent } from './pages/user/user.component';
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
             { path: 'students', component: UserComponent },
             { path: 'genres', component: GenreComponent },
             { path: 'profile', component: ProfileComponent },
-            { path: 'settings', component: SettingComponent },
+            { path: 'settings', component: SettingsComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     },
