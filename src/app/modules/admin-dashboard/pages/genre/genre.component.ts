@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 })
 
 export class GenreComponent implements OnInit {
+  isLoading: boolean = false;
   genres: IGenre[] = [];
   filteredGenres: IGenre[] = [];
   searchTerm: string = '';
@@ -28,13 +29,12 @@ export class GenreComponent implements OnInit {
   }
 
   loadGenres(): void {
-    this.messageService.add({ severity: 'info', summary: 'Loading...', detail: 'Fetching genre list' });
-
+    this.isLoading = true;
     this.genreService.getAllGenres().subscribe({
       next: (response) => {
         this.genres = response.data ?? [];
         this.filteredGenres = [...this.genres];
-        this.messageService.add({ severity: 'success', summary: 'Genres Loaded', detail: 'Genres fetched successfully.' });
+        this.isLoading = false;
       },
       error: (error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load genres.' });

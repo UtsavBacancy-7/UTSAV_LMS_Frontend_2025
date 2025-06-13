@@ -11,6 +11,7 @@ import { BookFormModalComponent } from './components/book-form-modal/book-form-m
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookDetailsCardComponent } from './components/book-details-card/book-details-card.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
+import { BookListComponent } from './components/book-list/book-list.component';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
         BookFormModalComponent,
         BookDetailsCardComponent,
         UserFormComponent,
+        BookListComponent,
     ],
     imports: [
         CommonModule,
@@ -38,6 +40,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
         ProfileCardComponent,
         BookFormModalComponent,
         BookDetailsCardComponent,
+        BookListComponent,
         UserFormComponent
     ]
 })

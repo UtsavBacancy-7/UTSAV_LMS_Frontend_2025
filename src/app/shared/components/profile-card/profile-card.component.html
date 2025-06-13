@@ -76,6 +76,21 @@
                         </div>
                     </div>
 
+                    <!-- Password Field -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" formControlName="password"
+                                [attr.disabled]="!isEditingPassword ? true : null">
+                            <small class="text-muted">Leave blank to keep current password</small>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordEdit()">
+                                {{ isEditingPassword ? 'Cancel Change' : 'Change Password' }}
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive">
                         <label class="form-check-label" for="isActive">Active Account</label>
@@ -85,8 +100,12 @@
                         <button type="button" class="btn btn-outline-secondary" (click)="onCancelEdit()">
                             Cancel
                         </button>
-                        <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">
-                            Save Changes
+                        <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid || isSaving">
+                            <span *ngIf="!isSaving">Save Changes</span>
+                            <span *ngIf="isSaving">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Saving...
+                            </span>
                         </button>
                     </div>
                 </div>

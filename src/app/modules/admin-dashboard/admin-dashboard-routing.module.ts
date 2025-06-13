@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/page-not-found.component';
 import { AdminDashboardComponent } from './admin-dashboard.component';
-import { BooksListComponent } from './pages/book-list/books-list.component';
+import { AdminBooksListComponent } from './pages/admin-books-list/admin-books-list.component';
 import { GenreComponent } from './pages/genre/genre.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -14,7 +14,7 @@ const routes: Routes = [
         path: '', component: AdminDashboardComponent,
         children: [
             { path: 'home', component: HomeComponent },
-            { path: 'books', component: BooksListComponent },
+            { path: 'books', component: AdminBooksListComponent },
             { path: 'librarians', component: UserComponent },
             { path: 'students', component: UserComponent },
             { path: 'genres', component: GenreComponent },

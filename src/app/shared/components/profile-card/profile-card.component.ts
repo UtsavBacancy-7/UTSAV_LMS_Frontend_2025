@@ -12,7 +12,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProfileCardComponent {
   isEditing = false;
+  isEditingPassword = false;
   imagePreview: string | ArrayBuffer | null = null;
+  isSaving = false;
 
   @Input() userProfile: IUser = {
     firstName: '',
@@ -21,12 +23,17 @@ export class ProfileCardComponent {
     mobileNo: '',
     isActive: false,
     profileImageUrl: '',
-    role: ''
+    role: '',
+    passwordHash: ''
   };
 
   profileForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private messageService: MessageService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private messageService: MessageService
+  ) {
     // Initialize form with default empty values
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -34,7 +41,8 @@ export class ProfileCardComponent {
       email: ['', [Validators.required, Validators.email]],
       mobileNo: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       isActive: [false],
-      profileImage: [null]
+      profileImage: [null],
+      password: ['']
     });
   }
 
@@ -45,17 +53,27 @@ export class ProfileCardComponent {
       lastName: this.userProfile.lastName,
       email: this.userProfile.email,
       mobileNo: this.userProfile.mobileNo,
-      isActive: this.userProfile.isActive
+      isActive: this.userProfile.isActive,
     });
+  }
+
+  togglePasswordEdit(): void {
+    this.isEditingPassword = !this.isEditingPassword;
+    if (!this.isEditingPassword) {
+      this.profileForm.patchValue({ password: '' });
+    }
   }
 
   onEditProfile(): void {
     this.isEditing = true;
+    this.isEditingPassword = false;
   }
 
   onCancelEdit(): void {
     this.isEditing = false;
+    this.isEditingPassword = false;
     this.imagePreview = null;
+    this.profileForm.patchValue({ password: '' });
   }
 
   onImageChange(event: Event): void {
@@ -83,38 +101,42 @@ export class ProfileCardComponent {
   }
 
   onSaveProfile(): void {
+    this.isSaving = true;
     if (this.profileForm.valid) {
-      const formData = new FormData();
-
-      // Append all form values
-      Object.keys(this.profileForm.value).forEach(key => {
-        if (key === 'profileImage' && this.profileForm.value[key]) {
-          formData.append('image', this.profileForm.value[key]);
-        } else {
-          formData.append(key, this.profileForm.value[key]);
-        }
-      });
-
-      // Here you would typically call your API to update the profile
-      console.log('Form data to be saved:', formData);
-
-
-      // Update the user profile with new values
-      this.userProfile = {
+      // Create the updated user object
+      const updatedUser: IUser = {
         ...this.userProfile,
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
         email: this.profileForm.value.email,
         mobileNo: this.profileForm.value.mobileNo,
         isActive: this.profileForm.value.isActive,
-        profileImageUrl: this.imagePreview ? this.imagePreview.toString() : this.userProfile.profileImageUrl
+        profileImageUrl: this.imagePreview ? this.imagePreview.toString() : this.userProfile.profileImageUrl,
+        passwordHash: this.profileForm.value.password || this.userProfile.passwordHash
       };
 
-      this.userService.updateUser(this.userProfile).subscribe({
-
-      })
-
-      this.isEditing = false;
+      this.userService.updateUser(updatedUser.id, updatedUser).subscribe({
+        next: (res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Profile Updated",
+            detail: "Your profile has been updated successfully"
+          });
+          this.isSaving = false;
+          this.isEditing = false;
+          this.isEditingPassword = false;
+          // Update the local userProfile with the new data
+          this.userProfile = { ...this.userProfile, ...updatedUser };
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "Update Failed",
+            detail: err.error?.message || "Failed to update profile"
+          });
+          this.isSaving = false;
+        }
+      });
     }
   }
 }

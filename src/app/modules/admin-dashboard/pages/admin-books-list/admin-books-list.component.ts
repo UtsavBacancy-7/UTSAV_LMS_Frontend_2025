@@ -5,10 +5,10 @@ import { IBook } from 'src/app/data/Models/book/book';
 
 @Component({
   selector: 'app-books',
-  templateUrl: './books-list.component.html',
-  styleUrls: ['./books-list.component.scss']
+  templateUrl: './admin-books-list.component.html',
+  styleUrls: ['./admin-books-list.component.scss']
 })
-export class BooksListComponent implements OnInit {
+export class AdminBooksListComponent implements OnInit {
   books: IBook[] = [];
   filteredBooks: IBook[] = [];
   viewMode: 'table' | 'grid' = 'table';
