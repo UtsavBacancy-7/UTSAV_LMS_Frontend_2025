@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/page-not-found.component';
 import { AdminDashboardComponent } from './admin-dashboard.component';
 import { AdminBooksListComponent } from './pages/admin-books-list/admin-books-list.component';
+import { BorrowRecordsComponent } from './pages/borrow-records/borrow-records.component';
 import { GenreComponent } from './pages/genre/genre.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
             { path: 'genres', component: GenreComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'settings', component: SettingsComponent },
+            { path: 'borrow', component: BorrowRecordsComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     },

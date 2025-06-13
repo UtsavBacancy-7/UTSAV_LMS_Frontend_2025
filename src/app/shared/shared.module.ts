@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookDetailsCardComponent } from './components/book-details-card/book-details-card.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { BookListComponent } from './components/book-list/book-list.component';
+import { BorrowListComponent } from './components/borrow-list/borrow-list.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { BookListComponent } from './components/book-list/book-list.component';
         BookDetailsCardComponent,
         UserFormComponent,
         BookListComponent,
+        BorrowListComponent,
     ],
     imports: [
         CommonModule,
@@ -41,7 +43,8 @@ import { BookListComponent } from './components/book-list/book-list.component';
         BookFormModalComponent,
         BookDetailsCardComponent,
         BookListComponent,
-        UserFormComponent
+        UserFormComponent,
+        BorrowListComponent
     ]
 })
 

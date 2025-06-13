@@ -31,8 +31,8 @@ export class AdminDashboardComponent {
         {
             section: 'Transactions',
             items: [
-                { label: 'Borrow', icon: 'bi bi-arrow-up-circle', route: '/dashboard/administrator/transactions/borrow' },
-                { label: 'Returns', icon: 'bi bi-arrow-down-circle', route: '/dashboard/administrator/transactions/return' }
+                { label: 'Borrow', icon: 'bi bi-arrow-up-circle', route: '/dashboard/administrator/borrow' },
+                { label: 'Returns', icon: 'bi bi-arrow-down-circle', route: '/dashboard/administrator/return' }
             ]
         },
         {
