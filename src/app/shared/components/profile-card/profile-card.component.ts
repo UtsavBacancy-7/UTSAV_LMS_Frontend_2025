@@ -13,24 +13,39 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ProfileCardComponent {
   isEditing = false;
   imagePreview: string | ArrayBuffer | null = null;
-  @Input() userProfile!: IUser;
 
-  profileForm!: FormGroup;
+  @Input() userProfile: IUser = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    mobileNo: '',
+    isActive: false,
+    profileImageUrl: '',
+    role: ''
+  };
 
-  constructor(private fb: FormBuilder) { }
+  profileForm: FormGroup;
 
-  ngOnInit(): void {
-    this.initializeForm();
+  constructor(private fb: FormBuilder, private userService: UserService, private messageService: MessageService) {
+    // Initialize form with default empty values
+    this.profileForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      mobileNo: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      isActive: [false],
+      profileImage: [null]
+    });
   }
 
-  initializeForm(): void {
-    this.profileForm = this.fb.group({
-      firstName: [this.userProfile.firstName, Validators.required],
-      lastName: [this.userProfile.lastName, Validators.required],
-      email: [this.userProfile.email, [Validators.required, Validators.email]],
-      mobileNo: [this.userProfile.mobileNo, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      isActive: [this.userProfile.isActive],
-      profileImage: [null]
+  ngOnChanges(): void {
+    // Update form values when userProfile changes
+    this.profileForm.patchValue({
+      firstName: this.userProfile.firstName,
+      lastName: this.userProfile.lastName,
+      email: this.userProfile.email,
+      mobileNo: this.userProfile.mobileNo,
+      isActive: this.userProfile.isActive
     });
   }
 
@@ -83,6 +98,7 @@ export class ProfileCardComponent {
       // Here you would typically call your API to update the profile
       console.log('Form data to be saved:', formData);
 
+
       // Update the user profile with new values
       this.userProfile = {
         ...this.userProfile,
@@ -93,6 +109,10 @@ export class ProfileCardComponent {
         isActive: this.profileForm.value.isActive,
         profileImageUrl: this.imagePreview ? this.imagePreview.toString() : this.userProfile.profileImageUrl
       };
+
+      this.userService.updateUser(this.userProfile).subscribe({
+
+      })
 
       this.isEditing = false;
     }
