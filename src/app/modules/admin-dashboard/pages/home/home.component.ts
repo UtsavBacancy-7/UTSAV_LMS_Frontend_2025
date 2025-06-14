@@ -1,6 +1,8 @@
 import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { isPlatformBrowser } from '@angular/common';
+import { INavOptions } from 'src/app/data/models/navOption';
+import { IRecentIssuesBook } from 'src/app/data/models/recentIssuesBook';
 
 @Component({
   selector: 'app-admin-home',
@@ -8,23 +10,23 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  dashboardCards: any[] = [];
-  recentIssues: any[] = [];
-  loadingIssues = true;
-  loadingStats = true;
-  data: any;
-  options: any;
+  public dashboardCards: INavOptions[] = [];
+  public recentIssues: IRecentIssuesBook[] = [];
+  public loadingIssues = true;
+  public loadingStats = true;
+  public data: any;
+  public options: any;
 
   private platformId = inject(PLATFORM_ID);
   private dashboardService = inject(DashboardService);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initializeDashboardCards();
     this.fetchDashboardStats();
     this.initChart();
   }
 
-  initializeDashboardCards(): void {
+  public initializeDashboardCards(): void {
     this.dashboardCards = [
       { title: 'Total Books', value: '--', subtext: 'Loading...', icon: 'bi bi-book', subtextClass: 'text-muted' },
       { title: 'Issued Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-up', subtextClass: 'text-muted' },
@@ -36,12 +38,11 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  initChart(): void {
+  public initChart(): void {
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
 
-      // Initialize with empty data
       this.data = {
         labels: ['Total Books', 'Borrowed Books', 'Returned Books'],
         datasets: [
@@ -83,7 +84,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  fetchDashboardStats(): void {
+  public fetchDashboardStats(): void {
     this.loadingStats = true;
     this.loadingIssues = true;
 
@@ -91,7 +92,6 @@ export class HomeComponent implements OnInit {
       next: (response: any) => {
         const stats = response.data;
 
-        // Update chart data
         if (isPlatformBrowser(this.platformId)) {
           this.data = {
             ...this.data,
@@ -102,7 +102,6 @@ export class HomeComponent implements OnInit {
           };
         }
 
-        // Update dashboard cards with actual data
         this.dashboardCards = [
           {
             title: 'Total Books',
@@ -155,7 +154,6 @@ export class HomeComponent implements OnInit {
           }
         ];
 
-        // Update recent issues
         this.recentIssues = stats.recentIssuedBooks.map((book: any) => ({
           title: book.title,
           issuedTo: book.studentName,
@@ -170,7 +168,6 @@ export class HomeComponent implements OnInit {
         this.loadingStats = false;
         this.loadingIssues = false;
 
-        // Update cards to show error state
         this.dashboardCards.forEach(card => {
           card.value = 'Error';
           card.subtext = 'Failed to load data';

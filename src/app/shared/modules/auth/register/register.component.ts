@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { IRegister } from 'src/app/data/Models/authentication/register';
+import { IRegister } from 'src/app/data/models/authentication/register';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ValidationService } from 'src/app/shared/services/validation.service';
 
@@ -19,12 +19,7 @@ export class RegisterComponent implements OnInit {
   public imageBase64: string = '';
   public isLoading: boolean = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private messageService: MessageService,
-    private router: Router
-  ) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router: Router) { }
 
   public ngOnInit(): void {
     this.registerForm = this.fb.group({

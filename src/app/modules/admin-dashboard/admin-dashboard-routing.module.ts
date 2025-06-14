@@ -9,6 +9,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserComponent } from './pages/user/user.component';
+import { ReturnRecordsComponent } from './pages/return-records/return-records.component';
 
 const routes: Routes = [
     {
@@ -22,6 +23,7 @@ const routes: Routes = [
             { path: 'profile', component: ProfileComponent },
             { path: 'settings', component: SettingsComponent },
             { path: 'borrow', component: BorrowRecordsComponent },
+            { path: 'return', component: ReturnRecordsComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
     },

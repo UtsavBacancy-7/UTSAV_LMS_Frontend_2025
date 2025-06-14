@@ -1,5 +1,4 @@
 <div class="container-fluid py-4">
-    <!-- DASHBOARD CARDS -->
     <div class="row g-3">
         <div class="col-md-3" *ngFor="let card of dashboardCards">
             <div class="card h-100 shadow-sm border-0">
@@ -31,7 +30,6 @@
                         <table class="table table-hover mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Cover</th>
                                     <th>Title</th>
                                     <th>Issued To</th>
                                     <th>Due Date</th>
@@ -39,10 +37,6 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of recentIssues">
-                                    <td>
-                                        <img [src]="item.image || 'assets/images/books/default.jpg'" height="40"
-                                            width="30" class="rounded object-fit-cover" alt="Book cover" />
-                                    </td>
                                     <td>{{ item.title }}</td>
                                     <td>{{ item.issuedTo }}</td>
                                     <td>{{ item.dueDate | date:'mediumDate' }}</td>

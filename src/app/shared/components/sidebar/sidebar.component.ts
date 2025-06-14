@@ -5,6 +5,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
+
 export class SidebarComponent {
   @Input() sidebarOptions: {
     section: string,

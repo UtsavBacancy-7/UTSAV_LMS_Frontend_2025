@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GenreService } from 'src/app/core/services/genre.service';
-import { IGenre } from 'src/app/data/Models/genre/genre';
+import { IGenre } from 'src/app/data/models/genre/genre';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -10,25 +10,22 @@ import { MessageService } from 'primeng/api';
 })
 
 export class GenreComponent implements OnInit {
-  isLoading: boolean = false;
-  genres: IGenre[] = [];
-  filteredGenres: IGenre[] = [];
-  searchTerm: string = '';
-  editGenreId: number | null = null;
-  editedGenre: IGenre = { genreId: 0, genreName: '', description: '' }; // temp copy
-  showAddForm: boolean = false;
-  newGenre: IGenre = { genreId: 0, genreName: '', description: '' };
+  public isLoading: boolean = false;
+  public genres: IGenre[] = [];
+  public filteredGenres: IGenre[] = [];
+  public searchTerm: string = '';
+  public editGenreId: number | null = null;
+  public editedGenre: IGenre = { genreId: 0, genreName: '', description: '' };
+  public showAddForm: boolean = false;
+  public newGenre: IGenre = { genreId: 0, genreName: '', description: '' };
 
-  constructor(
-    private genreService: GenreService,
-    private messageService: MessageService
-  ) { }
+  constructor(private genreService: GenreService, private messageService: MessageService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadGenres();
   }
 
-  loadGenres(): void {
+  public loadGenres(): void {
     this.isLoading = true;
     this.genreService.getAllGenres().subscribe({
       next: (response) => {
@@ -42,7 +39,7 @@ export class GenreComponent implements OnInit {
     });
   }
 
-  applyFilters(): void {
+  public applyFilters(): void {
     const search = this.searchTerm.trim().toLowerCase();
 
     this.filteredGenres = this.genres.filter(genre =>
@@ -51,18 +48,18 @@ export class GenreComponent implements OnInit {
     );
   }
 
-  onAddGenre(): void {
+  public onAddGenre(): void {
     this.showAddForm = true;
     this.newGenre = { genreId: 0, genreName: '', description: '' };
     this.messageService.add({ severity: 'info', summary: 'Add Genre', detail: 'Opening genre creation form...' });
   }
 
-  cancelAddGenre(): void {
+  public cancelAddGenre(): void {
     this.showAddForm = false;
     this.newGenre = { genreId: 0, genreName: '', description: '' };
   }
 
-  onSaveNewGenre(): void {
+  public onSaveNewGenre(): void {
     if (!this.newGenre.genreName.trim()) {
       this.messageService.add({ severity: 'warn', summary: 'Validation', detail: 'Genre name is required.' });
       return;
@@ -80,18 +77,17 @@ export class GenreComponent implements OnInit {
     });
   }
 
-  onEditGenre(genre: IGenre): void {
+  public onEditGenre(genre: IGenre): void {
     this.editGenreId = genre.genreId;
     this.editedGenre = { ...genre };
-    this.messageService.add({ severity: 'info', summary: 'Edit Genre', detail: `Editing genre: ${genre.genreName}` });
   }
 
-  onSaveGenre(): void {
+  public onSaveGenre(): void {
     this.genreService.updateGenre(this.editedGenre).subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'Genre updated successfully.' });
         this.editGenreId = null;
-        this.loadGenres(); // Refresh list
+        this.loadGenres();
       },
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update genre.' });
@@ -99,16 +95,16 @@ export class GenreComponent implements OnInit {
     });
   }
 
-  onCancelEdit(): void {
+  public onCancelEdit(): void {
     this.editGenreId = null;
   }
 
-  onDeleteGenre(id: number): void {
+  public onDeleteGenre(id: number): void {
     if (confirm('Are you sure you want to delete this genre?')) {
       this.genreService.deleteGenre(id).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Genre deleted successfully.' });
-          this.loadGenres(); // Refresh list
+          this.loadGenres();
         },
         error: () => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete genre.' });

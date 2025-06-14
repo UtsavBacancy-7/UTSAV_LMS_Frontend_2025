@@ -6,8 +6,12 @@ import { Router } from '@angular/router';
     templateUrl: './admin-dashboard.component.html',
     styleUrls: ['./admin-dashboard.component.scss']
 })
+
 export class AdminDashboardComponent {
-    sidebarOptions = [
+    role: 'Admin' | 'Librarian' | 'Student' = 'Admin';
+    constructor(private router: Router) { }
+
+    public sidebarOptions = [
         {
             section: 'Dashboard',
             items: [
@@ -44,21 +48,8 @@ export class AdminDashboardComponent {
         }
     ];
 
-    constructor(private router: Router) { }
-
     public logout(): void {
         sessionStorage.clear();
         this.router.navigate(['/auth/login']);
-    }
-
-    toggleSidebar() {
-        // Implement sidebar toggle logic
-        const sidebar = document.querySelector('.sidebar');
-        sidebar?.classList.toggle('collapsed');
-    }
-
-    toggleTheme() {
-        // Implement theme toggle logic
-        document.body.classList.toggle('dark-theme');
     }
 }

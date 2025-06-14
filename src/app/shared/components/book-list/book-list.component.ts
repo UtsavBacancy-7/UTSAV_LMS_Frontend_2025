@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BookService } from 'src/app/core/services/book.service';
-import { IBook } from 'src/app/data/Models/book/book';
+import { IBook } from 'src/app/data/models/book/book';
 
 type UserRole = 'admin' | 'librarian' | 'student';
 type ViewMode = 'table' | 'grid';
@@ -15,27 +15,25 @@ type AvailabilityFilter = 'all' | 'available';
 export class BookListComponent implements OnInit {
   @Input() role: UserRole = 'student';
 
-  books: IBook[] = [];
-  filteredBooks: IBook[] = [];
-  viewMode: ViewMode = 'table';
-  searchTerm: string = '';
-  availabilityFilter: AvailabilityFilter = 'all';
-  isLoading: Boolean = false;
-
-  // Modal controls
-  showModal = false;
-  currentBook: IBook | null = null;
-  isEditMode = false;
-  showDetailsModal = false;
-  selectedBook: IBook | null = null;
+  public books: IBook[] = [];
+  public filteredBooks: IBook[] = [];
+  public viewMode: ViewMode = 'table';
+  public searchTerm: string = '';
+  public availabilityFilter: AvailabilityFilter = 'all';
+  public isLoading: Boolean = false;
+  public showModal = false;
+  public currentBook: IBook | null = null;
+  public isEditMode = false;
+  public showDetailsModal = false;
+  public selectedBook: IBook | null = null;
 
   constructor(private bookService: BookService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadBooks();
   }
 
-  loadBooks(): void {
+  public loadBooks(): void {
     this.isLoading = true;
     this.bookService.getAllBooks().subscribe({
       next: (books: IBook[]) => {
@@ -51,7 +49,7 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  applyFilters(): void {
+  public applyFilters(): void {
     const term = this.searchTerm.toLowerCase().trim();
 
     this.filteredBooks = this.books.filter(book => {
@@ -68,29 +66,29 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  openAddBookModal(): void {
+  public openAddBookModal(): void {
     this.currentBook = null;
     this.isEditMode = false;
     this.showModal = true;
   }
 
-  openEditBookModal(book: IBook): void {
+  public openEditBookModal(book: IBook): void {
     this.currentBook = JSON.parse(JSON.stringify(book));
     this.isEditMode = true;
     this.showModal = true;
   }
 
-  closeModal(): void {
+  public closeModal(): void {
     this.showModal = false;
     this.currentBook = null;
   }
 
-  openBookDetails(book: IBook): void {
+  public openBookDetails(book: IBook): void {
     this.selectedBook = { ...book };
     this.showDetailsModal = true;
   }
 
-  handleSubmit(bookData: IBook): void {
+  public handleSubmit(bookData: IBook): void {
     if (this.isEditMode && this.currentBook?.id) {
       this.bookService.updateBook(this.currentBook.id, bookData).subscribe({
         next: () => {
@@ -110,7 +108,7 @@ export class BookListComponent implements OnInit {
     }
   }
 
-  deleteBook(bookId: number): void {
+  public deleteBook(bookId: number): void {
     if (confirm('Are you sure you want to delete this book?')) {
       this.bookService.deleteBook(bookId).subscribe({
         next: () => {
@@ -121,26 +119,22 @@ export class BookListComponent implements OnInit {
     }
   }
 
-  addToWishlist(book: IBook): void {
-    // Implement wishlist functionality
+  public addToWishlist(book: IBook): void {
     console.log('Added to wishlist:', book);
     alert(`Added "${book.title}" to your wishlist`);
   }
 
-  borrowBook(book: IBook): void {
-    // Implement borrow functionality
+  public borrowBook(book: IBook): void {
     console.log('Borrowing book:', book);
     alert(`Borrowed "${book.title}"`);
   }
 
-  returnBook(book: IBook): void {
-    // Implement return functionality
+  public returnBook(book: IBook): void {
     console.log('Returning book:', book);
     alert(`Returned "${book.title}"`);
   }
 
-  // Helper method to check if user can add books
-  canAddBooks(): boolean {
+  public canAddBooks(): boolean {
     return this.role === 'admin' || this.role === 'librarian';
   }
 }

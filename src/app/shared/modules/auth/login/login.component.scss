@@ -34,13 +34,13 @@ input.is-invalid {
     height: 100%;
     background-color: #e8f0fe;
     flex-shrink: 0;
-}
 
-.auth-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    display: block;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        display: block;
+    }
 }
 
 .auth-form {
@@ -51,11 +51,11 @@ input.is-invalid {
     justify-content: center;
     background-color: white;
     overflow-y: auto;
-}
 
-.auth-form h2 {
-    font-weight: bold;
-    color: #333;
+    h2 {
+        font-weight: bold;
+        color: #333;
+    }
 }
 
 .forgot-password {

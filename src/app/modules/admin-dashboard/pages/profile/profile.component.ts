@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
-import { IUser } from 'src/app/data/Models/user/user';
+import { IUser } from 'src/app/data/models/user/user';
 
 @Component({
   selector: 'app-profile',
@@ -9,12 +9,12 @@ import { IUser } from 'src/app/data/Models/user/user';
 })
 
 export class ProfileComponent implements OnInit {
-  userData!: IUser;
-  userId: number = 0;
+  public userData!: IUser;
+  public userId: number = 0;
 
   constructor(private userService: UserService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.userId = Number(sessionStorage.getItem('userId'));
     if (this.userId > 0) {
       this.loadProfile();
@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  loadProfile() {
+  public loadProfile(): void {
     this.userService.getUserById(this.userId).subscribe({
       next: (res) => {
         this.userData = res?.data;

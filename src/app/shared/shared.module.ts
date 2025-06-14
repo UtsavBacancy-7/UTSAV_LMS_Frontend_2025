@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IndexComponent } from './components/index/index.component';
-import { AuthModule } from './modules/auth/auth.module';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BookCardComponent } from './components/book-card/book-card.component';
-import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
-import { ProfileCardComponent } from './components/profile-card/profile-card.component';
-import { BookFormModalComponent } from './components/book-form-modal/book-form-modal.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookDetailsCardComponent } from './components/book-details-card/book-details-card.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
+import { BookFormModalComponent } from './components/book-form-modal/book-form-modal.component';
 import { BookListComponent } from './components/book-list/book-list.component';
-import { BorrowListComponent } from './components/borrow-list/borrow-list.component';
+import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
+import { IndexComponent } from './components/index/index.component';
+import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { BorrowListComponent } from './components/borrow-list/borrow-list.compon
         BookDetailsCardComponent,
         UserFormComponent,
         BookListComponent,
-        BorrowListComponent,
+        TransactionListComponent,
+        UserListComponent,
     ],
     imports: [
         CommonModule,
@@ -44,7 +46,8 @@ import { BorrowListComponent } from './components/borrow-list/borrow-list.compon
         BookDetailsCardComponent,
         BookListComponent,
         UserFormComponent,
-        BorrowListComponent
+        TransactionListComponent,
+        UserListComponent
     ]
 })
 

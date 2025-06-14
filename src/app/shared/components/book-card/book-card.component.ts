@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IBook } from 'src/app/data/Models/book/book';
+import { IBook } from 'src/app/data/models/book/book';
 
 @Component({
   selector: 'app-book-card',
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.scss']
 })
+
 export class BookCardComponent {
   @Input() book!: IBook;
   @Input() displayMode: 'compact' | 'detailed' = 'compact';

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { IForgotPwd } from 'src/app/data/Models/authentication/forgotPwd';
+import { IForgotPwd } from 'src/app/data/models/authentication/forgotPwd';
+import { ILoginResponse } from 'src/app/data/models/authentication/loginResponse';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -21,44 +22,39 @@ export class LoginComponent {
   public submittedEmail: IForgotPwd = { email: '' };
   public showResetModal: boolean = false;
 
-  constructor(
-    private authService: AuthService,
-    private messageService: MessageService,
-    private router: Router,
-  ) { }
+  constructor(private authService: AuthService, private messageService: MessageService, private router: Router) { }
 
   public onLogin(): void {
     this.isLoading = true;
 
     this.authService.login(this.loginData).subscribe({
-      next: (response) => {
-        const role = response?.user?.role?.toLowerCase();
+      next: (response: ILoginResponse) => {
+        if (response.success && response.data?.token) {
+          const userData = response.data.user;
+          const role = userData?.role?.toLowerCase();
 
-        if (response?.token && role) {
-          sessionStorage.setItem('token', response.token);
-          sessionStorage.setItem('userId', response.user.id);
-          sessionStorage.setItem('email', response.user.email);
+          sessionStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('userId', userData.id);
+          sessionStorage.setItem('email', userData.email);
           sessionStorage.setItem('role', role);
 
           this.messageService.add({
             severity: 'success',
             summary: 'Login Success',
-            detail: 'You have been successfully logged in. Redirecting to dashboard...',
+            detail: response.message || 'Login successful',
             life: 3000
           });
 
-          setTimeout(() => {
-            this.router.navigate([`/dashboard/${role}/home`]);
-          }, 3000);
+          this.router.navigate([`/dashboard/${role}/home`]);
         } else {
           this.messageService.add({
             severity: 'error',
             summary: 'Login Error',
-            detail: 'Unexpected response from server.',
+            detail: response.message || 'Authentication failed',
             life: 3000
           });
-          this.isLoading = false;
         }
+        this.isLoading = false;
       },
       error: (error) => {
         this.messageService.add({

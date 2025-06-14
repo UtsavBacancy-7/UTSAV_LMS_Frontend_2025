@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SystemConfigService } from 'src/app/core/services/system-config.service';
-import { ISystemConfig } from 'src/app/data/Models/setting';
+import { ISystemConfig } from 'src/app/data/models/setting';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
+
 export class SettingsComponent implements OnInit {
-  settingsForm!: FormGroup;
-  editMode = false;
-  configKeys = ['MaxBorrowPeriod', 'MaxBorrowLimit', 'PenaltyPerDay'];
-  configsMap = new Map<string, ISystemConfig>();
+  public settingsForm!: FormGroup;
+  public editMode = false;
+  public configKeys = ['MaxBorrowPeriod', 'MaxBorrowLimit', 'PenaltyPerDay'];
+  public configsMap = new Map<string, ISystemConfig>();
 
   constructor(private fb: FormBuilder, private configService: SystemConfigService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.settingsForm = this.fb.group({
       MaxBorrowPeriod: [{ value: 0, disabled: true }, [Validators.required, Validators.min(1)]],
       MaxBorrowLimit: [{ value: 0, disabled: true }, [Validators.required, Validators.min(1)]],
@@ -26,7 +27,7 @@ export class SettingsComponent implements OnInit {
     this.loadConfigs();
   }
 
-  loadConfigs(): void {
+  public loadConfigs(): void {
     this.configKeys.forEach((key) => {
       this.configService.getConfigByKey(key).subscribe((res) => {
         const numericValue = Number(res.value);
@@ -42,18 +43,18 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  toggleEdit(): void {
+  public toggleEdit(): void {
     this.editMode = true;
     this.settingsForm.enable();
   }
 
-  cancelEdit(): void {
+  public cancelEdit(): void {
     this.editMode = false;
     this.settingsForm.disable();
     this.loadConfigs();
   }
 
-  saveSettings(): void {
+  public saveSettings(): void {
     if (this.settingsForm.invalid) return;
 
     const updatedConfigs: ISystemConfig[] = [];
@@ -65,7 +66,7 @@ export class SettingsComponent implements OnInit {
       if (originalConfig) {
         updatedConfigs.push({
           ...originalConfig,
-          configValue: formValue.toString(), // Convert number → string
+          configValue: formValue.toString(),
         });
       }
     });

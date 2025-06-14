@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISystemConfig } from 'src/app/data/Models/setting';
+import { EmptyResponse } from 'src/app/data/models/emptyResponse';
+import { ISystemConfig } from 'src/app/data/models/setting';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -12,15 +13,15 @@ export class SystemConfigService {
 
   constructor(private http: HttpClient) { }
 
-  getAllConfigs(): Observable<ISystemConfig[]> {
+  public getAllConfigs(): Observable<ISystemConfig[]> {
     return this.http.get<ISystemConfig[]>(`${this.baseUrl}`);
   }
 
-  updateConfigs(configs: ISystemConfig[]): Observable<void> {
-    return this.http.patch<void>(`${this.baseUrl}`, configs);
+  public updateConfigs(configs: ISystemConfig[]): Observable<EmptyResponse> {
+    return this.http.patch<EmptyResponse>(`${this.baseUrl}`, configs);
   }
 
-  getConfigByKey(key: string): Observable<{ success: boolean, key: string, value: string }> {
+  public getConfigByKey(key: string): Observable<{ success: boolean, key: string, value: string }> {
     return this.http.get<{ success: boolean, key: string, value: string }>(
       `${this.baseUrl}/key?key=${key}`
     );

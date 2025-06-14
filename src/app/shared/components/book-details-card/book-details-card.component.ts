@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { IBook } from 'src/app/data/Models/book/book';
+import { IBook } from 'src/app/data/models/book/book';
 
 @Component({
   selector: 'app-book-details-card',
@@ -13,14 +13,13 @@ export class BookDetailsCardComponent {
   @Output() closeModal = new EventEmitter<void>();
 
   @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
+  public onKeydownHandler(event: KeyboardEvent): void {
     if (this.showModal) {
       this.closeModal.emit();
     }
   }
 
-  onModalClick(event: MouseEvent) {
-    // Close modal if clicked on the backdrop (outside the modal content)
+  public onModalClick(event: MouseEvent): void {
     if ((event.target as HTMLElement).classList.contains('modal')) {
       this.closeModal.emit();
     }

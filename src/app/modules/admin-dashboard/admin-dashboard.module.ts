@@ -13,6 +13,7 @@ import { UserComponent } from './pages/user/user.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ChartModule } from 'primeng/chart';
 import { BorrowRecordsComponent } from './pages/borrow-records/borrow-records.component';
+import { ReturnRecordsComponent } from './pages/return-records/return-records.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BorrowRecordsComponent } from './pages/borrow-records/borrow-records.co
     GenreComponent,
     ProfileComponent,
     SettingsComponent,
-    BorrowRecordsComponent
+    BorrowRecordsComponent,
+    ReturnRecordsComponent
   ],
   imports: [
     CommonModule,
