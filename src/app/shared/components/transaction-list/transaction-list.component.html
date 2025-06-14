@@ -77,7 +77,7 @@
                             <div class="btn-group btn-group-sm" *ngIf="request.status === 'Pending'">
                                 <button class="btn btn-outline-success"
                                     (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')"
-                                    *ngIf="role === 'Admin'">
+                                    *ngIf="role === 'Admin' || role === 'Librarian'">
                                     <i class="bi bi-check-circle"></i> Approve
                                 </button>
                                 <button class="btn btn-outline-danger"
@@ -139,7 +139,7 @@
                     </div>
 
                     <div *ngIf="canShowActions()" class="btn-group w-100">
-                        <button *ngIf="request.status === 'Pending' && role === 'Admin'"
+                        <button *ngIf="request.status === 'Pending' && (role === 'Admin' || role === 'Librarian')"
                             class="btn btn-outline-success btn-sm"
                             (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')">
                             <i class="bi bi-check-circle"></i>

@@ -12,6 +12,7 @@ export class BookCardComponent {
   @Input() displayMode: 'compact' | 'detailed' = 'compact';
   @Input() showActions: boolean = false;
   @Input() userRole: 'admin' | 'librarian' | 'student' = 'student';
+  @Input() showDeleteButton: boolean = false;
   @Output() viewBook = new EventEmitter<IBook>();
   @Output() editBook = new EventEmitter<IBook>();
   @Output() deleteBook = new EventEmitter<number>();

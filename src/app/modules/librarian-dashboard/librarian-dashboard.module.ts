@@ -1,19 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { LibrarianDashboardRoutingModule } from './librarian-dashboard-routing.module';
 import { LibrarianDashboardComponent } from './librarian-dashboard.component';
+import { HomeComponent } from './pages/home/home.component';
+import { LibrarianBookListComponent } from './pages/librarian-book-list/librarian-book-list.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { StudentListComponent } from './pages/student-list/student-list.component';
+import { BorrowRecordsComponent } from './pages/borrow-records/borrow-records.component';
+import { ReturnRecordsComponent } from './pages/return-records/return-records.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
     LibrarianDashboardComponent,
-    HomeComponent
+    HomeComponent,
+    LibrarianBookListComponent,
+    ProfileComponent,
+    StudentListComponent,
+    BorrowRecordsComponent,
+    ReturnRecordsComponent
   ],
   imports: [
     CommonModule,
     LibrarianDashboardRoutingModule,
-    RouterModule
+    SharedModule,
+    RouterModule,
+    ChartModule
   ]
 })
 
