@@ -39,16 +39,18 @@
 }
 
 @media (max-width: 992px) {
-    .custom-navbar .navbar-collapse {
-        flex-direction: column;
-        align-items: center;
-    }
+    .custom-navbar {
+        .navbar-collapse {
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .custom-navbar .navbar-nav {
-        text-align: center;
-    }
+        .navbar-nav {
+            text-align: center;
+        }
 
-    .custom-navbar .get-started-btn {
-        margin-top: 10px;
+        .get-started-btn {
+            margin-top: 10px;
+        }
     }
 }

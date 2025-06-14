@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 })
 
 export class CustomPreloadService implements PreloadingStrategy {
-  preload(route: any, load: () => Observable<any>): Observable<any> {
+  public preload(route: any, load: () => Observable<any>): Observable<any> {
     return route.data && route.data.preload ? load() : of(null);
   }
 }

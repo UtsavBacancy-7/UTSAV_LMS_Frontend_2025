@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { IResetPwd } from 'src/app/data/Models/authentication/resetPwd';
+import { IResetPwd } from 'src/app/data/models/authentication/resetPwd';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -21,11 +21,7 @@ export class ResetPasswordComponent {
   @Input() email: string = '';
   @Output() close = new EventEmitter<void>();
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private messageService: MessageService
-  ) { }
+  constructor(private authService: AuthService, private router: Router, private messageService: MessageService) { }
 
   public onOtpInput(index: number, event: Event): void {
     const input = event.target as HTMLInputElement;

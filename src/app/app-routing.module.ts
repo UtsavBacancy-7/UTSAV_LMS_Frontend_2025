@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from './shared/components/index/index.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
-import { CustomPreloadService } from './shared/services/custom-preload.service';
-import { redirectIfAuthenticated } from './shared/guards/redirect-if-auth.guard';
 import { authGuard } from './shared/guards/auth.guard';
+import { redirectIfAuthenticated } from './shared/guards/redirect-if-auth.guard';
+import { CustomPreloadService } from './shared/services/custom-preload.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full' },

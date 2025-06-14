@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +8,14 @@ import { Router } from '@angular/router';
 })
 
 export class AppComponent {
-  public isAuthRoute = false;
+  public showHeaderFooter = true;
 
   constructor(private router: Router) {
-    this.router.events.subscribe(() => {
-      this.isAuthRoute = this.router.url.startsWith('/auth');
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const token = sessionStorage.getItem('token');
+        this.showHeaderFooter = !token;
+      }
     });
   }
 }

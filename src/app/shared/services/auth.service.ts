@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IForgotPwd } from 'src/app/data/Models/authentication/forgotPwd';
-import { ILogin } from 'src/app/data/Models/authentication/login';
-import { IRegister } from 'src/app/data/Models/authentication/register';
-import { IResetPwd } from 'src/app/data/Models/authentication/resetPwd';
+import { ApiResponse } from 'src/app/data/models/apiResponse';
+import { IForgotPwd } from 'src/app/data/models/authentication/forgotPwd';
+import { ILogin } from 'src/app/data/models/authentication/Login';
+import { ILoginResponse } from 'src/app/data/models/authentication/loginResponse';
+import { IRegister } from 'src/app/data/models/authentication/register';
+import { IResetPwd } from 'src/app/data/models/authentication/resetPwd';
+import { EmptyResponse } from 'src/app/data/models/emptyResponse';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -13,23 +16,23 @@ import { environment } from 'src/environments/environment.development';
 
 export class AuthService {
 
-  private baseUrl = environment.apiBaseUrl;
+  private baseUrl = `${environment.apiBaseUrl}/auth`;
 
   constructor(private http: HttpClient) { }
 
-  public register(user: IRegister): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/register`, user);
+  public register(user: IRegister): Observable<EmptyResponse> {
+    return this.http.post<EmptyResponse>(`${this.baseUrl}/register`, user);
   }
 
-  public login(loginData: ILogin): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/login`, loginData);
+  public login(loginData: ILogin): Observable<ILoginResponse> {
+    return this.http.post<ILoginResponse>(`${this.baseUrl}/login`, loginData);
   }
 
-  public forgotPassword(forgotPwdData: IForgotPwd): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/send-otp`, forgotPwdData);
+  public forgotPassword(forgotPwdData: IForgotPwd): Observable<EmptyResponse> {
+    return this.http.post<EmptyResponse>(`${this.baseUrl}/send-otp`, forgotPwdData);
   }
 
-  public resetPassword(resetPwdData: IResetPwd): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Auth/ResetPassword`, resetPwdData);
+  public resetPassword(resetPwdData: IResetPwd): Observable<EmptyResponse> {
+    return this.http.post<EmptyResponse>(`${this.baseUrl}/ResetPassword`, resetPwdData);
   }
 }
