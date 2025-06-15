@@ -102,9 +102,9 @@
     <div *ngIf="viewMode === 'grid'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         <div class="col" *ngFor="let book of filteredBooks">
             <app-book-card [book]="book" displayMode="detailed" [showActions]="true" [userRole]="role"
-                (viewBook)="openBookDetails($event)" (editBook)="openEditBookModal(book)"
-                (deleteBook)="deleteBook(book.id)" (addToWishlist)="addToWishlist(book)" (borrowBook)="borrowBook(book)"
-                (returnBook)="returnBook(book)">
+                [showDeleteButton]="role === 'admin'" (viewBook)="openBookDetails($event)"
+                (editBook)="openEditBookModal(book)" (deleteBook)="deleteBook(book.id)"
+                (addToWishlist)="addToWishlist(book)" (borrowBook)="borrowBook(book)" (returnBook)="returnBook(book)">
             </app-book-card>
         </div>
     </div>

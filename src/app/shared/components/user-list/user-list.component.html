@@ -115,7 +115,7 @@
                               }">
                             {{ user.role }}
                         </span>
-                        <span *ngIf="role === 'Admin'" class="badge ms-1" [ngClass]="{
+                        <span *ngIf="role === 'Admin' || role === 'Librarian'" class="badge ms-1" [ngClass]="{
                                 'bg-success': user.isActive,
                                 'bg-secondary': !user.isActive
                             }">
