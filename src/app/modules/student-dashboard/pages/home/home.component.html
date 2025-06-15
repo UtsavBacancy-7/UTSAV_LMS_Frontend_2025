@@ -36,11 +36,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of recentIssues">
-                                    <td>{{ item.title }}</td>
-                                    <td>{{ item.issuedTo }}</td>
-                                    <td>{{ item.dueDate | date:'mediumDate' }}</td>
-                                </tr>
+                                <div *ngFor="let issue of recentIssues">
+                                    <h5>{{ issue.title }}</h5>
+                                    <p>Issued to: {{ issue.issuedTo }}</p>
+                                    <p>Due date: {{ issue.dueDate | date }}</p>
+                                </div>
                                 <tr *ngIf="recentIssues.length === 0">
                                     <td colspan="4" class="text-center text-muted py-3">No recent issues found</td>
                                 </tr>

@@ -1,15 +1,15 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { StudentDashboardStatService } from 'src/app/core/services/student-dashboard-stat.service';
 import { INavOptions } from 'src/app/data/models/navOption';
 import { IRecentIssuesBook } from 'src/app/data/models/recentIssuesBook';
+import { IStudentDashboardStats } from 'src/app/data/models/studentDashboardStats';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-
 export class HomeComponent {
   public dashboardCards: INavOptions[] = [];
   public recentIssues: IRecentIssuesBook[] = [];
@@ -19,7 +19,7 @@ export class HomeComponent {
   public options: any;
 
   private platformId = inject(PLATFORM_ID);
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(StudentDashboardStatService);
 
   public ngOnInit(): void {
     this.initializeDashboardCards();
@@ -30,12 +30,10 @@ export class HomeComponent {
   public initializeDashboardCards(): void {
     this.dashboardCards = [
       { title: 'Total Books', value: '--', subtext: 'Loading...', icon: 'bi bi-book', subtextClass: 'text-muted' },
-      { title: 'Issued Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-up', subtextClass: 'text-muted' },
+      { title: 'Borrowed Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-up', subtextClass: 'text-muted' },
       { title: 'Returned Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-down', subtextClass: 'text-muted' },
-      { title: 'Total Students', value: '--', subtext: 'Loading...', icon: 'bi bi-people', subtextClass: 'text-muted' },
-      { title: 'Total Librarians', value: '--', subtext: 'Loading...', icon: 'bi bi-person-workspace', subtextClass: 'text-muted' },
-      { title: 'Book Reviews', value: '--', subtext: 'Loading...', icon: 'bi bi-chat-left-text', subtextClass: 'text-muted' },
-      { title: 'Total Categories', value: '--', subtext: 'Loading...', icon: 'bi bi-tags', subtextClass: 'text-muted' }
+      { title: 'Wishlisted Books', value: '--', subtext: 'Loading...', icon: 'bi bi-heart', subtextClass: 'text-muted' },
+      { title: 'Book Reviews', value: '--', subtext: 'Loading...', icon: 'bi bi-chat-left-text', subtextClass: 'text-muted' }
     ];
   }
 
@@ -45,7 +43,7 @@ export class HomeComponent {
       const textColor = documentStyle.getPropertyValue('--text-color');
 
       this.data = {
-        labels: ['Total Books', 'Borrowed Books', 'Returned Books'],
+        labels: ['Borrowed Books', 'Returned Books'],
         datasets: [
           {
             data: [0, 0, 0],
@@ -98,53 +96,50 @@ export class HomeComponent {
             ...this.data,
             datasets: [{
               ...this.data.datasets[0],
-              data: [stats.books, stats.borrowedBooks, stats.returnedBooks]
+              data: [
+                stats.totalBooks || 0,
+                stats.borrowedBook || 0,
+                stats.returnedBook || 0
+              ]
             }]
           };
         }
 
         this.dashboardCards = [
           {
-            title: 'Total Books',
-            value: stats.books,
-            subtext: '',
-            icon: 'bi bi-book',
-            subtextClass: 'text-success'
-          },
-          {
-            title: 'Issued Books',
-            value: stats.borrowedBooks,
+            title: 'Borrowed Books',
+            value: (stats.borrowedBook || 0).toString(),
             subtext: '',
             icon: 'bi bi-journal-arrow-up',
-            subtextClass: 'text-success'
+            subtextClass: 'text-warning'
           },
           {
             title: 'Returned Books',
-            value: stats.returnedBooks,
+            value: (stats.returnedBook || 0).toString(),
             subtext: '',
             icon: 'bi bi-journal-arrow-down',
-            subtextClass: 'text-info'
-          },
-          {
-            title: 'Total Students',
-            value: stats.students,
-            subtext: '',
-            icon: 'bi bi-people',
             subtextClass: 'text-success'
           },
           {
+            title: 'Wishlisted Books',
+            value: (stats.wishlistedBook || 0).toString(),
+            subtext: '',
+            icon: 'bi bi-heart',
+            subtextClass: 'text-danger'
+          },
+          {
             title: 'Book Reviews',
-            value: stats.reviews,
+            value: (stats.totalReview || 0).toString(),
             subtext: '',
             icon: 'bi bi-chat-left-text',
-            subtextClass: 'text-primary'
+            subtextClass: 'text-info'
           }
         ];
 
-        this.recentIssues = stats.recentIssuedBooks.map((book: any) => ({
-          title: book.title,
-          issuedTo: book.studentName,
-          dueDate: new Date(book.dueDate)
+        this.recentIssues = (stats.recentIssuedBooks || []).map((book: any) => ({
+          title: book?.title || 'Unknown Book',
+          issuedTo: book?.issuedTo || 'Unknown Student',
+          dueDate: book?.dueDate ? new Date(book.dueDate) : null
         }));
 
         this.loadingStats = false;
