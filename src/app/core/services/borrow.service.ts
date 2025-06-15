@@ -20,6 +20,10 @@ export class BorrowService {
     return this.http.get<IBorrowResponse[]>(`${this.baseUrl}/borrow-requests`);
   }
 
+  public getBorrowRequestByUserId(id: number): Observable<IBorrowResponse[]> {
+    return this.http.get<IBorrowResponse[]>(`${this.baseUrl}/borrow-requests-by-userId?id=${id}`);
+  }
+
   public getBorrowRequestById(id: number): Observable<IBorrowResponse> {
     return this.http.get<IBorrowResponse>(`${this.baseUrl}/borrow-requests-by-id?id=${id}`);
   }

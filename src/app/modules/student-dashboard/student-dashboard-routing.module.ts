@@ -1,9 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { StudentDashboardComponent } from './student-dashboard.component';
+import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/page-not-found.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { StudentBookListComponent } from './pages/student-book-list/student-book-list.component';
+import { BorrowListComponent } from './pages/borrow-list/borrow-list.component';
+import { UserHistoryComponent } from './pages/user-history/user-history.component';
 
 const routes: Routes = [
-    { path: 'home', component: HomeComponent }
+    {
+        path: '', component: StudentDashboardComponent,
+        children: [
+            { path: 'home', component: HomeComponent },
+            { path: 'books', component: StudentBookListComponent },
+            { path: 'profile', component: ProfileComponent },
+            { path: 'history', component: UserHistoryComponent },
+            { path: 'borrow-list', component: BorrowListComponent },
+            { path: '**', component: PageNotFoundComponent }
+        ]
+    }
 ];
 
 @NgModule({

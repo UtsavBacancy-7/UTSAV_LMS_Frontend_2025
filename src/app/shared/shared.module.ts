@@ -14,6 +14,8 @@ import { TransactionListComponent } from './components/transaction-list/transact
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { ReturnBookModalComponent } from './components/return-book-modal/return-book-modal.component';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +30,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
         BookListComponent,
         TransactionListComponent,
         UserListComponent,
+        ReturnBookModalComponent,
+        HistoryComponent,
     ],
     imports: [
         CommonModule,
@@ -47,7 +51,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
         BookListComponent,
         UserFormComponent,
         TransactionListComponent,
-        UserListComponent
+        UserListComponent,
+        HistoryComponent
     ]
 })
 

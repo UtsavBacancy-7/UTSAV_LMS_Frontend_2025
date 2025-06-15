@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { BookService } from 'src/app/core/services/book.service';
+import { BorrowService } from 'src/app/core/services/borrow.service';
 import { IBook } from 'src/app/data/models/book/book';
 
 type UserRole = 'admin' | 'librarian' | 'student';
@@ -26,11 +28,13 @@ export class BookListComponent implements OnInit {
   public isEditMode = false;
   public showDetailsModal = false;
   public selectedBook: IBook | null = null;
-
-  constructor(private bookService: BookService) { }
+  public userId!: number;
+  constructor(private bookService: BookService, private borrowService: BorrowService, private messageService: MessageService) { }
 
   public ngOnInit(): void {
     this.loadBooks();
+    const userId = sessionStorage.getItem('userId');
+    this.userId = userId ? Number(userId) : 0;
   }
 
   public loadBooks(): void {
@@ -124,9 +128,34 @@ export class BookListComponent implements OnInit {
     alert(`Added "${book.title}" to your wishlist`);
   }
 
-  public borrowBook(book: IBook): void {
-    console.log('Borrowing book:', book);
-    alert(`Borrowed "${book.title}"`);
+  public borrowBook(bookId: number): void {
+    this.borrowService.addBorrowRequest({ bookId: bookId, userId: this.userId }).subscribe({
+      next: (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Request Sent',
+          detail: 'Borrow request sent to the librarian.',
+          life: 3000
+        });
+      },
+      error: (err) => {
+        let errorMessage = 'Failed to process borrow request';
+
+        if (err.error && err.error.Message) {
+          errorMessage = err.error.Message;
+        } else if (err.message) {
+          errorMessage = err.message;
+        } else if (typeof err === 'string') {
+          errorMessage = err;
+        }
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Request Failed',
+          detail: errorMessage,
+          life: 3000
+        });
+      }
+    });
   }
 
   public returnBook(book: IBook): void {

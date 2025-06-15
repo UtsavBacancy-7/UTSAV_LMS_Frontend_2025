@@ -26,7 +26,7 @@ const routes: Routes = [
             { path: 'return', component: ReturnRecordsComponent },
             { path: '**', component: PageNotFoundComponent }
         ]
-    },
+    }
 ];
 
 @NgModule({

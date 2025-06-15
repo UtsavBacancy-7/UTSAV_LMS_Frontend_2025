@@ -38,8 +38,7 @@
                         <th>Due Date</th>
                         <th *ngIf="listType === 'Return'">Approved Date</th>
                         <th *ngIf="listType === 'Borrow'">Return Date</th>
-                        <th *ngIf="canShowActions()" class="text-center">Status Update</th>
-                        <th *ngIf="canDelete()" class="text-center">Actions</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +61,7 @@
                             </span>
                         </td>
                         <td>{{ request.requestDate | date:'mediumDate' }}</td>
-                        <td>{{ request.dueDate | date:'mediumDate' }}</td>
+                        <td>{{ request.dueDate ? (request.dueDate | date:'mediumDate') : 'NA' }}</td>
 
                         <td *ngIf="listType === 'Return'">
                             <ng-container *ngIf="isReturnRequest(request)">{{ request.approvedDate || 'N/A'
@@ -73,39 +72,48 @@
                                 }}</ng-container>
                         </td>
 
-                        <td *ngIf="canShowActions()" class="text-center">
-                            <div class="btn-group btn-group-sm" *ngIf="request.status === 'Pending'">
-                                <button class="btn btn-outline-success"
-                                    (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')"
-                                    *ngIf="role === 'Admin' || role === 'Librarian'">
-                                    <i class="bi bi-check-circle"></i> Approve
-                                </button>
-                                <button class="btn btn-outline-danger"
-                                    (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Rejected')">
-                                    <i class="bi bi-x-circle"></i> Reject
-                                </button>
-                            </div>
-                            <span *ngIf="request.status !== 'Pending'" class="text-muted">
-                                Processed
-                            </span>
-                        </td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm">
+                                <!-- Status Update Buttons -->
+                                <ng-container *ngIf="canShowActions()">
+                                    <button *ngIf="request.status === 'Pending'" class="btn btn-outline-success"
+                                        (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')"
+                                        [disabled]="role !== 'Admin' && role !== 'Librarian'">
+                                        <i class="bi bi-check-circle"></i> Approve
+                                    </button>
+                                    <button *ngIf="request.status === 'Pending'" class="btn btn-outline-danger"
+                                        (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Rejected')">
+                                        <i class="bi bi-x-circle"></i> Reject
+                                    </button>
+                                </ng-container>
 
-                        <td *ngIf="canDelete()" class="text-center">
-                            <button class="btn btn-outline-danger btn-sm"
-                                (click)="deleteRequest(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId)">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                                <!-- Return Book Button -->
+                                <button *ngIf="isBorrowRequest(request) && canReturnBook(request) && role === 'Student'"
+                                    class="btn btn-outline-primary" (click)="openReturnModal(request)">
+                                    <i class="bi bi-arrow-return-left"></i> Return
+                                </button>
+
+                                <!-- Delete Button -->
+                                <button *ngIf="canDelete()" class="btn btn-outline-danger"
+                                    (click)="deleteRequest(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+
+                                <p *ngIf="request.status !== 'Pending' && role !== 'Admin'">Processed</p>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div *ngIf="filteredRequests.length === 0 && !isLoading" class="alert alert-warning">
-            No {{ listType === 'Borrow' ? 'borrow' : 'return' }} requests found matching your criteria.
+        <div *ngIf=" filteredRequests.length===0 && !isLoading" class="alert alert-warning">
+            No {{ listType === 'Borrow' ? 'borrow' : 'return' }} requests found matching your
+            criteria.
         </div>
     </div>
 
+    <!-- Grid View -->
     <div *ngIf="viewMode === 'grid'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         <div class="col" *ngFor="let request of filteredRequests">
             <div class="card h-100">
@@ -138,16 +146,27 @@
                         <div><strong>Approved Date:</strong> {{ request.approvedDate || 'N/A' }}</div>
                     </div>
 
-                    <div *ngIf="canShowActions()" class="btn-group w-100">
-                        <button *ngIf="request.status === 'Pending' && (role === 'Admin' || role === 'Librarian')"
-                            class="btn btn-outline-success btn-sm"
-                            (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')">
-                            <i class="bi bi-check-circle"></i>
+                    <div class="btn-group w-100">
+                        <!-- Status Update Buttons -->
+                        <ng-container *ngIf="canShowActions()">
+                            <button *ngIf="request.status === 'Pending' && (role === 'Admin' || role === 'Librarian')"
+                                class="btn btn-outline-success btn-sm"
+                                (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                            <button *ngIf="request.status === 'Pending'" class="btn btn-outline-danger btn-sm"
+                                (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Rejected')">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                        </ng-container>
+
+                        <!-- Return Book Button -->
+                        <button *ngIf="isBorrowRequest(request) && canReturnBook(request) && role === 'Student'"
+                            class="btn btn-outline-primary" (click)="openReturnModal(request)">
+                            <i class="bi bi-arrow-return-left"></i> Return
                         </button>
-                        <button *ngIf="request.status === 'Pending'" class="btn btn-outline-danger btn-sm"
-                            (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Rejected')">
-                            <i class="bi bi-x-circle"></i>
-                        </button>
+
+                        <!-- Delete Button -->
                         <button *ngIf="canDelete()" class="btn btn-outline-danger btn-sm"
                             (click)="deleteRequest(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId)">
                             <i class="bi bi-trash"></i>
@@ -164,3 +183,7 @@
         </div>
     </div>
 </div>
+
+<app-return-book-modal [showModal]="showReturnModal" [borrowRequestId]="selectedRequest?.borrowRequestId || 0"
+    [requestedBy]="userId || 0" (closeModalEvent)="closeReturnModal()" (returnSubmittedEvent)="handleReturnSubmitted()">
+</app-return-book-modal>

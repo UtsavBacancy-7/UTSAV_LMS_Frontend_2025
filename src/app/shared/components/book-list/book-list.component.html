@@ -77,11 +77,8 @@
                                     <i class="bi bi-bookmark-heart"></i>
                                 </button>
                                 <button *ngIf="book.availableCopies > 0" class="btn btn-outline-success"
-                                    title="Borrow book" (click)="borrowBook(book)">
+                                    title="Borrow book" (click)="borrowBook(book.id)">
                                     <i class="bi bi-book"></i>
-                                </button>
-                                <button class="btn btn-outline-info" title="Return book" (click)="returnBook(book)">
-                                    <i class="bi bi-arrow-return-left"></i>
                                 </button>
                             </ng-container>
                         </div>
@@ -104,7 +101,8 @@
             <app-book-card [book]="book" displayMode="detailed" [showActions]="true" [userRole]="role"
                 [showDeleteButton]="role === 'admin'" (viewBook)="openBookDetails($event)"
                 (editBook)="openEditBookModal(book)" (deleteBook)="deleteBook(book.id)"
-                (addToWishlist)="addToWishlist(book)" (borrowBook)="borrowBook(book)" (returnBook)="returnBook(book)">
+                (addToWishlist)="addToWishlist(book)" (borrowBook)="borrowBook(book.id)"
+                (returnBook)="returnBook(book)">
             </app-book-card>
         </div>
     </div>

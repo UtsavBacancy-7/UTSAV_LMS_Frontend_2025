@@ -1,5 +1,6 @@
 export interface IBorrowResponse {
     borrowRequestId: number,
+    userId: number,
     title: string,
     firstName: string,
     lastName: string,

@@ -3,6 +3,7 @@ import { BorrowService } from 'src/app/core/services/borrow.service';
 import { ReturnService } from 'src/app/core/services/return.service';
 import { PatchOperation } from 'src/app/data/models/patchOperation';
 import { IBorrowResponse } from 'src/app/data/models/transaction/borrowResponse';
+import { IReturnRequest } from 'src/app/data/models/transaction/returnRequest';
 import { IReturnResponse } from 'src/app/data/models/transaction/returnResponse';
 
 @Component({
@@ -25,6 +26,7 @@ export class TransactionListComponent implements OnInit {
 
   @Input() role!: string;
   @Input() listType!: 'Borrow' | 'Return';
+  @Input() userId?: number;
 
   constructor(private borrowService: BorrowService, private returnService: ReturnService) { }
 
@@ -38,6 +40,12 @@ export class TransactionListComponent implements OnInit {
 
   public applyFilters(): void {
     let filtered = this.requests;
+
+    if (this.userId) {
+      filtered = filtered.filter(request =>
+        (this.isBorrowRequest(request) && request.userId === this.userId)
+      );
+    }
 
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
@@ -59,18 +67,40 @@ export class TransactionListComponent implements OnInit {
     this.isLoading = true;
 
     if (this.listType === 'Borrow') {
-      this.borrowService.getAllBorrowRequests().subscribe({
-        next: (requests) => {
-          this.borrowRequests = requests;
-          this.applyFilters();
-          this.isLoading = false;
-        },
-        error: (err) => {
-          console.error('Error loading borrow requests:', err);
-          this.isLoading = false;
-        }
-      });
+      if (this.userId) {
+        console.log(this.userId);
+
+        this.borrowService.getBorrowRequestByUserId(this.userId).subscribe({
+          next: (request) => {
+            this.borrowRequests = request;
+            console.log(request);
+
+            this.applyFilters();
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error('Error loading user borrow requests:', err);
+            this.borrowRequests = [];
+            this.filteredRequests = [];
+            this.isLoading = false;
+          }
+        });
+      } else {
+        // Load all borrow requests
+        this.borrowService.getAllBorrowRequests().subscribe({
+          next: (requests) => {
+            this.borrowRequests = requests;
+            this.applyFilters();
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error('Error loading all borrow requests:', err);
+            this.isLoading = false;
+          }
+        });
+      }
     } else {
+      // Similar logic for return requests
       this.returnService.getAllReturnRequests().subscribe({
         next: (requests) => {
           this.returnRequests = requests;
@@ -151,5 +181,31 @@ export class TransactionListComponent implements OnInit {
 
   public isReturnRequest(request: IBorrowResponse | IReturnResponse): request is IReturnResponse {
     return this.listType === 'Return';
+  }
+
+  public showReturnModal = false;
+  public selectedRequest: IBorrowResponse | null = null;
+  public currentReturnRequest: IBorrowResponse | null = null;
+
+  public canReturnBook(request: IBorrowResponse | IReturnResponse): boolean {
+    if (!this.isBorrowRequest(request)) return false;
+    return !request.returnDate &&
+      request.status === 'Approved' &&
+      (this.role === 'Admin' || this.role === 'Librarian' || this.role === 'Student');
+  }
+
+  public openReturnModal(request: IBorrowResponse): void {
+    this.selectedRequest = request;
+    this.showReturnModal = true;
+  }
+
+  public closeReturnModal(): void {
+    this.showReturnModal = false;
+    this.selectedRequest = null;
+  }
+
+  public handleReturnSubmitted(): void {
+    this.loadRequests();
+    this.closeReturnModal();
   }
 }
