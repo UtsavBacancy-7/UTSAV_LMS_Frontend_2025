@@ -1,0 +1,51 @@
+<div class="container-fluid p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+        <h4 class="mb-0">My Wishlist</h4>
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-secondary active">
+                <i class="bi bi-list-ul"></i> Table View
+            </button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Wishlist ID</th>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of wishlistItems">
+                    <td>{{ item.wishListId }}</td>
+                    <td class="fw-semibold">{{ item.title }}</td>
+                    <td>{{ item.author }}</td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary" title="View Details">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" title="Remove from Wishlist"
+                                (click)="removeFromWishlist(item.wishListId)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="wishlistItems.length === 0 && !isLoading" class="alert alert-warning">
+        Your wishlist is currently empty.
+    </div>
+
+    <div class="text-center mt-3">
+        <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>

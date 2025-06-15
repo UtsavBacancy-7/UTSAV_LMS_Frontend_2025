@@ -10,6 +10,7 @@ import { StudentBookListComponent } from './pages/student-book-list/student-book
 import { UserHistoryComponent } from './pages/user-history/user-history.component';
 import { StudentDashboardRoutingModule } from './student-dashboard-routing.module';
 import { StudentDashboardComponent } from './student-dashboard.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { StudentDashboardComponent } from './student-dashboard.component';
     ProfileComponent,
     StudentBookListComponent,
     BorrowListComponent,
-    UserHistoryComponent
+    UserHistoryComponent,
+    WishlistComponent
   ],
   imports: [
     CommonModule,

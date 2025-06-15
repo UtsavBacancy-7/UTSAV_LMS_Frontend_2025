@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IUser } from 'src/app/data/models/user/user';
+import { CanComponentDeactivate } from '../../guards/deactivate.guard';
 
 @Component({
   selector: 'app-user-form',
@@ -8,8 +9,10 @@ import { IUser } from 'src/app/data/models/user/user';
   styleUrls: ['./user-form.component.scss']
 })
 
-export class UserFormComponent implements OnInit, OnChanges {
+export class UserFormComponent implements CanComponentDeactivate, OnInit, OnChanges {
   public userForm!: FormGroup;
+  isDirty = false;
+  formSubmitted = false;
 
   @Input() user: IUser | null = null;
   @Input() isEditMode = false;
@@ -18,6 +21,13 @@ export class UserFormComponent implements OnInit, OnChanges {
   @Output() submit = new EventEmitter<IUser>();
 
   constructor(private fb: FormBuilder) { }
+
+  canDeactivate(): boolean {
+    if (this.isDirty && !this.formSubmitted) {
+      return confirm('You have unsaved changes. Do you really want to leave?');
+    }
+    return true;
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['user'] && this.userForm) {
@@ -48,6 +58,7 @@ export class UserFormComponent implements OnInit, OnChanges {
       if (this.isEditMode && this.user?.id) {
         formValue.id = this.user.id;
       }
+      this.formSubmitted = true;
       this.submit.emit(formValue);
     }
   }

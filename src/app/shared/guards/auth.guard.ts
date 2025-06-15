@@ -1,29 +1,39 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { TokenService } from '../services/token.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const token = sessionStorage.getItem('token');
+  const tokenService = inject(TokenService);
   const router = inject(Router);
   const messageService = inject(MessageService);
+
+  // Get token from storage and validate it
+  const token = tokenService.getValidToken();
 
   if (!token) {
     messageService.add({
       severity: 'warn',
       summary: 'Unauthorized',
-      detail: 'Please login to access this page.'
+      detail: 'Please login to access this page',
+      life: 3000
     });
+    tokenService.clearAuthData();
     return router.parseUrl('/auth/login');
   }
 
+  // Get role directly from token (not from storage)
+  const decoded = tokenService.decodeToken(token);
+  const currentRole = decoded ? tokenService.extractRole(decoded) : null;
   const allowedRoles = route.data?.['roles'] as string[];
-  const currentRole = sessionStorage.getItem('role');
 
-  if (allowedRoles && !allowedRoles.includes(currentRole!)) {
+  // Check if user has required role
+  if (allowedRoles && currentRole && !allowedRoles.includes(currentRole)) {
     messageService.add({
       severity: 'error',
       summary: 'Access Denied',
-      detail: 'You do not have permission to view this page.'
+      detail: 'You do not have permission to view this page',
+      life: 3000
     });
     return router.parseUrl('/auth/login');
   }

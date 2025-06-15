@@ -5,6 +5,8 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
 import { authGuard } from './shared/guards/auth.guard';
 import { redirectIfAuthenticated } from './shared/guards/redirect-if-auth.guard';
 import { CustomPreloadService } from './shared/services/custom-preload.service';
+import { roleGuard } from './shared/guards/role.guard';
+import { deactivateGuard } from './shared/guards/deactivate.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full' },
@@ -16,17 +18,17 @@ const routes: Routes = [
   },
   {
     path: 'dashboard/administrator',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
     loadChildren: () => import('./modules/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
   },
   {
     path: 'dashboard/librarian',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
     loadChildren: () => import('./modules/librarian-dashboard/librarian-dashboard.module').then(m => m.LibrarianDashboardModule)
   },
   {
     path: 'dashboard/student',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
     loadChildren: () => import('./modules/student-dashboard/student-dashboard.module').then(m => m.StudentDashboardModule)
   },
   { path: '**', component: PageNotFoundComponent }

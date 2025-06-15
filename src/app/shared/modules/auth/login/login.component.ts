@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { IForgotPwd } from 'src/app/data/models/authentication/forgotPwd';
 import { ILoginResponse } from 'src/app/data/models/authentication/loginResponse';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { TokenService } from 'src/app/shared/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -22,30 +23,23 @@ export class LoginComponent {
   public submittedEmail: IForgotPwd = { email: '' };
   public showResetModal: boolean = false;
 
-  constructor(private authService: AuthService, private messageService: MessageService, private router: Router) { }
+  constructor(private authService: AuthService, private messageService: MessageService, private router: Router, private tokenService: TokenService) { }
 
   public onLogin(): void {
     this.isLoading = true;
 
     this.authService.login(this.loginData).subscribe({
       next: (response: ILoginResponse) => {
-        if (response.success && response.data?.token) {
-          const userData = response.data.user;
-          const role = userData?.role?.toLowerCase();
+        // Use the token service to process the login response
+        const isLoginSuccessful = this.tokenService.processLoginResponse(response);
 
-          sessionStorage.setItem('token', response.data.token);
-          sessionStorage.setItem('userId', userData.id);
-          sessionStorage.setItem('email', userData.email);
-          sessionStorage.setItem('role', role);
-
+        if (isLoginSuccessful) {
           this.messageService.add({
             severity: 'success',
             summary: 'Login Success',
             detail: response.message || 'Login successful',
             life: 3000
           });
-
-          this.router.navigate([`/dashboard/${role}/home`]);
         } else {
           this.messageService.add({
             severity: 'error',

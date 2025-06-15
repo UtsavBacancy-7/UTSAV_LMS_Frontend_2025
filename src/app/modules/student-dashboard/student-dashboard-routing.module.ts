@@ -7,6 +7,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { StudentBookListComponent } from './pages/student-book-list/student-book-list.component';
 import { BorrowListComponent } from './pages/borrow-list/borrow-list.component';
 import { UserHistoryComponent } from './pages/user-history/user-history.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 
 const routes: Routes = [
     {
@@ -16,6 +17,7 @@ const routes: Routes = [
             { path: 'books', component: StudentBookListComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'history', component: UserHistoryComponent },
+            { path: 'wishlist', component: WishlistComponent },
             { path: 'borrow-list', component: BorrowListComponent },
             { path: '**', component: PageNotFoundComponent }
         ]

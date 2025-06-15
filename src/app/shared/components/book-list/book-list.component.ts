@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { BookService } from 'src/app/core/services/book.service';
 import { BorrowService } from 'src/app/core/services/borrow.service';
+import { WishlistAndNotificationService } from 'src/app/core/services/wishlist-and-notification.service';
 import { IBook } from 'src/app/data/models/book/book';
 
 type UserRole = 'admin' | 'librarian' | 'student';
@@ -29,7 +30,7 @@ export class BookListComponent implements OnInit {
   public showDetailsModal = false;
   public selectedBook: IBook | null = null;
   public userId!: number;
-  constructor(private bookService: BookService, private borrowService: BorrowService, private messageService: MessageService) { }
+  constructor(private bookService: BookService, private borrowService: BorrowService, private messageService: MessageService, private wishlistService: WishlistAndNotificationService) { }
 
   public ngOnInit(): void {
     this.loadBooks();
@@ -124,8 +125,26 @@ export class BookListComponent implements OnInit {
   }
 
   public addToWishlist(book: IBook): void {
-    console.log('Added to wishlist:', book);
-    alert(`Added "${book.title}" to your wishlist`);
+    this.wishlistService.addToWishList(book.id).subscribe({
+      next: (res) => {
+        if (res) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Book Added',
+            detail: 'Book has been added to your wishlist',
+          });
+        }
+      },
+      error: (err) => {
+        const errorMessage = err.error?.message || 'Failed to add book to wishlist';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: errorMessage,
+          life: 3000
+        });
+      }
+    })
   }
 
   public borrowBook(bookId: number): void {
