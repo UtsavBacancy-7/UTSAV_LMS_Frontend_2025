@@ -3,8 +3,6 @@
 <div class="notification-container" *ngIf="isOpen" [class.show]="isOpen">
     <div class="notification-header">
         <h5>Notifications</h5>
-        <button *ngIf="notifications.length > 0" class="btn btn-sm btn-link" (click)="markAllAsRead()">Mark all as
-            read</button>
     </div>
 
     <div class="notification-body">

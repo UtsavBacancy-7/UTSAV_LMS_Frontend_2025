@@ -30,7 +30,6 @@ export class LoginComponent {
 
     this.authService.login(this.loginData).subscribe({
       next: (response: ILoginResponse) => {
-        // Use the token service to process the login response
         const isLoginSuccessful = this.tokenService.processLoginResponse(response);
 
         if (isLoginSuccessful) {

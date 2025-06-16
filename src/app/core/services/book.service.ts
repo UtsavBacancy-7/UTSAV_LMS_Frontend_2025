@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ApiResponse } from 'src/app/data/models/apiResponse';
+import { ApiResponse } from 'src/app/data/models/api-response/apiResponse';
+import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
 import { IBook } from 'src/app/data/models/book/book';
-import { EmptyResponse } from 'src/app/data/models/emptyResponse';
-import { PatchOperation } from 'src/app/data/models/patchOperation';
+import { IPatchOperation } from 'src/app/data/models/patchOperation';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -39,7 +39,7 @@ export class BookService {
     return this.http.delete(`${this.baseUrl}`, { params });
   }
 
-  public patchBook(id: number, patchDoc: PatchOperation[]): Observable<EmptyResponse> {
+  public patchBook(id: number, patchDoc: IPatchOperation[]): Observable<EmptyResponse> {
     const params = new HttpParams().set('id', id.toString());
     return this.http.patch<EmptyResponse>(`${this.baseUrl}`, patchDoc, { params });
   }

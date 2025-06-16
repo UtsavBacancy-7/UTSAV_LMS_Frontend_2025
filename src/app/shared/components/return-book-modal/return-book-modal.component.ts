@@ -1,5 +1,6 @@
 // return-book-modal.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { ReturnService } from 'src/app/core/services/return.service';
 import { IReturnRequest } from 'src/app/data/models/transaction/returnRequest';
 
@@ -9,18 +10,18 @@ import { IReturnRequest } from 'src/app/data/models/transaction/returnRequest';
   styleUrls: ['./return-book-modal.component.scss']
 })
 export class ReturnBookModalComponent {
-  @Input() showModal = false;
-  @Output() closeModalEvent = new EventEmitter<void>();
-  @Output() returnSubmittedEvent = new EventEmitter<void>();
-
-  returnData: IReturnRequest = {
+  public returnData: IReturnRequest = {
     borrowRequestId: 0,
     requestedBy: 0,
     rating: 0,
     comments: ''
   };
 
-  constructor(private returnService: ReturnService) { }
+  @Input() showModal = false;
+  @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() returnSubmittedEvent = new EventEmitter<void>();
+
+  constructor(private returnService: ReturnService, private messageService: MessageService) { }
 
   @Input() set borrowRequestId(id: number) {
     this.returnData.borrowRequestId = id;
@@ -30,7 +31,7 @@ export class ReturnBookModalComponent {
     this.returnData.requestedBy = id;
   }
 
-  closeModal() {
+  public closeModal(): void {
     this.closeModalEvent.emit();
   }
 
@@ -41,7 +42,11 @@ export class ReturnBookModalComponent {
         this.closeModal();
       },
       error: (err) => {
-        console.error('Error submitting return request:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to submit return request'
+        })
       }
     });
   }

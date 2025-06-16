@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { TransactionService } from 'src/app/core/services/transaction.service';
 import { ITransactionHistory } from 'src/app/data/models/transaction/transactionHistory';
 
@@ -7,41 +8,46 @@ import { ITransactionHistory } from 'src/app/data/models/transaction/transaction
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']
 })
+
 export class HistoryComponent implements OnInit {
-  transactions: ITransactionHistory[] = [];
-  filteredTransactions: ITransactionHistory[] = [];
-  isLoading = true;
-  viewMode: 'table' | 'grid' = 'table';
-  searchTerm = '';
-  statusFilter = 'all';
+  public transactions: ITransactionHistory[] = [];
+  public filteredTransactions: ITransactionHistory[] = [];
+  public isLoading = true;
+  public viewMode: 'table' | 'grid' = 'table';
+  public searchTerm = '';
+  public statusFilter = 'all';
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(
+    private transactionService: TransactionService,
+    private messageService: MessageService
+  ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadTransactions();
   }
 
-  loadTransactions(): void {
+  public loadTransactions(): void {
     this.isLoading = true;
     this.transactionService.getTransactionByUserId().subscribe({
       next: (transactions) => {
         this.transactions = transactions;
-        console.log(transactions);
-
         this.applyFilters();
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error loading transactions:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.message || 'Failed to load transactions'
+        })
         this.isLoading = false;
       }
     });
   }
 
-  applyFilters(): void {
+  public applyFilters(): void {
     let filtered = this.transactions;
 
-    // Apply search filter
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(t =>
@@ -50,7 +56,6 @@ export class HistoryComponent implements OnInit {
       );
     }
 
-    // Apply status filter
     if (this.statusFilter !== 'all') {
       filtered = filtered.filter(t => t.status === this.statusFilter);
     }

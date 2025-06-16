@@ -1,4 +1,4 @@
-export interface PatchOperation {
+export interface IPatchOperation {
     op: 'replace' | 'add' | 'remove' | 'copy' | 'move' | 'test';
     path: string;
     value?: any;

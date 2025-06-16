@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse } from 'src/app/data/models/apiResponse';
+import { ApiResponse } from 'src/app/data/models/api-response/apiResponse';
 import { IWishlistResponse } from 'src/app/data/models/wishlist-notification/wishlistResponse';
 import { environment } from 'src/environments/environment.development';
 

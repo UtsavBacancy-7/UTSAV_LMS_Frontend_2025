@@ -17,6 +17,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { ReturnBookModalComponent } from './components/return-book-modal/return-book-modal.component';
 import { HistoryComponent } from './components/history/history.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { RatingModule } from 'primeng/rating';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { NotificationComponent } from './components/notification/notification.co
         FormsModule,
         ReactiveFormsModule,
         AuthModule,
+        RatingModule,
         RouterModule,
     ],
     exports: [

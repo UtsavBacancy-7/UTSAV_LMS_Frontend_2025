@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse } from 'src/app/data/models/apiResponse';
+import { ApiResponse } from 'src/app/data/models/api-response/apiResponse';
 import { IForgotPwd } from 'src/app/data/models/authentication/forgotPwd';
 import { ILogin } from 'src/app/data/models/authentication/Login';
 import { ILoginResponse } from 'src/app/data/models/authentication/loginResponse';
 import { IRegister } from 'src/app/data/models/authentication/register';
 import { IResetPwd } from 'src/app/data/models/authentication/resetPwd';
-import { EmptyResponse } from 'src/app/data/models/emptyResponse';
+import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -15,7 +15,6 @@ import { environment } from 'src/environments/environment.development';
 })
 
 export class AuthService {
-
   private baseUrl = `${environment.apiBaseUrl}/auth`;
 
   constructor(private http: HttpClient) { }

@@ -6,7 +6,7 @@ export const environment = {
     appName: 'BookNest - Library Management System',
 
     roles: {
-        admin: 'Admin',
+        admin: 'Administrator',
         librarian: 'Librarian',
         student: 'Student'
     }

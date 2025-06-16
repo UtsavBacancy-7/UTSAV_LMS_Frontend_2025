@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiResponse } from 'src/app/data/models/apiResponse';
-import { EmptyResponse } from 'src/app/data/models/emptyResponse';
+import { ApiResponse } from 'src/app/data/models/api-response/apiResponse';
+import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
 import { ICreateGenre } from 'src/app/data/models/genre/createGenre';
 import { IGenre } from 'src/app/data/models/genre/genre';
 import { IUpdateGenre } from 'src/app/data/models/genre/updateGenre';

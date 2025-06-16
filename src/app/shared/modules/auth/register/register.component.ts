@@ -18,8 +18,14 @@ export class RegisterComponent implements OnInit {
   public selectedImage: File | null = null;
   public imageBase64: string = '';
   public isLoading: boolean = false;
-  formSubmitted = false;
-  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router: Router) { }
+  public formSubmitted = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private messageService: MessageService,
+    private router: Router
+  ) { }
 
   public ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -104,7 +110,6 @@ export class RegisterComponent implements OnInit {
   }
 
   canDeactivate(): boolean {
-    // If form is dirty but not submitted, confirm
     if (this.registerForm.dirty && !this.formSubmitted) {
       return confirm('You have unsaved changes. Close without saving?');
     }

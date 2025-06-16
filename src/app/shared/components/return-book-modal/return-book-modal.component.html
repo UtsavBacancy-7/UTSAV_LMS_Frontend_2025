@@ -6,11 +6,7 @@
     </div>
     <div class="modal-body">
         <form #returnForm="ngForm" (ngSubmit)="submitForm()">
-            <div class="mb-3">
-                <label for="rating" class="form-label">Rating (1-10)</label>
-                <input type="number" class="form-control" id="rating" [(ngModel)]="returnData.rating" name="rating"
-                    min="1" max="10" required>
-            </div>
+            <p-rating [(ngModel)]="returnData.rating" [stars]="10" name="rating" id="rating" />
             <div class="mb-3">
                 <label for="comments" class="form-label">Comments</label>
                 <textarea class="form-control" id="comments" [(ngModel)]="returnData.comments" name="comments"

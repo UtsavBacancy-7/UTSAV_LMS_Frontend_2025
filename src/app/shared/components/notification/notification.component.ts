@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { INotification } from 'src/app/data/models/wishlist-notification/notification';
 
@@ -8,20 +9,21 @@ import { INotification } from 'src/app/data/models/wishlist-notification/notific
   styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnChanges {
+  public notifications: INotification[] = [];
+  public loading = true;
   @Input() isOpen = false;
   @Output() closeNotification = new EventEmitter<void>();
-  notifications: INotification[] = [];
-  loading = true;
+  @Output() notificationsRead = new EventEmitter<void>();
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService, private messageService: MessageService) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes['isOpen'] && this.isOpen) {
       this.loadNotifications();
     }
   }
 
-  loadNotifications(): void {
+  public loadNotifications(): void {
     this.loading = true;
     this.notificationService.getNotifications().subscribe({
       next: (response) => {
@@ -29,37 +31,35 @@ export class NotificationComponent implements OnChanges {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading notifications:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load notifications' + err.Message
+        })
         this.loading = false;
       }
     });
   }
 
-  markAsRead(notificationId: number): void {
+  public markAsRead(notificationId: number): void {
     this.notificationService.markAsRead(notificationId.toString()).subscribe({
       next: () => {
         this.notifications = this.notifications.map(n =>
           n.notificationId === notificationId ? { ...n, isRead: true } : n
         );
+        this.notificationsRead.emit();
       },
       error: (err) => {
-        console.error('Error marking notification as read:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to mark notification as read' + err.Message
+        })
       }
     });
   }
 
-  markAllAsRead(): void {
-    this.notificationService.markAllAsRead().subscribe({
-      next: () => {
-        this.notifications = this.notifications.map(n => ({ ...n, isRead: true }));
-      },
-      error: (err) => {
-        console.error('Error marking all notifications as read:', err);
-      }
-    });
-  }
-
-  onClose(): void {
+  public onClose(): void {
     this.closeNotification.emit();
   }
 }

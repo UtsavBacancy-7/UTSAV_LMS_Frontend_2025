@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/core/services/user.service';
-import { PatchOperation } from 'src/app/data/models/patchOperation';
+import { IPatchOperation } from 'src/app/data/models/patchOperation';
 import { IUser } from 'src/app/data/models/user/user';
 
 @Component({
@@ -10,6 +10,7 @@ import { IUser } from 'src/app/data/models/user/user';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
+
 export class UserListComponent implements OnInit {
   public users: IUser[] = [];
   public filteredUsers: IUser[] = [];
@@ -23,13 +24,13 @@ export class UserListComponent implements OnInit {
   public selectedUser: IUser | null = null;
   public isEditMode = false;
 
-  @Input() role!: 'Admin' | 'Librarian';
+  @Input() role!: 'Administrator' | 'Librarian';
 
   constructor(private userService: UserService, private route: ActivatedRoute, private messageService: MessageService) { }
 
   public ngOnInit(): void {
     this.route.url.subscribe(urlSegments => {
-      this.userType = (urlSegments[0]?.path === 'librarians' && this.role === 'Admin') ?
+      this.userType = (urlSegments[0]?.path === 'librarians' && this.role === 'Administrator') ?
         'librarians' : 'students';
       this.isLibrariansView = this.userType === 'librarians';
       this.loadUsers();
@@ -98,7 +99,7 @@ export class UserListComponent implements OnInit {
 
   public toggleStatus(user: IUser): void {
     const newStatus = !user.isActive;
-    const patch: PatchOperation[] = [
+    const patch: IPatchOperation[] = [
       {
         op: 'replace',
         path: '/isActive',

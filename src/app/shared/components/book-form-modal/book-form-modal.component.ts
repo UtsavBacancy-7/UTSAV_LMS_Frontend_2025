@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { GenreService } from 'src/app/core/services/genre.service';
 import { IBook } from 'src/app/data/models/book/book';
 import { IGenre } from 'src/app/data/models/genre/genre';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'app-book-form-modal',
@@ -10,16 +11,17 @@ import { IGenre } from 'src/app/data/models/genre/genre';
   styleUrls: ['./book-form-modal.component.scss']
 })
 
-export class BookFormModalComponent implements OnInit {
-  @Input() book!: IBook | null;
-  @Input() showModal: boolean = false;
-  @Output() closeModal = new EventEmitter<void>();
-  @Output() submitForm = new EventEmitter<IBook>();
-
+export class BookFormModalComponent implements OnInit, OnChanges {
   public bookForm!: FormGroup;
   public selectedImage: File | null = null;
   public imageBase64: string | null = null;
   public genres: IGenre[] = [];
+
+  @Input() book!: IBook | null;
+  @Input() showModal: boolean = false;
+  @Input() role!: string;
+  @Output() closeModal = new EventEmitter<void>();
+  @Output() submitForm = new EventEmitter<IBook>();
 
   constructor(private fb: FormBuilder, private genreService: GenreService) { }
 
@@ -30,8 +32,10 @@ export class BookFormModalComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.initializeForm();
-    this.loadGenres();
+    if (this.role !== 'Student') {
+      this.initializeForm();
+      this.loadGenres();
+    }
   }
 
   public loadGenres(): void {
@@ -43,17 +47,14 @@ export class BookFormModalComponent implements OnInit {
             this.bookForm.patchValue({ genreId: this.book.genreId });
           }
         }
-      },
-      error: (err) => {
-        console.error('Error loading genres:', err);
       }
     });
   }
 
   public initializeForm(): void {
     this.bookForm = this.fb.group({
-      Title: [this.book?.title || '', Validators.required],
-      Author: [this.book?.author || '', Validators.required],
+      Title: [this.book?.title || '', [Validators.required, ValidationService.noWhitespaceValidator]],
+      Author: [this.book?.author || '', [Validators.required, ValidationService.noWhitespaceValidator, ValidationService.nameValidator]],
       GenreId: [this.book?.genreId ? Number(this.book.genreId) : null, Validators.required],
       TotalCopies: [this.book?.totalCopies || 1, [Validators.required, Validators.min(1)]],
       AvailableCopies: [this.book?.availableCopies || 1, [Validators.required, Validators.min(0)]],
@@ -61,11 +62,11 @@ export class BookFormModalComponent implements OnInit {
         this.book?.publicationYear ? new Date(this.book.publicationYear).getFullYear() : null,
         [Validators.required, Validators.min(1000), Validators.max(2100)]
       ],
-      Publisher: [this.book?.publisher || ''],
+      Publisher: [this.book?.publisher || '', [ValidationService.noWhitespaceValidator]],
       Description: [this.book?.description || ''],
-      ISBN: [this.book?.isbn || '', Validators.pattern(/^\d{10}(\d{3})?$/)],
+      ISBN: [this.book?.isbn || '', [Validators.minLength(10), Validators.maxLength(13)]],
       CoverImageUrl: [this.book?.coverImageUrl || '']
-    });
+    }, { validators: this.copiesValidator });
 
     if (this.book?.coverImageUrl) {
       this.imageBase64 = this.book.coverImageUrl;
@@ -76,6 +77,23 @@ export class BookFormModalComponent implements OnInit {
         this.bookForm.patchValue({ AvailableCopies: val }, { emitEvent: false });
       });
     }
+
+    this.bookForm.get('TotalCopies')?.valueChanges.subscribe(() => {
+      this.bookForm.updateValueAndValidity();
+    });
+    this.bookForm.get('AvailableCopies')?.valueChanges.subscribe(() => {
+      this.bookForm.updateValueAndValidity();
+    });
+  }
+
+  private copiesValidator(form: FormGroup): ValidationErrors | null {
+    const total = form.get('TotalCopies')?.value;
+    const available = form.get('AvailableCopies')?.value;
+
+    if (total !== null && available !== null && available > total) {
+      return { invalidCopies: true };
+    }
+    return null;
   }
 
   public onFileChange(event: Event): void {

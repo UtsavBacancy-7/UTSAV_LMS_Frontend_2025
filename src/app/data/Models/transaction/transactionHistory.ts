@@ -1,5 +1,6 @@
 export interface ITransactionHistory {
     borrowRequestId: number,
+    coverImageUrl: string,
     title: string,
     issuedDate: string,
     returnDate: string,

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IUser } from 'src/app/data/models/user/user';
 import { CanComponentDeactivate } from '../../guards/deactivate.guard';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'app-user-form',
@@ -11,8 +12,8 @@ import { CanComponentDeactivate } from '../../guards/deactivate.guard';
 
 export class UserFormComponent implements CanComponentDeactivate, OnInit, OnChanges {
   public userForm!: FormGroup;
-  isDirty = false;
-  formSubmitted = false;
+  public isDirty = false;
+  public formSubmitted = false;
 
   @Input() user: IUser | null = null;
   @Input() isEditMode = false;
@@ -41,12 +42,12 @@ export class UserFormComponent implements CanComponentDeactivate, OnInit, OnChan
 
   public initForm(): void {
     this.userForm = this.fb.group({
-      firstName: [this.user?.firstName || '', Validators.required],
-      lastName: [this.user?.lastName || '', Validators.required],
-      email: [this.user?.email || '', [Validators.required, Validators.email]],
-      mobileNo: [this.user?.mobileNo || '', [Validators.required]],
+      firstName: [this.user?.firstName || '', [Validators.required, ValidationService.noWhitespaceValidator, ValidationService.nameValidator]],
+      lastName: [this.user?.lastName || '', [Validators.required, ValidationService.noWhitespaceValidator, ValidationService.nameValidator]],
+      email: [this.user?.email || '', [Validators.required, Validators.email, ValidationService.emailValidator]],
+      mobileNo: [this.user?.mobileNo || '', [Validators.required, ValidationService.indianMobileValidator]],
       profileImageUrl: [this.user?.profileImageUrl || ''],
-      passwordHash: [this.user?.passwordHash || '', this.isEditMode ? [] : [Validators.required]],
+      passwordHash: [this.user?.passwordHash || '', this.isEditMode ? [] : [Validators.required, ValidationService.passwordValidator]],
       role: [this.user?.role || 'Librarian'],
       isActive: [this.user?.isActive ?? true]
     });

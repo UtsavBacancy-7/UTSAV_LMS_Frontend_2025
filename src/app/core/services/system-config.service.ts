@@ -1,13 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EmptyResponse } from 'src/app/data/models/emptyResponse';
+import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
 import { ISystemConfig } from 'src/app/data/models/setting';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SystemConfigService {
   private baseUrl = `${environment.apiBaseUrl}/config`;
 

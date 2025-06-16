@@ -74,11 +74,10 @@
 
                         <td class="text-center">
                             <div class="btn-group btn-group-sm">
-                                <!-- Status Update Buttons -->
                                 <ng-container *ngIf="canShowActions()">
                                     <button *ngIf="request.status === 'Pending'" class="btn btn-outline-success"
                                         (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')"
-                                        [disabled]="role !== 'Admin' && role !== 'Librarian'">
+                                        [disabled]="role !== 'Administrator' && role !== 'Librarian'">
                                         <i class="bi bi-check-circle"></i> Approve
                                     </button>
                                     <button *ngIf="request.status === 'Pending'" class="btn btn-outline-danger"
@@ -87,19 +86,17 @@
                                     </button>
                                 </ng-container>
 
-                                <!-- Return Book Button -->
                                 <button *ngIf="isBorrowRequest(request) && canReturnBook(request) && role === 'Student'"
                                     class="btn btn-outline-primary" (click)="openReturnModal(request)">
                                     <i class="bi bi-arrow-return-left"></i> Return
                                 </button>
 
-                                <!-- Delete Button -->
                                 <button *ngIf="canDelete()" class="btn btn-outline-danger"
                                     (click)="deleteRequest(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId)">
                                     <i class="bi bi-trash"></i>
                                 </button>
 
-                                <p *ngIf="request.status !== 'Pending' && role !== 'Admin' ">Processed</p>
+                                <p *ngIf="request.status !== 'Pending' && role !== 'Administrator' ">Processed</p>
                             </div>
                         </td>
                     </tr>
@@ -113,7 +110,6 @@
         </div>
     </div>
 
-    <!-- Grid View -->
     <div *ngIf="viewMode === 'grid'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         <div class="col" *ngFor="let request of filteredRequests">
             <div class="card h-100">
@@ -147,9 +143,9 @@
                     </div>
 
                     <div class="btn-group w-100">
-                        <!-- Status Update Buttons -->
                         <ng-container *ngIf="canShowActions()">
-                            <button *ngIf="request.status === 'Pending' && (role === 'Admin' || role === 'Librarian')"
+                            <button
+                                *ngIf="request.status === 'Pending' && (role === 'Administrator' || role === 'Librarian')"
                                 class="btn btn-outline-success btn-sm"
                                 (click)="updateStatus(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId, 'Approved')">
                                 <i class="bi bi-check-circle"></i>
@@ -160,13 +156,11 @@
                             </button>
                         </ng-container>
 
-                        <!-- Return Book Button -->
                         <button *ngIf="isBorrowRequest(request) && canReturnBook(request) && role === 'Student'"
                             class="btn btn-outline-primary" (click)="openReturnModal(request)">
                             <i class="bi bi-arrow-return-left"></i> Return
                         </button>
 
-                        <!-- Delete Button -->
                         <button *ngIf="canDelete()" class="btn btn-outline-danger btn-sm"
                             (click)="deleteRequest(isBorrowRequest(request) ? request.borrowRequestId : request.returnRequestId)">
                             <i class="bi bi-trash"></i>

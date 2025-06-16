@@ -41,4 +41,22 @@ export class ValidationService {
 
     return null;
   }
+
+  public static indianMobileValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+
+    if (!value) {
+      return { required: true };
+    }
+
+    const cleanedValue = value.replace(/\D/g, '');
+
+    const indianMobileRegex = /^[6-9]\d{9}$/;
+
+    if (!indianMobileRegex.test(cleanedValue)) {
+      return { invalidIndianMobile: true };
+    }
+
+    return null;
+  }
 }

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { BorrowService } from 'src/app/core/services/borrow.service';
 import { ReturnService } from 'src/app/core/services/return.service';
-import { PatchOperation } from 'src/app/data/models/patchOperation';
+import { IPatchOperation } from 'src/app/data/models/patchOperation';
 import { IBorrowResponse } from 'src/app/data/models/transaction/borrowResponse';
-import { IReturnRequest } from 'src/app/data/models/transaction/returnRequest';
 import { IReturnResponse } from 'src/app/data/models/transaction/returnResponse';
 
 @Component({
@@ -13,7 +13,6 @@ import { IReturnResponse } from 'src/app/data/models/transaction/returnResponse'
 })
 
 export class TransactionListComponent implements OnInit {
-
   public borrowRequests: IBorrowResponse[] = [];
   public returnRequests: IReturnResponse[] = [];
   public isLoading = true;
@@ -28,7 +27,11 @@ export class TransactionListComponent implements OnInit {
   @Input() listType!: 'Borrow' | 'Return';
   @Input() userId?: number;
 
-  constructor(private borrowService: BorrowService, private returnService: ReturnService) { }
+  constructor(
+    private borrowService: BorrowService,
+    private returnService: ReturnService,
+    private messageService: MessageService
+  ) { }
 
   get requests(): (IBorrowResponse | IReturnResponse)[] {
     return this.listType === 'Borrow' ? this.borrowRequests : this.returnRequests;
@@ -75,14 +78,17 @@ export class TransactionListComponent implements OnInit {
             this.isLoading = false;
           },
           error: (err) => {
-            console.error('Error loading user borrow requests:', err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to load borrow requests' + err.message,
+            })
             this.borrowRequests = [];
             this.filteredRequests = [];
             this.isLoading = false;
           }
         });
       } else {
-        // Load all borrow requests
         this.borrowService.getAllBorrowRequests().subscribe({
           next: (requests) => {
             this.borrowRequests = requests;
@@ -90,13 +96,16 @@ export class TransactionListComponent implements OnInit {
             this.isLoading = false;
           },
           error: (err) => {
-            console.error('Error loading all borrow requests:', err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to load borrow requests' + err.message,
+            })
             this.isLoading = false;
           }
         });
       }
     } else {
-      // Similar logic for return requests
       this.returnService.getAllReturnRequests().subscribe({
         next: (requests) => {
           this.returnRequests = requests;
@@ -104,7 +113,11 @@ export class TransactionListComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err) => {
-          console.error('Error loading return requests:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to load return requests' + err.message,
+          })
           this.isLoading = false;
         }
       });
@@ -112,7 +125,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   public updateStatus(id: number, newStatus: 'Approved' | 'Rejected'): void {
-    const patchDoc: PatchOperation[] = [{
+    const patchDoc: IPatchOperation[] = [{
       op: 'replace',
       path: '/status',
       value: newStatus
@@ -124,7 +137,11 @@ export class TransactionListComponent implements OnInit {
           this.loadRequests();
         },
         error: (err) => {
-          console.error('Error updating borrow status:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update borrow request status' + err.message,
+          })
         }
       });
     } else {
@@ -133,7 +150,11 @@ export class TransactionListComponent implements OnInit {
           this.loadRequests();
         },
         error: (err) => {
-          console.error('Error updating return status:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update return request status' + err.message,
+          })
         }
       });
     }
@@ -147,7 +168,11 @@ export class TransactionListComponent implements OnInit {
             this.loadRequests();
           },
           error: (err) => {
-            console.error('Error deleting borrow request:', err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to delete borrow request' + err.message,
+            })
           }
         });
       } else {
@@ -156,7 +181,11 @@ export class TransactionListComponent implements OnInit {
             this.loadRequests();
           },
           error: (err) => {
-            console.error('Error deleting return request:', err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to delete return request' + err.message,
+            })
           }
         });
       }
@@ -164,11 +193,11 @@ export class TransactionListComponent implements OnInit {
   }
 
   public canShowActions(): boolean {
-    return this.role === 'Admin' || this.role === 'Librarian';
+    return this.role === 'Administrator' || this.role === 'Librarian';
   }
 
   public canDelete(): boolean {
-    return this.role === 'Admin';
+    return this.role === 'Administrator';
   }
 
   public isBorrowRequest(request: IBorrowResponse | IReturnResponse): request is IBorrowResponse {
@@ -187,7 +216,7 @@ export class TransactionListComponent implements OnInit {
     if (!this.isBorrowRequest(request)) return false;
     return !request.returnDate &&
       request.status === 'Approved' &&
-      (this.role === 'Admin' || this.role === 'Librarian' || this.role === 'Student');
+      (this.role === 'Administrator' || this.role === 'Librarian' || this.role === 'Student');
   }
 
   public openReturnModal(request: IBorrowResponse): void {

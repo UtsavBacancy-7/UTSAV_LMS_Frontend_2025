@@ -6,8 +6,13 @@
 
         <div class="d-flex align-items-center gap-3 ms-auto">
             <ng-container *ngIf="role === 'Student'">
-                <button class="btn btn-icon" (click)="toggleNotifications()">
+                <button class="btn btn-icon position-relative" (click)="toggleNotifications()">
                     <i class="bi bi-envelope fs-5"></i>
+                    <span *ngIf="notificationCount > 0"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ notificationCount > 99 ? '99+' : notificationCount }}
+                        <span class="visually-hidden">unread notifications</span>
+                    </span>
                 </button>
             </ng-container>
             <button class="btn btn-icon" (click)="logout()">
@@ -17,5 +22,6 @@
     </div>
 </nav>
 
-<app-notification [isOpen]="showNotifications" (closeNotification)="showNotifications = false">
+<app-notification [isOpen]="showNotifications" (closeNotification)="showNotifications = false"
+    (notificationsRead)="getNotificationCount()">
 </app-notification>

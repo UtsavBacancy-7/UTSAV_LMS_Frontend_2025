@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
-import { PatchOperation } from 'src/app/data/models/patchOperation';
+import { ApiResponse } from 'src/app/data/models/api-response/apiResponse';
+import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
+import { IPatchOperation } from 'src/app/data/models/patchOperation';
 import { IUser } from 'src/app/data/models/user/user';
-import { ApiResponse } from 'src/app/data/models/apiResponse';
-import { EmptyResponse } from 'src/app/data/models/emptyResponse';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class UserService {
     return this.http.put<EmptyResponse>(`${this.baseUrl}`, user, { params });
   }
 
-  public patchUser(id: number, patchDoc: PatchOperation[]): Observable<EmptyResponse> {
+  public patchUser(id: number, patchDoc: IPatchOperation[]): Observable<EmptyResponse> {
     const params = new HttpParams().set('id', id.toString());
     return this.http.patch<EmptyResponse>(`${this.baseUrl}`, patchDoc, { params },
     );

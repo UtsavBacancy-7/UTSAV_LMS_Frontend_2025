@@ -4,9 +4,8 @@ import { IndexComponent } from './shared/components/index/index.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { redirectIfAuthenticated } from './shared/guards/redirect-if-auth.guard';
-import { CustomPreloadService } from './shared/services/custom-preload.service';
 import { roleGuard } from './shared/guards/role.guard';
-import { deactivateGuard } from './shared/guards/deactivate.guard';
+import { CustomPreloadService } from './shared/services/custom-preload.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full' },
@@ -19,17 +18,17 @@ const routes: Routes = [
   {
     path: 'dashboard/administrator',
     canActivate: [authGuard, roleGuard],
-    loadChildren: () => import('./modules/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
+    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
   },
   {
     path: 'dashboard/librarian',
     canActivate: [authGuard, roleGuard],
-    loadChildren: () => import('./modules/librarian-dashboard/librarian-dashboard.module').then(m => m.LibrarianDashboardModule)
+    loadChildren: () => import('./modules/librarian/librarian.module').then(m => m.LibrarianModule)
   },
   {
     path: 'dashboard/student',
     canActivate: [authGuard, roleGuard],
-    loadChildren: () => import('./modules/student-dashboard/student-dashboard.module').then(m => m.StudentDashboardModule)
+    loadChildren: () => import('./modules/student/student.module').then(m => m.StudentModule)
   },
   { path: '**', component: PageNotFoundComponent }
 ];

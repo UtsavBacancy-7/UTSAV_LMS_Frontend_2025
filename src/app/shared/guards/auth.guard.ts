@@ -8,7 +8,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const messageService = inject(MessageService);
 
-  // Get token from storage and validate it
   const token = tokenService.getValidToken();
 
   if (!token) {
@@ -22,12 +21,10 @@ export const authGuard: CanActivateFn = (route, state) => {
     return router.parseUrl('/auth/login');
   }
 
-  // Get role directly from token (not from storage)
   const decoded = tokenService.decodeToken(token);
   const currentRole = decoded ? tokenService.extractRole(decoded) : null;
   const allowedRoles = route.data?.['roles'] as string[];
 
-  // Check if user has required role
   if (allowedRoles && currentRole && !allowedRoles.includes(currentRole)) {
     messageService.add({
       severity: 'error',

@@ -4,8 +4,9 @@ import { BookService } from 'src/app/core/services/book.service';
 import { BorrowService } from 'src/app/core/services/borrow.service';
 import { WishlistAndNotificationService } from 'src/app/core/services/wishlist-and-notification.service';
 import { IBook } from 'src/app/data/models/book/book';
+import { TokenService } from '../../services/token.service';
 
-type UserRole = 'admin' | 'librarian' | 'student';
+type UserRole = 'Administrator' | 'Librarian' | 'Student';
 type ViewMode = 'table' | 'grid';
 type AvailabilityFilter = 'all' | 'available';
 
@@ -16,8 +17,6 @@ type AvailabilityFilter = 'all' | 'available';
 })
 
 export class BookListComponent implements OnInit {
-  @Input() role: UserRole = 'student';
-
   public books: IBook[] = [];
   public filteredBooks: IBook[] = [];
   public viewMode: ViewMode = 'table';
@@ -30,12 +29,20 @@ export class BookListComponent implements OnInit {
   public showDetailsModal = false;
   public selectedBook: IBook | null = null;
   public userId!: number;
-  constructor(private bookService: BookService, private borrowService: BorrowService, private messageService: MessageService, private wishlistService: WishlistAndNotificationService) { }
+  @Input() role: UserRole = 'Student';
+
+  constructor(
+    private bookService: BookService,
+    private borrowService: BorrowService,
+    private messageService: MessageService,
+    private tokenService: TokenService,
+    private wishlistService: WishlistAndNotificationService
+  ) { }
 
   public ngOnInit(): void {
     this.loadBooks();
-    const userId = sessionStorage.getItem('userId');
-    this.userId = userId ? Number(userId) : 0;
+    const userId = Number(this.tokenService.getUserId());
+    this.userId = userId || 0;
   }
 
   public loadBooks(): void {
@@ -47,7 +54,11 @@ export class BookListComponent implements OnInit {
         this.applyFilters();
       },
       error: (err) => {
-        console.error('Failed to load books:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load books.'
+        })
         this.books = [];
         this.filteredBooks = [];
       }
@@ -100,7 +111,13 @@ export class BookListComponent implements OnInit {
           this.loadBooks();
           this.closeModal();
         },
-        error: (err) => console.error('Error updating book:', err)
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update book',
+          })
+        }
       });
     } else {
       this.bookService.addBook(bookData).subscribe({
@@ -108,7 +125,13 @@ export class BookListComponent implements OnInit {
           this.loadBooks();
           this.closeModal();
         },
-        error: (err) => console.error('Error adding book:', err)
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to add book',
+          })
+        }
       });
     }
   }
@@ -118,8 +141,19 @@ export class BookListComponent implements OnInit {
       this.bookService.deleteBook(bookId).subscribe({
         next: () => {
           this.loadBooks();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Book deleted',
+            detail: 'Book has been successfully deleted',
+          })
         },
-        error: (err) => console.error('Error deleting book:', err)
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to delete book',
+          })
+        }
       });
     }
   }
@@ -178,11 +212,10 @@ export class BookListComponent implements OnInit {
   }
 
   public returnBook(book: IBook): void {
-    console.log('Returning book:', book);
     alert(`Returned "${book.title}"`);
   }
 
   public canAddBooks(): boolean {
-    return this.role === 'admin' || this.role === 'librarian';
+    return this.role === 'Administrator' || this.role === 'Librarian';
   }
 }

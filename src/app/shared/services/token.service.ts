@@ -10,7 +10,6 @@ interface CustomJwtPayload extends JwtPayload {
   role?: string;
   userId?: string;
   email?: string;
-  // Add any other custom claims your token might have
 }
 
 @Injectable({
@@ -22,7 +21,7 @@ export class TokenService {
 
   constructor(private router: Router, private messageService: MessageService) { }
 
-  processLoginResponse(loginResponse: ILoginResponse): boolean {
+  public processLoginResponse(loginResponse: ILoginResponse): boolean {
     if (!loginResponse?.data?.token) {
       this.messageService.add({
         severity: 'error',
@@ -46,11 +45,9 @@ export class TokenService {
       return false;
     }
 
-    // Store token and user data
     this.setToken(token);
     this.storeUserData(loginResponse.data.user);
 
-    // Redirect based on role
     const role = this.extractRole(decoded);
     if (role) {
       this.redirectToDashboard(role);
@@ -59,8 +56,7 @@ export class TokenService {
     return true;
   }
 
-
-  setToken(token: string): void {
+  public setToken(token: string): void {
     sessionStorage.setItem('token', token);
     const decoded = this.decodeToken(token);
     if (decoded) {
@@ -74,10 +70,6 @@ export class TokenService {
     }
   }
 
-  /**
-   * Stores additional user data from login response
-   * @param user User data from login response
-   */
   private storeUserData(user: ILoginResponse['data']['user']): void {
     sessionStorage.setItem('userId', user.id);
     sessionStorage.setItem('email', user.email);
@@ -88,16 +80,10 @@ export class TokenService {
     }
   }
 
-  /**
-   * Gets role from stored token
-   * @returns string | null - role if available
-   */
-  getRole(): string | null {
-    // First check session storage
+  public getRole(): string | null {
     const storedRole = sessionStorage.getItem('role');
     if (storedRole) return storedRole;
 
-    // Fallback to token decoding
     const token = this.getValidToken();
     if (!token) return null;
 
@@ -105,16 +91,10 @@ export class TokenService {
     return decoded ? this.extractRole(decoded) : null;
   }
 
-  /**
-   * Gets userId from stored token
-   * @returns string | null - userId if available
-   */
-  getUserId(): string | null {
-    // First check session storage
+  public getUserId(): string | null {
     const storedUserId = sessionStorage.getItem('userId');
     if (storedUserId) return storedUserId;
 
-    // Fallback to token decoding
     const token = this.getValidToken();
     if (!token) return null;
 
@@ -139,7 +119,7 @@ export class TokenService {
     }
   }
 
-  decodeToken(token: string): CustomJwtPayload | null {
+  public decodeToken(token: string): CustomJwtPayload | null {
     try {
       return jwtDecode<CustomJwtPayload>(token);
     } catch (error) {
@@ -148,7 +128,7 @@ export class TokenService {
     }
   }
 
-  isTokenValid(token: string): boolean {
+  public isTokenValid(token: string): boolean {
     if (!token) return false;
 
     try {
@@ -159,29 +139,26 @@ export class TokenService {
     }
   }
 
-  getValidToken(): string | null {
+  public getValidToken(): string | null {
     const token = sessionStorage.getItem('token');
     return token && this.isTokenValid(token) ? token : null;
   }
 
   public extractRole(decoded: CustomJwtPayload): string | null {
-    // Try Microsoft claims URI first
     if (decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']) {
       return this.normalizeRole(decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
     }
-    // Fallback to standard role claim
     if (decoded.role) {
       return this.normalizeRole(decoded.role);
     }
     return null;
   }
 
-  // Normalize role names to match your application's convention
   private normalizeRole(role: string): string {
     return role.toLocaleLowerCase();
   }
 
-  clearAuthData(): void {
+  public clearAuthData(): void {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('role');
     sessionStorage.removeItem('userId');

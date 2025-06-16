@@ -26,7 +26,7 @@
             <button class="btn btn-sm btn-outline-primary" title="View" (click)="viewBook.emit(book)">
                 <i class="bi bi-eye"></i>
             </button>
-            <button *ngIf="userRole !== 'student'" class="btn btn-sm btn-outline-secondary" title="Edit"
+            <button *ngIf="userRole !== 'Student'" class="btn btn-sm btn-outline-secondary" title="Edit"
                 (click)="editBook.emit(book)">
                 <i class="bi bi-pencil"></i>
             </button>

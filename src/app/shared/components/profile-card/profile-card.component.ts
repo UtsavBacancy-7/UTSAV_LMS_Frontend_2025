@@ -75,7 +75,11 @@ export class ProfileCardComponent {
       const file = input.files[0];
 
       if (file.size > 2 * 1024 * 1024) {
-        alert('File size should not exceed 2MB');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'File size should not exceed 2MB',
+        })
         return;
       }
 
@@ -92,8 +96,8 @@ export class ProfileCardComponent {
 
   public onSaveProfile(): void {
     this.isSaving = true;
-    if (this.profileForm.valid) {
 
+    if (this.profileForm.valid) {
       const updatedUser: IUser = {
         ...this.userProfile,
         firstName: this.profileForm.value.firstName,

@@ -7,6 +7,7 @@ import { TokenService } from './shared/services/token.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   public showHeaderFooter = true;
   private dashboardRoutes = ['/dashboard/administrator', '/dashboard/librarian', '/dashboard/student'];

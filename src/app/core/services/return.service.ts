@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EmptyResponse } from 'src/app/data/models/emptyResponse';
-import { PatchOperation } from 'src/app/data/models/patchOperation';
+import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
+import { IPatchOperation } from 'src/app/data/models/patchOperation';
 import { IReturnRequest } from 'src/app/data/models/transaction/returnRequest';
 import { IReturnResponse } from 'src/app/data/models/transaction/returnResponse';
 import { environment } from 'src/environments/environment.development';
@@ -32,7 +32,7 @@ export class ReturnService {
     return this.http.post<EmptyResponse>(`${this.baseUrl}/return-requests`, request);
   }
 
-  public patchReturnRequest(id: number, patchDoc: PatchOperation[]): Observable<EmptyResponse> {
+  public patchReturnRequest(id: number, patchDoc: IPatchOperation[]): Observable<EmptyResponse> {
     const params = new HttpParams().set('id', id);
     return this.http.patch<EmptyResponse>(`${this.baseUrl}/return-requests`, patchDoc, { params });
   }

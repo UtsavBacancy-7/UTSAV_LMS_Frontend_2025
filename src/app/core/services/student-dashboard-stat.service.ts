@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IStudentDashboardStats } from 'src/app/data/models/studentDashboardStats';
+import { IStudentDashboardStats } from 'src/app/data/models/dashboard/studentDashboardStats';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
