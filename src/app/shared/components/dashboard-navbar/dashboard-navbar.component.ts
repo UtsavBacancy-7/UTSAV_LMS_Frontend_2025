@@ -5,10 +5,11 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-dashboard-navbar',
   templateUrl: './dashboard-navbar.component.html',
-  styleUrls: ['./dashboard-navbar.component.scss']
+  styleUrls: ['./dashboard-navbar.component.scss'],
 })
 export class DashboardNavbarComponent {
   @Input() role!: 'Admin' | 'Librarian' | 'Student';
+  showNotifications = false;
 
   constructor(private router: Router, private messageService: MessageService) { }
 
@@ -21,5 +22,9 @@ export class DashboardNavbarComponent {
       detail: 'You have been successfully logged out.',
       life: 3000
     });
+  }
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
   }
 }

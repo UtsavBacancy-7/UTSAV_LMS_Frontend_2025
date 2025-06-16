@@ -11,6 +11,7 @@ import { UserHistoryComponent } from './pages/user-history/user-history.componen
 import { StudentDashboardRoutingModule } from './student-dashboard-routing.module';
 import { StudentDashboardComponent } from './student-dashboard.component';
 import { WishlistComponent } from './pages/wishlist/wishlist.component';
+import { NotificationComponent } from '../../shared/components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,9 @@ import { WishlistComponent } from './pages/wishlist/wishlist.component';
     SharedModule,
     ChartModule,
     RouterModule
+  ],
+  exports: [
+    NotificationComponent
   ]
 })
 

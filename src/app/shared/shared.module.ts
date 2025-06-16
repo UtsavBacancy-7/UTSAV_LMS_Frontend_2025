@@ -16,6 +16,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ReturnBookModalComponent } from './components/return-book-modal/return-book-modal.component';
 import { HistoryComponent } from './components/history/history.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
     declarations: [
@@ -32,13 +33,14 @@ import { HistoryComponent } from './components/history/history.component';
         UserListComponent,
         ReturnBookModalComponent,
         HistoryComponent,
+        NotificationComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         AuthModule,
-        RouterModule
+        RouterModule,
     ],
     exports: [
         IndexComponent,
@@ -52,7 +54,8 @@ import { HistoryComponent } from './components/history/history.component';
         UserFormComponent,
         TransactionListComponent,
         UserListComponent,
-        HistoryComponent
+        HistoryComponent,
+        NotificationComponent
     ]
 })
 

@@ -29,9 +29,8 @@ export class HomeComponent {
 
   public initializeDashboardCards(): void {
     this.dashboardCards = [
-      { title: 'Total Books', value: '--', subtext: 'Loading...', icon: 'bi bi-book', subtextClass: 'text-muted' },
-      { title: 'Borrowed Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-up', subtextClass: 'text-muted' },
-      { title: 'Returned Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-down', subtextClass: 'text-muted' },
+      { title: 'Total Borrowed Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-up', subtextClass: 'text-muted' },
+      { title: 'Total Returned Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-down', subtextClass: 'text-muted' },
       { title: 'Wishlisted Books', value: '--', subtext: 'Loading...', icon: 'bi bi-heart', subtextClass: 'text-muted' },
       { title: 'Book Reviews', value: '--', subtext: 'Loading...', icon: 'bi bi-chat-left-text', subtextClass: 'text-muted' }
     ];
@@ -43,19 +42,17 @@ export class HomeComponent {
       const textColor = documentStyle.getPropertyValue('--text-color');
 
       this.data = {
-        labels: ['Borrowed Books', 'Returned Books'],
+        labels: ['Returned Books', 'Borrowed Books'],
         datasets: [
           {
             data: [0, 0, 0],
             backgroundColor: [
-              documentStyle.getPropertyValue('--blue-500'),
-              documentStyle.getPropertyValue('--orange-500'),
-              documentStyle.getPropertyValue('--green-500')
+              documentStyle.getPropertyValue('--green-500'),
+              documentStyle.getPropertyValue('--orange-500')
             ],
             hoverBackgroundColor: [
-              documentStyle.getPropertyValue('--blue-400'),
-              documentStyle.getPropertyValue('--orange-400'),
-              documentStyle.getPropertyValue('--green-400')
+              documentStyle.getPropertyValue('--green-400'),
+              documentStyle.getPropertyValue('--orange-400')
             ]
           }
         ]
@@ -107,14 +104,14 @@ export class HomeComponent {
 
         this.dashboardCards = [
           {
-            title: 'Borrowed Books',
+            title: 'Total Borrowed Books',
             value: (stats.borrowedBook || 0).toString(),
             subtext: '',
             icon: 'bi bi-journal-arrow-up',
             subtextClass: 'text-warning'
           },
           {
-            title: 'Returned Books',
+            title: 'Total Returned Books',
             value: (stats.returnedBook || 0).toString(),
             subtext: '',
             icon: 'bi bi-journal-arrow-down',

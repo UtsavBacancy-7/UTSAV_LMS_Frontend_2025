@@ -68,13 +68,9 @@ export class TransactionListComponent implements OnInit {
 
     if (this.listType === 'Borrow') {
       if (this.userId) {
-        console.log(this.userId);
-
         this.borrowService.getBorrowRequestByUserId(this.userId).subscribe({
           next: (request) => {
             this.borrowRequests = request;
-            console.log(request);
-
             this.applyFilters();
             this.isLoading = false;
           },
