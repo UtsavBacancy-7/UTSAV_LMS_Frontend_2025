@@ -228,20 +228,21 @@ export class BookListComponent implements OnInit {
         });
       },
       error: (err) => {
-        let errorMessage = 'Failed to process borrow request';
+        // let errorMessage = 'Failed to process borrow request';
 
-        if (err.error && err.error.Message) {
-          errorMessage = err.error.Message;
-        } else if (err.message) {
-          errorMessage = err.message;
-        } else if (typeof err === 'string') {
-          errorMessage = err;
-        }
+        // if (err.error && err.error.Message) {
+        //   errorMessage = err.error.Message;
+        // } else if (err.message) {
+        //   errorMessage = err.message;
+        // } else if (typeof err === 'string') {
+        //   errorMessage = err;
+        // }
+
         this.isLoadingRequest = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Request Failed',
-          detail: errorMessage,
+          detail: err.error,
           life: 3000
         });
       }

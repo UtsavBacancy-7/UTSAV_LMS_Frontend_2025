@@ -45,7 +45,7 @@ export class WishlistComponent implements OnInit {
       this.wishlistService.removeFromWishList(wishlistId).subscribe({
         next: (res) => {
           this.messageService.add({
-            severity: 'Success',
+            severity: 'success',
             summary: 'Book removed from wishlist',
             detail: 'The Book has been successfully removed from your wishlist.'
           })
