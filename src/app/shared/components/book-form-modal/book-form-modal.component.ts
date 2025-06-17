@@ -16,6 +16,7 @@ export class BookFormModalComponent implements OnInit, OnChanges {
   public selectedImage: File | null = null;
   public imageBase64: string | null = null;
   public genres: IGenre[] = [];
+  public isLoading: boolean = false;
 
   @Input() book!: IBook | null;
   @Input() showModal: boolean = false;
@@ -110,6 +111,7 @@ export class BookFormModalComponent implements OnInit, OnChanges {
   }
 
   public onSubmit(): void {
+    this.isLoading = true;
     if (this.bookForm.valid) {
       const formValue = this.bookForm.value;
       const bookData = {
@@ -120,6 +122,7 @@ export class BookFormModalComponent implements OnInit, OnChanges {
         CoverImageUrl: this.imageBase64 || this.book?.coverImageUrl || ''
       };
       this.submitForm.emit(bookData);
+      this.isLoading = false;
       this.onReset();
     }
   }

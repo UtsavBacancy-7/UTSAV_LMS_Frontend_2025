@@ -14,7 +14,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
         LoginComponent,
         RegisterComponent,
         AuthComponent,
-        LoaderComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent
     ],
@@ -22,7 +21,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        AuthRoutingModule
+        AuthRoutingModule,
+        LoaderComponent
     ]
 })
 

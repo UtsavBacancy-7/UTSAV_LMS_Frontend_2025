@@ -96,7 +96,12 @@
                                     <i class="bi bi-trash"></i>
                                 </button>
 
-                                <p *ngIf="request.status !== 'Pending' && role !== 'Administrator' ">Processed</p>
+                                <p *ngIf="(request.status !== 'Pending' && role === 'Librarian')
+                                        || ((request.status !== 'Approved' && request.status !== 'Pending') && role === 'Student')
+                                ">Processed</p>
+
+                                <p *ngIf="request.status === 'Pending' && role === 'Student'">
+                                    In Progress</p>
                             </div>
                         </td>
                     </tr>

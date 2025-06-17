@@ -26,7 +26,11 @@ export class UserListComponent implements OnInit {
 
   @Input() role!: 'Administrator' | 'Librarian';
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private messageService: MessageService) { }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+  ) { }
 
   public ngOnInit(): void {
     this.route.url.subscribe(urlSegments => {
@@ -91,7 +95,11 @@ export class UserListComponent implements OnInit {
           this.loadUsers();
         },
         error: (error) => {
-          console.error('Failed to delete user:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.message
+          })
         }
       });
     }
@@ -123,14 +131,37 @@ export class UserListComponent implements OnInit {
 
   public handleUserSubmit(user: IUser): void {
     if (this.isEditMode) {
-      this.userService.updateUser(user.id!, user).subscribe(() => {
-        this.loadUsers();
-        this.closeFormModal();
+      this.userService.updateUser(user.id, user).subscribe({
+        next: () => {
+          this.closeFormModal();
+          this.loadUsers();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.message
+          });
+        }
       });
     } else {
-      this.userService.addUser(user).subscribe(() => {
-        this.loadUsers();
-        this.closeFormModal();
+      this.userService.addUser(user).subscribe({
+        next: () => {
+          this.loadUsers();
+          this.closeFormModal();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Librarian Register',
+            detail: 'Credentials sent to register Email-Id.'
+          })
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.message
+          });
+        }
       });
     }
   }

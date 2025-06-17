@@ -31,6 +31,16 @@ export class BookService {
     return this.http.get<IBook>(`${this.baseUrl}/get-by-id`, { params });
   }
 
+  public getBookByPage(bookPerPage: number, pageNo: number): Observable<ApiResponse<IBook[]>> {
+    const params = new HttpParams({
+      fromObject: {
+        bookPerPage: bookPerPage.toString(),
+        pageNo: pageNo.toString()
+      }
+    });
+    return this.http.get<ApiResponse<IBook[]>>(`${this.baseUrl}/book-page`, { params });
+  }
+
   public deleteBook(id: number): Observable<EmptyResponse> {
     if (!id || isNaN(id)) {
       throw new Error('Invalid book ID');

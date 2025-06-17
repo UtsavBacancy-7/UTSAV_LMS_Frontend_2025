@@ -18,6 +18,8 @@ import { ReturnBookModalComponent } from './components/return-book-modal/return-
 import { HistoryComponent } from './components/history/history.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RatingModule } from 'primeng/rating';
+import { PaginatorModule } from 'primeng/paginator';
+import { LoaderComponent } from '../layout/loader/loader.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +36,7 @@ import { RatingModule } from 'primeng/rating';
         UserListComponent,
         ReturnBookModalComponent,
         HistoryComponent,
-        NotificationComponent
+        NotificationComponent,
     ],
     imports: [
         CommonModule,
@@ -42,7 +44,9 @@ import { RatingModule } from 'primeng/rating';
         ReactiveFormsModule,
         AuthModule,
         RatingModule,
+        PaginatorModule,
         RouterModule,
+        LoaderComponent
     ],
     exports: [
         IndexComponent,
