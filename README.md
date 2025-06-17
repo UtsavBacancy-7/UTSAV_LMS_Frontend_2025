@@ -110,7 +110,7 @@ src/
 
 1. 📥 Clone the Repository
 ```bash
-git clone https://github.com/your-username/LMS_Frontend.git
+git clone https://github.com/UtsavBacancy-7/Utsav_LMS_Frontend_2025.git
 cd LMS_Frontend
 ```
 2. 📦 Install Dependencies
