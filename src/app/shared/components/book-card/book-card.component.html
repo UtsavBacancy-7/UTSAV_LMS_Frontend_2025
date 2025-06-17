@@ -34,6 +34,10 @@
                 (click)="deleteBook.emit(book.id)">
                 <i class="bi bi-trash"></i>
             </button>
+            <button *ngIf="book.availableCopies > 0 && userRole=== 'Student'" class="btn btn-outline-success"
+                title="Borrow book" (click)="borrowBook.emit(book.id)">
+                <i class="bi bi-book"></i>
+            </button>
         </div>
     </div>
 </div>

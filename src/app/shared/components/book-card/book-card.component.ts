@@ -15,5 +15,6 @@ export class BookCardComponent {
   @Input() showDeleteButton: boolean = false;
   @Output() viewBook = new EventEmitter<IBook>();
   @Output() editBook = new EventEmitter<IBook>();
+  @Output() borrowBook = new EventEmitter<number>();
   @Output() deleteBook = new EventEmitter<number>();
 }

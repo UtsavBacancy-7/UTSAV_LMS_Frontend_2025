@@ -78,10 +78,20 @@ export class TransactionListComponent implements OnInit {
             this.isLoading = false;
           },
           error: (err) => {
+            let errorMessage = 'Failed to load request';
+
+            if (err.error && err.error.Message) {
+              errorMessage = err.error.Message;
+            } else if (err.message) {
+              errorMessage = err.message;
+            } else if (typeof err === 'string') {
+              errorMessage = err;
+            }
+
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to load borrow requests' + err.message,
+              detail: errorMessage,
             })
             this.borrowRequests = [];
             this.filteredRequests = [];
@@ -96,11 +106,22 @@ export class TransactionListComponent implements OnInit {
             this.isLoading = false;
           },
           error: (err) => {
+            let errorMessage = 'Failed to load borrow request.';
+
+            if (typeof err === 'string') {
+              errorMessage = err;
+            } else if (err.error && typeof err.error === 'string') {
+              errorMessage = err.error;
+            } else if (err.message) {
+              errorMessage = err.message;
+            }
+
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to load borrow requests' + err.message,
-            })
+              detail: errorMessage,
+              life: 5000
+            });
             this.isLoading = false;
           }
         });
@@ -113,11 +134,22 @@ export class TransactionListComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err) => {
+          let errorMessage = 'Failed to load return requests.';
+
+          if (typeof err === 'string') {
+            errorMessage = err;
+          } else if (err.error && typeof err.error === 'string') {
+            errorMessage = err.error;
+          } else if (err.message) {
+            errorMessage = err.message;
+          }
+
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to load return requests' + err.message,
-          })
+            detail: errorMessage,
+            life: 5000
+          });
           this.isLoading = false;
         }
       });
@@ -137,11 +169,22 @@ export class TransactionListComponent implements OnInit {
           this.loadRequests();
         },
         error: (err) => {
+          let errorMessage = 'Failed to update borrow request status';
+
+          if (typeof err === 'string') {
+            errorMessage = err;
+          } else if (err.error && typeof err.error === 'string') {
+            errorMessage = err.error;
+          } else if (err.message) {
+            errorMessage = err.message;
+          }
+
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update borrow request status' + err.message,
-          })
+            detail: errorMessage,
+            life: 5000
+          });
         }
       });
     } else {
@@ -150,11 +193,22 @@ export class TransactionListComponent implements OnInit {
           this.loadRequests();
         },
         error: (err) => {
+          let errorMessage = 'Failed to update return request status';
+
+          if (typeof err === 'string') {
+            errorMessage = err;
+          } else if (err.error && typeof err.error === 'string') {
+            errorMessage = err.error;
+          } else if (err.message) {
+            errorMessage = err.message;
+          }
+
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to update return request status' + err.message,
-          })
+            detail: errorMessage,
+            life: 5000
+          });
         }
       });
     }
@@ -168,11 +222,22 @@ export class TransactionListComponent implements OnInit {
             this.loadRequests();
           },
           error: (err) => {
+            let errorMessage = 'Failed to delete borrow request';
+
+            if (typeof err === 'string') {
+              errorMessage = err;
+            } else if (err.error && typeof err.error === 'string') {
+              errorMessage = err.error;
+            } else if (err.message) {
+              errorMessage = err.message;
+            }
+
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to delete borrow request' + err.message,
-            })
+              detail: errorMessage,
+              life: 5000
+            });
           }
         });
       } else {
@@ -181,11 +246,22 @@ export class TransactionListComponent implements OnInit {
             this.loadRequests();
           },
           error: (err) => {
+            let errorMessage = 'Failed to update return request';
+
+            if (typeof err === 'string') {
+              errorMessage = err;
+            } else if (err.error && typeof err.error === 'string') {
+              errorMessage = err.error;
+            } else if (err.message) {
+              errorMessage = err.message;
+            }
+
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to delete return request' + err.message,
-            })
+              detail: errorMessage,
+              life: 5000
+            });
           }
         });
       }

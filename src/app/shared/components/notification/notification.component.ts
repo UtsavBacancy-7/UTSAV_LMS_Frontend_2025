@@ -31,11 +31,22 @@ export class NotificationComponent implements OnChanges {
         this.loading = false;
       },
       error: (err) => {
+        let errorMessage = 'Failed to load Notifications.';
+
+        if (typeof err === 'string') {
+          errorMessage = err;
+        } else if (err.error && typeof err.error === 'string') {
+          errorMessage = err.error;
+        } else if (err.message) {
+          errorMessage = err.message;
+        }
+
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load notifications' + err.Message
-        })
+          detail: errorMessage,
+          life: 5000
+        });
         this.loading = false;
       }
     });
@@ -50,11 +61,22 @@ export class NotificationComponent implements OnChanges {
         this.notificationsRead.emit();
       },
       error: (err) => {
+        let errorMessage = 'Failed to mark as read.';
+
+        if (typeof err === 'string') {
+          errorMessage = err;
+        } else if (err.error && typeof err.error === 'string') {
+          errorMessage = err.error;
+        } else if (err.message) {
+          errorMessage = err.message;
+        }
+
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to mark notification as read' + err.Message
-        })
+          detail: errorMessage,
+          life: 5000
+        });
       }
     });
   }

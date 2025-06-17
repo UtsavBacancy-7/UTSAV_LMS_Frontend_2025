@@ -35,11 +35,22 @@ export class HistoryComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
+        let errorMessage = 'Failed to transaction';
+
+        if (typeof err === 'string') {
+          errorMessage = err;
+        } else if (err.error && typeof err.error === 'string') {
+          errorMessage = err.error;
+        } else if (err.message) {
+          errorMessage = err.message;
+        }
+
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: err.message || 'Failed to load transactions'
-        })
+          detail: errorMessage,
+          life: 5000
+        });
         this.isLoading = false;
       }
     });
