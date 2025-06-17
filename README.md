@@ -122,7 +122,7 @@ Edit `src/environments/environment.ts`:
 ```ts
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:5240/api'
+  apiUrl: 'https://localhost:5240/api/v1'
 };
 ```
 4. ▶️ Run the App
