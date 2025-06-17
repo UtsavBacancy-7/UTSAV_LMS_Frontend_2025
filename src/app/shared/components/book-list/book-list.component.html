@@ -23,7 +23,12 @@
         </button>
     </div>
 
-    <div *ngIf="viewMode === 'table'" class="table-responsive">
+    <div class="card flex justify-content-center mb-3">
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords"
+            [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
+    </div>
+
+    <div *ngIf="viewMode === 'table' && filteredBooks.length > 0" class="table-responsive">
         <table class="table table-hover align-middle">
             <thead class="table-light">
                 <tr>
@@ -96,7 +101,8 @@
         </div>
     </div>
 
-    <div *ngIf="viewMode === 'grid'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    <div *ngIf="viewMode === 'grid' && filteredBooks.length > 0"
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         <div class="col" *ngFor="let book of filteredBooks">
             <app-book-card [book]="book" displayMode="detailed" [showActions]="true" [userRole]="role"
                 [showDeleteButton]="role === 'Administrator'" (viewBook)="openBookDetails($event)"
@@ -114,3 +120,5 @@
     <app-book-details-card [book]="selectedBook" [showModal]="showDetailsModal" (closeModal)="showDetailsModal = false">
     </app-book-details-card>
 </div>
+
+<app-loader *ngIf="isLoadingRequest"></app-loader>

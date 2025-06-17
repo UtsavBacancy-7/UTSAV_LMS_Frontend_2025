@@ -55,12 +55,13 @@ export class UserFormComponent implements CanComponentDeactivate, OnInit, OnChan
 
   public onSubmit(): void {
     if (this.userForm.valid) {
+      this.formSubmitted = true;
       const formValue = { ...this.userForm.value };
       if (this.isEditMode && this.user?.id) {
         formValue.id = this.user.id;
       }
-      this.formSubmitted = true;
       this.submit.emit(formValue);
+      this.userForm.reset();
     }
   }
 }

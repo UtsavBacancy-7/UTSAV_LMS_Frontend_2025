@@ -5,6 +5,7 @@ import { BorrowService } from 'src/app/core/services/borrow.service';
 import { WishlistAndNotificationService } from 'src/app/core/services/wishlist-and-notification.service';
 import { IBook } from 'src/app/data/models/book/book';
 import { TokenService } from '../../services/token.service';
+import { PaginatorState } from 'primeng/paginator';
 
 type UserRole = 'Administrator' | 'Librarian' | 'Student';
 type ViewMode = 'table' | 'grid';
@@ -23,12 +24,16 @@ export class BookListComponent implements OnInit {
   public searchTerm: string = '';
   public availabilityFilter: AvailabilityFilter = 'all';
   public isLoading: Boolean = false;
+  public isLoadingRequest: Boolean = false;
   public showModal = false;
   public currentBook: IBook | null = null;
   public isEditMode = false;
   public showDetailsModal = false;
   public selectedBook: IBook | null = null;
   public userId!: number;
+  public first: number = 0;
+  public rows: number = 10;
+  public totalRecords: number = 0;
   @Input() role: UserRole = 'Student';
 
   constructor(
@@ -40,29 +45,54 @@ export class BookListComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.loadBooks();
+    this.loadBooks(this.first, this.rows);
     const userId = Number(this.tokenService.getUserId());
     this.userId = userId || 0;
   }
 
-  public loadBooks(): void {
+
+  public loadBooks(first: number = 0, rows: number = 10): void {
     this.isLoading = true;
+    const pageNo = Math.floor(first / rows) + 1;
+
     this.bookService.getAllBooks().subscribe({
-      next: (books: IBook[]) => {
-        this.books = books;
+      next: (res) => {
+        this.totalRecords = res.length;
+      }
+    })
+
+    this.bookService.getBookByPage(rows, pageNo).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.books = response.data;
+          this.filteredBooks = [...this.books];
+          this.applyFilters();
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: response.message || 'Failed to load books'
+          });
+        }
         this.isLoading = false;
-        this.applyFilters();
       },
       error: (err) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
           detail: 'Failed to load books.'
-        })
+        });
         this.books = [];
         this.filteredBooks = [];
+        this.isLoading = false;
       }
     });
+  }
+
+  public onPageChange(event: PaginatorState): void {
+    this.first = event.first ?? 0;
+    this.rows = event.rows ?? 10;
+    this.loadBooks(this.first, this.rows);
   }
 
   public applyFilters(): void {
@@ -71,12 +101,13 @@ export class BookListComponent implements OnInit {
     this.filteredBooks = this.books.filter(book => {
       const matchesSearch =
         term === '' ||
-        book.title?.toLowerCase().includes(term) ||
-        book.author?.toLowerCase().includes(term) ||
-        book.genreName?.toLowerCase().includes(term);
+        (book.title?.toLowerCase().includes(term) ||
+          book.author?.toLowerCase().includes(term) ||
+          book.genreName?.toLowerCase().includes(term));
 
       const matchesAvailability =
-        this.availabilityFilter === 'all' || book.availableCopies > 0;
+        this.availabilityFilter === 'all' ||
+        (book.availableCopies && book.availableCopies > 0);
 
       return matchesSearch && matchesAvailability;
     });
@@ -159,9 +190,11 @@ export class BookListComponent implements OnInit {
   }
 
   public addToWishlist(book: IBook): void {
+    this.isLoadingRequest = true;
     this.wishlistService.addToWishList(book.id).subscribe({
       next: (res) => {
         if (res) {
+          this.isLoadingRequest = false;
           this.messageService.add({
             severity: 'success',
             summary: 'Book Added',
@@ -171,6 +204,7 @@ export class BookListComponent implements OnInit {
       },
       error: (err) => {
         const errorMessage = err.error?.message || 'Failed to add book to wishlist';
+        this.isLoadingRequest = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -182,8 +216,10 @@ export class BookListComponent implements OnInit {
   }
 
   public borrowBook(bookId: number): void {
+    this.isLoadingRequest = true;
     this.borrowService.addBorrowRequest({ bookId: bookId, userId: this.userId }).subscribe({
       next: (res) => {
+        this.isLoadingRequest = false;
         this.messageService.add({
           severity: 'success',
           summary: 'Request Sent',
@@ -201,6 +237,7 @@ export class BookListComponent implements OnInit {
         } else if (typeof err === 'string') {
           errorMessage = err;
         }
+        this.isLoadingRequest = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Request Failed',
