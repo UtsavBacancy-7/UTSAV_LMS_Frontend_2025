@@ -13,8 +13,6 @@
 
 This is the **frontend application** for the Library Management System, developed using **Angular v16.2.16**. It serves as a clean, scalable SPA (Single Page Application) with **role-based access** and **JWT authentication**, supporting **Admin**, **Librarian**, and **Student** roles.
 
----
-
 ## 🚀 Tech Stack
 
 | Layer            | Technology               |
@@ -26,7 +24,6 @@ This is the **frontend application** for the Library Management System, develope
 | API Integration  | RESTful HTTP (with Interceptors) |
 | Auth             | JWT (Token-based)        |
 
----
 
 ## ✅ Key Features
 
@@ -45,16 +42,15 @@ This is the **frontend application** for the Library Management System, develope
 ### 🧑‍💼 User Management
 - Admin can manage users
 - Librarians can manage book flow
-- Students have personalized dashboard (wishlist, history)
+- Students have a personalized dashboard (wishlist, history)
 
 ### 🎨 UI/UX
 - Modular design using `layout` and `shared` components
-- Reusable loaders, headers, footers
+- Reusable loaders, headers, and footers
 - Blurred background modals
 - Mobile responsive design
 - Custom reactive form validations
 
----
 
 ## 🧩 Project Structure
 ```
@@ -76,11 +72,12 @@ src/
 │ ├── components/
 │ ├── guards/
 │ ├── modules/auth/ # Auth module shared across pages
-│ └── services/ # Form validators, modals, etc.
+│ └── services/ # Form validation service, token services, etc.
 ├── app-routing.module.ts
 └── app.component.* # Root application files
 ```
 
+## Role-based Features
 | Feature / Role          | Admin | Librarian | Student |
 |-------------------------|-------|-----------|---------|
 | Register                | ✗     | ✗         | ✓       |
@@ -102,8 +99,7 @@ src/
 | Add to Wishlist         | ✗     | ✗         | ✓       |
 | Get Notifications       | ✗     | ✗         | ✓       |
 | Receive Email Alert     | ✗     | ✓         | ✓       |
-| Book Review (Add/View)  | ✗     | ✗         | ✓       |
-
+| Book Review (Add)       | ✗     | ✗         | ✓       |
 
 
 ## 🛠️ Setup Instructions
@@ -134,8 +130,8 @@ ng serve --open
 ### 📬 Communication Flow
 - Interceptors auto-attach JWT tokens
 - Guards prevent unauthorized route access
-- Reactive forms use custom ValidationService
-- Modals with blur background and live data refresh
+- Reactive forms use a custom ValidationService
+- Modals with blurred background and live data refresh
 
 ### 🤝 Contributing
 - Contributions are welcome! Feel free to fork this repo, create a branch, and submit a pull request. Please ensure your code follows Clean Architecture and is properly formatted.
