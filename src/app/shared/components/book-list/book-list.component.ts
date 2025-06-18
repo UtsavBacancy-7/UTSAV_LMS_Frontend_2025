@@ -140,6 +140,11 @@ export class BookListComponent implements OnInit {
         next: () => {
           this.loadBooks();
           this.closeModal();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Book updated',
+            detail: 'Book updated successfully',
+          })
         },
         error: (err) => {
           this.messageService.add({
@@ -154,6 +159,11 @@ export class BookListComponent implements OnInit {
         next: () => {
           this.loadBooks();
           this.closeModal();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Book added',
+            detail: 'Book added successfully',
+          })
         },
         error: (err) => {
           this.messageService.add({
