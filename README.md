@@ -13,8 +13,6 @@
 
 This is the **frontend application** for the Library Management System, developed using **Angular v16.2.16**. It serves as a clean, scalable SPA (Single Page Application) with **role-based access** and **JWT authentication**, supporting **Admin**, **Librarian**, and **Student** roles.
 
----
-
 ## 🚀 Tech Stack
 
 | Layer            | Technology               |
@@ -26,7 +24,6 @@ This is the **frontend application** for the Library Management System, develope
 | API Integration  | RESTful HTTP (with Interceptors) |
 | Auth             | JWT (Token-based)        |
 
----
 
 ## ✅ Key Features
 
@@ -54,7 +51,6 @@ This is the **frontend application** for the Library Management System, develope
 - Mobile responsive design
 - Custom reactive form validations
 
----
 
 ## 🧩 Project Structure
 ```
@@ -81,6 +77,7 @@ src/
 └── app.component.* # Root application files
 ```
 
+## Role based Features
 | Feature / Role          | Admin | Librarian | Student |
 |-------------------------|-------|-----------|---------|
 | Register                | ✗     | ✗         | ✓       |
@@ -103,7 +100,6 @@ src/
 | Get Notifications       | ✗     | ✗         | ✓       |
 | Receive Email Alert     | ✗     | ✓         | ✓       |
 | Book Review (Add/View)  | ✗     | ✗         | ✓       |
-
 
 
 ## 🛠️ Setup Instructions
