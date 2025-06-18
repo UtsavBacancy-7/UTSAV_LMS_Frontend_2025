@@ -109,7 +109,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  canDeactivate(): boolean {
+  public canDeactivate(): boolean {
     if (this.registerForm.dirty && !this.formSubmitted) {
       return confirm('You have unsaved changes. Close without saving?');
     }

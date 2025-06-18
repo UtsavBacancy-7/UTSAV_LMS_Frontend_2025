@@ -1,10 +1,12 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { TokenService } from '../services/token.service';
 import { inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const tokenService = inject(TokenService);
   const router = inject(Router);
+  const messageService = inject(MessageService);
 
   const token = tokenService.getValidToken();
 
@@ -26,6 +28,12 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   if (isDashboardRoute) {
     if (requestedRole && requestedRole !== currentRole) {
+      messageService.add({
+        severity: 'warn',
+        summary: 'Access Denied',
+        detail: `You do not have access.`,
+        life: 5000
+      })
       return router.parseUrl(`/dashboard/${currentRole}/home`);
     }
     return true;

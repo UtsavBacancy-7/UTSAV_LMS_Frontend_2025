@@ -50,7 +50,6 @@ export class BookListComponent implements OnInit {
     this.userId = userId || 0;
   }
 
-
   public loadBooks(first: number = 0, rows: number = 10): void {
     this.isLoading = true;
     const pageNo = Math.floor(first / rows) + 1;
@@ -228,16 +227,6 @@ export class BookListComponent implements OnInit {
         });
       },
       error: (err) => {
-        // let errorMessage = 'Failed to process borrow request';
-
-        // if (err.error && err.error.Message) {
-        //   errorMessage = err.error.Message;
-        // } else if (err.message) {
-        //   errorMessage = err.message;
-        // } else if (typeof err === 'string') {
-        //   errorMessage = err;
-        // }
-
         this.isLoadingRequest = false;
         this.messageService.add({
           severity: 'error',

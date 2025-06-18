@@ -13,9 +13,7 @@ const routes: Routes = [
         path: '', component: LibrarianComponent,
         children: [
             { path: 'home', component: HomeComponent },
-            {
-                path: 'books', component: LibrarianBookListComponent
-            },
+            { path: 'books', component: LibrarianBookListComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'students', component: StudentListComponent },
             { path: 'borrow', component: BorrowRecordsComponent },

@@ -4,6 +4,7 @@ import { GenreService } from 'src/app/core/services/genre.service';
 import { IBook } from 'src/app/data/models/book/book';
 import { IGenre } from 'src/app/data/models/genre/genre';
 import { ValidationService } from '../../services/validation.service';
+import { CanComponentDeactivate } from '../../guards/deactivate.guard';
 
 @Component({
   selector: 'app-book-form-modal',
@@ -11,12 +12,13 @@ import { ValidationService } from '../../services/validation.service';
   styleUrls: ['./book-form-modal.component.scss']
 })
 
-export class BookFormModalComponent implements OnInit, OnChanges {
+export class BookFormModalComponent implements CanComponentDeactivate, OnInit, OnChanges {
   public bookForm!: FormGroup;
   public selectedImage: File | null = null;
   public imageBase64: string | null = null;
   public genres: IGenre[] = [];
   public isLoading: boolean = false;
+  public isSubmitted: boolean = false;
 
   @Input() book!: IBook | null;
   @Input() showModal: boolean = false;
@@ -37,6 +39,13 @@ export class BookFormModalComponent implements OnInit, OnChanges {
       this.initializeForm();
       this.loadGenres();
     }
+  }
+
+  public canDeactivate(): boolean {
+    if (this.bookForm.dirty && !this.isSubmitted) {
+      return confirm('You have unsaved changes. Do you really want to leave?');
+    }
+    return true;
   }
 
   public loadGenres(): void {
@@ -121,6 +130,7 @@ export class BookFormModalComponent implements OnInit, OnChanges {
         PublicationYear: formValue.PublicationYear,
         CoverImageUrl: this.imageBase64 || this.book?.coverImageUrl || ''
       };
+      this.isSubmitted = true;
       this.submitForm.emit(bookData);
       this.isLoading = false;
       this.onReset();

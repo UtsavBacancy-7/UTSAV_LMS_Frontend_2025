@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 export class LibrarianComponent {
     public role: 'Administrator' | 'Librarian' | 'Student' = 'Librarian';
+
     constructor(private router: Router) { }
 
     public sidebarOptions = [

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 export class AdminComponent {
     public role: 'Administrator' | 'Librarian' | 'Student' = 'Administrator';
+
     constructor(private router: Router) { }
 
     public sidebarOptions = [

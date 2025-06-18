@@ -8,9 +8,11 @@ import { INotification } from 'src/app/data/models/wishlist-notification/notific
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
+
 export class NotificationComponent implements OnChanges {
   public notifications: INotification[] = [];
   public loading = true;
+
   @Input() isOpen = false;
   @Output() closeNotification = new EventEmitter<void>();
   @Output() notificationsRead = new EventEmitter<void>();

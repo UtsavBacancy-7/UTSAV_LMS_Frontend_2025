@@ -5,7 +5,6 @@ import { ApiResponse } from 'src/app/data/models/api-response/apiResponse';
 import { EmptyResponse } from 'src/app/data/models/api-response/emptyResponse';
 import { ICreateGenre } from 'src/app/data/models/genre/createGenre';
 import { IGenre } from 'src/app/data/models/genre/genre';
-import { IUpdateGenre } from 'src/app/data/models/genre/updateGenre';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -30,7 +29,7 @@ export class GenreService {
     return this.http.post<ApiResponse<number>>(`${this.baseUrl}/create`, payload);
   }
 
-  public updateGenre(payload: IUpdateGenre): Observable<ApiResponse<number>> {
+  public updateGenre(payload: IGenre): Observable<ApiResponse<number>> {
     return this.http.put<ApiResponse<number>>(`${this.baseUrl}/update`, payload);
   }
 

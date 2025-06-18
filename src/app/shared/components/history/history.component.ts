@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { TransactionService } from 'src/app/core/services/transaction.service';
 import { ITransactionHistory } from 'src/app/data/models/transaction/transactionHistory';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-history',
@@ -19,7 +20,8 @@ export class HistoryComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private tokenService: TokenService
   ) { }
 
   public ngOnInit(): void {
@@ -28,7 +30,10 @@ export class HistoryComponent implements OnInit {
 
   public loadTransactions(): void {
     this.isLoading = true;
-    this.transactionService.getTransactionByUserId().subscribe({
+    var userId = Number(this.tokenService.getUserId());
+    console.log(userId);
+
+    this.transactionService.getTransactionByUserId(userId).subscribe({
       next: (transactions) => {
         this.transactions = transactions;
         this.applyFilters();

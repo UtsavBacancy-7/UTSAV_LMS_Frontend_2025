@@ -17,7 +17,7 @@ export class TransactionService {
     return this.http.get<ITransactionHistory[]>(`${this.baseUrl}/get-all`);
   }
 
-  public getTransactionByUserId(): Observable<ITransactionHistory[]> {
-    return this.http.get<ITransactionHistory[]>(`${this.baseUrl}/get-by-userId`);
+  public getTransactionByUserId(userId: number): Observable<ITransactionHistory[]> {
+    return this.http.get<ITransactionHistory[]>(`${this.baseUrl}/get-by-userId?id=${userId}`);
   }
 }

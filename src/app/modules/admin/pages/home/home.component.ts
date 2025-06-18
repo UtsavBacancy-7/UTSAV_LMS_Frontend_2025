@@ -9,6 +9,7 @@ import { IRecentIssuesBook } from 'src/app/data/models/dashboard/recentIssuesBoo
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
+
 export class HomeComponent implements OnInit {
   public dashboardCards: INavOptions[] = [];
   public recentIssues: IRecentIssuesBook[] = [];

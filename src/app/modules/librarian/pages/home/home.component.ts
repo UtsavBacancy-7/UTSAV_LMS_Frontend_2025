@@ -30,6 +30,7 @@ export class HomeComponent {
   public initializeDashboardCards(): void {
     this.dashboardCards = [
       { title: 'Total Books', value: '--', subtext: 'Loading...', icon: 'bi bi-book', subtextClass: 'text-muted' },
+      { title: 'Total Book Copies', value: '--', subtext: 'Loading...', icon: 'bi bi-book', subtextClass: 'text-muted' },
       { title: 'Issued Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-up', subtextClass: 'text-muted' },
       { title: 'Returned Books', value: '--', subtext: 'Loading...', icon: 'bi bi-journal-arrow-down', subtextClass: 'text-muted' },
       { title: 'Total Students', value: '--', subtext: 'Loading...', icon: 'bi bi-people', subtextClass: 'text-muted' },
@@ -45,7 +46,7 @@ export class HomeComponent {
       const textColor = documentStyle.getPropertyValue('--text-color');
 
       this.data = {
-        labels: ['Total Books', 'Borrowed Books', 'Returned Books'],
+        labels: ['Total Copies', 'Borrowed Books', 'Returned Books'],
         datasets: [
           {
             data: [0, 0, 0],
@@ -98,7 +99,7 @@ export class HomeComponent {
             ...this.data,
             datasets: [{
               ...this.data.datasets[0],
-              data: [stats.books, stats.borrowedBooks, stats.returnedBooks]
+              data: [stats.totalCopies, stats.borrowedBooks, stats.returnedBooks]
             }]
           };
         }
@@ -109,6 +110,13 @@ export class HomeComponent {
             value: stats.books,
             subtext: '',
             icon: 'bi bi-book',
+            subtextClass: 'text-success'
+          },
+          {
+            title: 'Total Book Copies',
+            value: stats.totalCopies,
+            subtext: '',
+            icon: 'bi bi-bookshelf',
             subtextClass: 'text-success'
           },
           {

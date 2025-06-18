@@ -12,13 +12,6 @@ export class BookDetailsCardComponent {
   @Input() showModal: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
 
-  @HostListener('document:keydown.escape', ['$event'])
-  public onKeydownHandler(event: KeyboardEvent): void {
-    if (this.showModal) {
-      this.closeModal.emit();
-    }
-  }
-
   public onModalClick(event: MouseEvent): void {
     if ((event.target as HTMLElement).classList.contains('modal')) {
       this.closeModal.emit();

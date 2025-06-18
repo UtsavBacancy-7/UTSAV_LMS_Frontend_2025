@@ -8,10 +8,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { StudentBookListComponent } from './pages/student-book-list/student-book-list.component';
 import { UserHistoryComponent } from './pages/user-history/user-history.component';
+import { WishlistComponent } from './pages/wishlist/wishlist.component';
 import { StudentRoutingModule } from './student-routing.module';
 import { StudentComponent } from './student.component';
-import { WishlistComponent } from './pages/wishlist/wishlist.component';
-import { NotificationComponent } from '../../shared/components/notification/notification.component';
 
 @NgModule({
   declarations: [

@@ -23,7 +23,12 @@ export class LoginComponent {
   public submittedEmail: IForgotPwd = { email: '' };
   public showResetModal: boolean = false;
 
-  constructor(private authService: AuthService, private messageService: MessageService, private router: Router, private tokenService: TokenService) { }
+  constructor(
+    private authService: AuthService,
+    private messageService: MessageService,
+    private router: Router,
+    private tokenService: TokenService
+  ) { }
 
   public onLogin(): void {
     this.isLoading = true;

@@ -28,7 +28,11 @@ export class ProfileCardComponent {
     passwordHash: ''
   };
 
-  constructor(private fb: FormBuilder, private userService: UserService, private messageService: MessageService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private messageService: MessageService
+  ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
