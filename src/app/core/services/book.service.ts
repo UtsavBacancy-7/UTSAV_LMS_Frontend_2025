@@ -26,6 +26,10 @@ export class BookService {
     );
   }
 
+  public getTotalBookCount(): Observable<ApiResponse<number>> {
+    return this.http.get<ApiResponse<number>>(`${this.baseUrl}/total-books`);
+  }
+
   public getBookById(id: number): Observable<IBook> {
     const params = new HttpParams().set('id', id.toString());
     return this.http.get<IBook>(`${this.baseUrl}/get-by-id`, { params });

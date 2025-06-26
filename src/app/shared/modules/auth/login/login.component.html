@@ -9,7 +9,7 @@
 
             <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
                 <div class="form-group mb-3">
-                    <label for="email">Email</label>
+                    <label for="email">Email *</label>
                     <input type="email" id="email" class="form-control" name="email" [(ngModel)]="loginData.email"
                         #email="ngModel" required email />
                     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="password">Password</label>
+                    <label for="password">Password *</label>
                     <input type="password" id="password" class="form-control" name="password"
                         [(ngModel)]="loginData.password" #password="ngModel" required />
                     <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1">

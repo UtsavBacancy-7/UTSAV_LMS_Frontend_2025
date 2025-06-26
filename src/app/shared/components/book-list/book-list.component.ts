@@ -54,9 +54,9 @@ export class BookListComponent implements OnInit {
     this.isLoading = true;
     const pageNo = Math.floor(first / rows) + 1;
 
-    this.bookService.getAllBooks().subscribe({
+    this.bookService.getTotalBookCount().subscribe({
       next: (res) => {
-        this.totalRecords = res.length;
+        this.totalRecords = res.data;
       }
     })
 
@@ -238,12 +238,16 @@ export class BookListComponent implements OnInit {
       },
       error: (err) => {
         this.isLoadingRequest = false;
+
         this.messageService.add({
           severity: 'error',
           summary: 'Request Failed',
-          detail: err.error,
-          life: 3000
+          detail: err.error.Detailed,
+          life: 5000
         });
+
+        if (err.error?.Detailed?.includes('maximum request limit')) {
+        }
       }
     });
   }

@@ -29,7 +29,7 @@
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>{{ listType === 'Borrow' ? 'Request ID' : 'Return ID' }}</th>
+                        <th>ID</th>
                         <th>Book Title</th>
                         <th>User</th>
                         <th>Email</th>
@@ -42,11 +42,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let request of filteredRequests">
-                        <td>
-                            <ng-container *ngIf="isBorrowRequest(request)">{{ request.borrowRequestId }}</ng-container>
-                            <ng-container *ngIf="isReturnRequest(request)">{{ request.returnRequestId }}</ng-container>
-                        </td>
+                    <tr *ngFor="let request of filteredRequests; let i = index;">
+                        <td>{{ i+1}}</td>
                         <td class="fw-semibold">{{ request.title }}</td>
                         <td>{{ request.firstName }} {{ request.lastName }}</td>
                         <td>{{ request.email }}</td>
@@ -64,12 +61,23 @@
                         <td>{{ request.dueDate ? (request.dueDate | date:'mediumDate') : 'NA' }}</td>
 
                         <td *ngIf="listType === 'Return'">
-                            <ng-container *ngIf="isReturnRequest(request)">{{ request.approvedDate || 'N/A'
-                                }}</ng-container>
+                            <ng-container *ngIf="isReturnRequest(request)">
+                                {{ (request.approvedDate | date:'mediumDate') }}
+                            </ng-container>
+                            <ng-container *ngIf="request.status === 'Pending' || request.status === 'Rejected'">
+                                {{ 'NA'}}
+                            </ng-container>
                         </td>
                         <td *ngIf="listType === 'Borrow'">
-                            <ng-container *ngIf="isBorrowRequest(request)">{{ request.returnDate || 'Not returned'
-                                }}</ng-container>
+                            <ng-container *ngIf="isBorrowRequest(request) &&  request.status === 'Returned'">
+                                {{ request.returnDate | date:'mediumDate' }}
+                            </ng-container>
+                            <ng-container *ngIf="request.status === 'Pending' || request.status === 'Rejected'">
+                                {{ 'NA' }}
+                            </ng-container>
+                            <ng-container *ngIf="request.status === 'Approved'">
+                                {{ 'Not Returned'}}
+                            </ng-container>
                         </td>
 
                         <td class="text-center">

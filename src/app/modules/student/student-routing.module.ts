@@ -19,7 +19,6 @@ const routes: Routes = [
             { path: 'history', component: UserHistoryComponent },
             { path: 'wishlist', component: WishlistComponent },
             { path: 'borrow-list', component: BorrowListComponent },
-            { path: '**', component: PageNotFoundComponent }
         ]
     }
 ];

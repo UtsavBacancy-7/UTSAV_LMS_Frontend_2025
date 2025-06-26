@@ -23,11 +23,6 @@
         </button>
     </div>
 
-    <div class="card flex justify-content-center mb-3">
-        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords"
-            [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
-    </div>
-
     <div *ngIf="viewMode === 'table' && filteredBooks.length > 0" class="table-responsive">
         <table class="table table-hover align-middle">
             <thead class="table-light">
@@ -119,6 +114,11 @@
 
     <app-book-details-card [book]="selectedBook" [showModal]="showDetailsModal" (closeModal)="showDetailsModal = false">
     </app-book-details-card>
+</div>
+
+<div class="card flex justify-content-center mb-3" *ngIf="!isLoading">
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
 </div>
 
 <app-loader *ngIf="isLoadingRequest"></app-loader>

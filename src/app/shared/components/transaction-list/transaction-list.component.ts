@@ -17,7 +17,7 @@ export class TransactionListComponent implements OnInit {
   public returnRequests: IReturnResponse[] = [];
   public isLoading = true;
   public currentUserId: string | null = null;
-  public statusFilter: string = '';
+  public statusFilter: string = 'Pending';
   public searchTerm: string = '';
   public viewMode: 'table' | 'grid' = 'table';
   public showRequestForm: boolean = false;

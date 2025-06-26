@@ -3,6 +3,7 @@ import { IUser } from 'src/app/data/models/user/user';
 import { UserService } from 'src/app/core/services/user.service';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -16,13 +17,15 @@ export class ProfileCardComponent {
   public imagePreview: string | ArrayBuffer | null = null;
   public isSaving = false;
   public profileForm: FormGroup;
+  canEditName: boolean = false;
+  canEditEmail: boolean = false;
 
   @Input() userProfile: IUser = {
     firstName: '',
     lastName: '',
     email: '',
     mobileNo: '',
-    isActive: false,
+    isActive: true,
     profileImageUrl: '',
     role: '',
     passwordHash: ''
@@ -34,11 +37,11 @@ export class ProfileCardComponent {
     private messageService: MessageService
   ) {
     this.profileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required, ValidationService.nameValidator, ValidationService.noWhitespaceValidator]],
+      lastName: ['', [Validators.required, ValidationService.nameValidator, ValidationService.noWhitespaceValidator]],
       email: ['', [Validators.required, Validators.email]],
-      mobileNo: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      isActive: [false],
+      mobileNo: ['', [Validators.required, ValidationService.indianMobileValidator]],
+      isActive: [true],
       profileImage: [null],
       password: ['']
     });
@@ -50,8 +53,11 @@ export class ProfileCardComponent {
       lastName: this.userProfile.lastName,
       email: this.userProfile.email,
       mobileNo: this.userProfile.mobileNo,
-      isActive: this.userProfile.isActive,
+      isActive: true,
     });
+    this.profileForm.get('firstName')?.disable();
+    this.profileForm.get('lastName')?.disable();
+    this.profileForm.get('email')?.disable();
   }
 
   public togglePasswordEdit(): void {
@@ -104,9 +110,9 @@ export class ProfileCardComponent {
     if (this.profileForm.valid) {
       const updatedUser: IUser = {
         ...this.userProfile,
-        firstName: this.profileForm.value.firstName,
-        lastName: this.profileForm.value.lastName,
-        email: this.profileForm.value.email,
+        firstName: this.userProfile.firstName,
+        lastName: this.userProfile.lastName,
+        email: this.userProfile.email,
         mobileNo: this.profileForm.value.mobileNo,
         isActive: this.profileForm.value.isActive,
         profileImageUrl: this.imagePreview ? this.imagePreview.toString() : this.userProfile.profileImageUrl,

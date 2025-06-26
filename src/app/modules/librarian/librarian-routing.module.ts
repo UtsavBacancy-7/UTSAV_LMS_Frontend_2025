@@ -7,6 +7,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { StudentListComponent } from './pages/student-list/student-list.component';
 import { BorrowRecordsComponent } from './pages/borrow-records/borrow-records.component';
 import { ReturnRecordsComponent } from './pages/return-records/return-records.component';
+import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
     {
@@ -17,7 +18,7 @@ const routes: Routes = [
             { path: 'profile', component: ProfileComponent },
             { path: 'students', component: StudentListComponent },
             { path: 'borrow', component: BorrowRecordsComponent },
-            { path: 'return', component: ReturnRecordsComponent }
+            { path: 'return', component: ReturnRecordsComponent },
         ]
     }
 ];

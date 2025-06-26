@@ -29,9 +29,9 @@ export class UserService {
     return this.http.get<ApiResponse<IUser>>(`${this.baseUrl}/get-by-id`, { params });
   }
 
-  public getUsersByRole(role: string): Observable<ApiResponse<IUser>> {
+  public getUsersByRole(role: string): Observable<ApiResponse<IUser[]>> {
     const params = new HttpParams().set('role', role);
-    return this.http.get<ApiResponse<IUser>>(`${this.baseUrl}/get-by-role`, { params });
+    return this.http.get<ApiResponse<IUser[]>>(`${this.baseUrl}/get-by-role`, { params });
   }
 
   public updateUser(id: number | undefined, user: IUser): Observable<EmptyResponse> {

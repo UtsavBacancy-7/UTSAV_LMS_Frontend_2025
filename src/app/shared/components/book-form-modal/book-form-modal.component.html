@@ -10,7 +10,7 @@
                 <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="form-horizontal">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="Title" class="form-label">Title</label>
+                            <label for="Title" class="form-label">Title *</label>
                             <input type="text" class="form-control" id="Title" formControlName="Title"
                                 [ngClass]="{ 'is-invalid': bookForm.get('Title')?.touched && bookForm.get('Title')?.invalid }">
                             <div class="invalid-feedback"
@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="Author" class="form-label">Author</label>
+                            <label for="Author" class="form-label">Author *</label>
                             <input type="text" class="form-control" id="Author" formControlName="Author"
                                 [ngClass]="{ 'is-invalid': bookForm.get('Author')?.touched && bookForm.get('Author')?.invalid }">
                             <div class="invalid-feedback"
@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="GenreId" class="form-label">Genre</label>
+                            <label for="GenreId" class="form-label">Genre *</label>
                             <select class="form-control" id="GenreId" formControlName="GenreId"
                                 [ngClass]="{ 'is-invalid': bookForm.get('GenreId')?.touched && bookForm.get('GenreId')?.invalid }">
                                 <option [ngValue]="null" disabled selected>Select Genre</option>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="ISBN" class="form-label">ISBN</label>
+                            <label for="ISBN" class="form-label">ISBN *</label>
                             <input type="text" class="form-control" id="ISBN" formControlName="ISBN"
                                 [ngClass]="{ 'is-invalid': bookForm.get('ISBN')?.touched && bookForm.get('ISBN')?.invalid }">
                             <div class="invalid-feedback"
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="PublicationYear" class="form-label">Publication Year</label>
+                            <label for="PublicationYear" class="form-label">Publication Year *</label>
                             <input type="number" class="form-control" id="PublicationYear"
                                 formControlName="PublicationYear"
                                 [ngClass]="{ 'is-invalid': bookForm.get('PublicationYear')?.touched && bookForm.get('PublicationYear')?.invalid }">
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="Publisher" class="form-label">Publisher</label>
+                            <label for="Publisher" class="form-label">Publisher *</label>
                             <input type="text" class="form-control" id="Publisher" formControlName="Publisher"
                                 [ngClass]="{ 'is-invalid': bookForm.get('Publisher')?.touched && bookForm.get('Publisher')?.invalid }">
                             <div class="invalid-feedback"
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Copies</label>
+                            <label class="form-label">Copies *</label>
                             <div class="row g-2">
                                 <div class="col">
                                     <label for="TotalCopies" class="form-label small">Total</label>

@@ -6,7 +6,7 @@
             <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="firstName">First Name</label>
+                        <label for="firstName">First Name *</label>
                         <input type="text" id="firstName" class="form-control" formControlName="firstName"
                             [ngClass]="{ 'is-invalid': getControl('firstName')?.invalid && getControl('firstName')?.touched }" />
                         <small class="error-message" *ngIf="getControl('firstName')?.touched">
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="lastName">Last Name</label>
+                        <label for="lastName">Last Name *</label>
                         <input type="text" id="lastName" class="form-control" formControlName="lastName"
                             [ngClass]="{ 'is-invalid': getControl('lastName')?.invalid && getControl('lastName')?.touched }" />
                         <small class="error-message" *ngIf="getControl('lastName')?.touched">
@@ -56,7 +56,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="email">Email</label>
+                        <label for="email">Email *</label>
                         <input type="email" id="email" class="form-control" formControlName="email"
                             [ngClass]="{ 'is-invalid': getControl('email')?.invalid && getControl('email')?.touched }" />
                         <small class="error-message" *ngIf="getControl('email')?.touched">
@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="mobile">Mobile No</label>
+                        <label for="mobile">Mobile No *</label>
                         <input type="tel" id="mobile" class="form-control" formControlName="mobile"
                             [ngClass]="{ 'is-invalid': getControl('mobile')?.invalid && getControl('mobile')?.touched }" />
                         <small class="error-message" *ngIf="getControl('mobile')?.touched">
@@ -94,7 +94,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="password">Password</label>
+                        <label for="password">Password *</label>
                         <input type="password" id="password" class="form-control" formControlName="password"
                             [ngClass]="{ 'is-invalid': getControl('password')?.invalid && getControl('password')?.touched }" />
                         <small class="error-message" *ngIf="getControl('password')?.touched">
@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="confirmPassword">Confirm Password</label>
+                        <label for="confirmPassword">Confirm Password *</label>
                         <input type="password" id="confirmPassword" class="form-control"
                             formControlName="confirmPassword"
                             [ngClass]="{ 'is-invalid': (getControl('confirmPassword')?.invalid || passwordMismatch) && getControl('confirmPassword')?.touched }" />

@@ -31,7 +31,6 @@ export class HistoryComponent implements OnInit {
   public loadTransactions(): void {
     this.isLoading = true;
     var userId = Number(this.tokenService.getUserId());
-    console.log(userId);
 
     this.transactionService.getTransactionByUserId(userId).subscribe({
       next: (transactions) => {

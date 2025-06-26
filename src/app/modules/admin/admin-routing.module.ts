@@ -23,8 +23,7 @@ const routes: Routes = [
             { path: 'profile', component: ProfileComponent },
             { path: 'settings', component: SettingsComponent },
             { path: 'borrow', component: BorrowRecordsComponent },
-            { path: 'return', component: ReturnRecordsComponent },
-            { path: '**', component: PageNotFoundComponent }
+            { path: 'return', component: ReturnRecordsComponent }
         ]
     }
 ];

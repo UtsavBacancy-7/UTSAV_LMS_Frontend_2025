@@ -40,8 +40,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let genre of filteredGenres">
-                    <td class="fw-semibold">{{ genre.genreId }}</td>
+                <tr *ngFor="let genre of filteredGenres; let i = index">
+                    <td class="fw-semibold">{{ i+1 }}</td>
 
                     <td>
                         <input *ngIf="editGenreId === genre.genreId" type="text" class="form-control"
